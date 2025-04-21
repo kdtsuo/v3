@@ -57,6 +57,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Position = {
   label: string;
@@ -680,76 +689,49 @@ export default function Positions() {
                 <DialogDescription>
                   Select a position that you're interested in.
                 </DialogDescription>
-                <div className="flex justify-center  items-center">
-                  <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger className="min-w-full" asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-[200px] justify-between cursor-pointer"
-                        disabled={isLoading}
-                      >
-                        {positionsData.find(
-                          (p) =>
-                            p.label.toLowerCase().replace(/\s+/g, "") === value
-                        )?.label || "Select position..."}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[300px] p-0">
-                      <ScrollArea className="h-34" type="auto">
-                        <div className="rounded-md border">
-                          {positionsData.map((position) => {
-                            const positionValue = position.label
-                              .toLowerCase()
-                              .replace(/\s+/g, "");
-                            return (
-                              <div key={positionValue}>
-                                <div
-                                  className={cn(
-                                    "cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                    value === positionValue
-                                      ? "bg-accent text-accent-foreground"
-                                      : `transparent ${
-                                          position.is_accepting_responses
-                                            ? ""
-                                            : "text-red-500 opacity-75"
-                                        }`
-                                  )}
-                                  onClick={() => {
-                                    setValue(
-                                      positionValue === value
-                                        ? ""
-                                        : positionValue
-                                    );
-                                    setOpen(false);
-                                  }}
-                                >
-                                  {position.label}
-                                  {position.is_accepting_responses ? (
-                                    <Check
-                                      className={cn(
-                                        "ml-auto h-4 w-4",
-                                        value === positionValue
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                  ) : (
-                                    <X className="ml-auto h-4 w-4 text-red-500" />
-                                  )}
-                                </div>
-                                <Separator />
+                <div className="flex justify-center items-center">
+                  <Select
+                    value={value}
+                    onValueChange={(newValue) => {
+                      setValue(newValue);
+                    }}
+                    disabled={isLoading}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select position..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {positionsData.map((position) => {
+                          const positionValue = position.label
+                            .toLowerCase()
+                            .replace(/\s+/g, "");
+
+                          return (
+                            <SelectItem
+                              key={positionValue}
+                              value={positionValue}
+                              disabled={!position.is_accepting_responses}
+                              className={
+                                !position.is_accepting_responses
+                                  ? "text-red-500 opacity-75"
+                                  : ""
+                              }
+                            >
+                              <div className="flex items-center justify-between w-full">
+                                {position.label}
+                                {!position.is_accepting_responses && (
+                                  <X className="ml-2 h-4 w-4 text-red-500" />
+                                )}
                               </div>
-                            );
-                          })}
-                        </div>
-                      </ScrollArea>
-                    </PopoverContent>
-                  </Popover>
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
-                {/* Show X icon when selected form is closed */}
+                {/* Show message when selected form is closed */}
                 {value && formClosed && (
                   <div className="flex items-center text-red-500">
                     <span className="text-xs">
