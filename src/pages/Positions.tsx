@@ -60,32 +60,27 @@ type ActionType = "update" | "add" | "delete" | null;
 const fallbackPositions: Position[] = [
   {
     label: "Senior Executive Team",
-    form_url:
-      "https://docs.google.com/forms/d/e/1FAIpQLSeIAQWf8BCJUbN71X8RQgkvo8rmZA-j5JlFoBgM75JOV3yy1Q/viewform?usp=sf_link",
+    form_url: "https://forms.gle/ufezb8Gut92E7pMeA",
     is_accepting_responses: true,
   },
   {
     label: "Junior Executive Team",
-    form_url:
-      "https://docs.google.com/forms/d/e/1FAIpQLSeLKmqK6ibtHO8HfItMOioxKjP5kmHdHzQFd4DtF6I3SLpiUg/viewform?usp=sf_link",
+    form_url: "https://forms.gle/ufezb8Gut92E7pMeA",
     is_accepting_responses: true,
   },
   {
     label: "Dance Instructor",
-    form_url:
-      "https://docs.google.com/forms/d/e/1FAIpQLScTk4EakTgfma8fo72t0mJugyb5VFeL5sEKBlm_A_hXnK4WUg/viewform?usp=sf_link",
+    form_url: "https://forms.gle/eciAuTKB63WLQzGg7",
     is_accepting_responses: true,
   },
   {
-    label: "Performance Team",
-    form_url:
-      "https://docs.google.com/forms/d/e/1FAIpQLSdDBK_xgyeub7Przux1Lle2Ax-c_BDmN0B79Qpf7nKK-PJaXA/viewform?usp=sf_link",
+    label: "Performance Group",
+    form_url: "https://forms.gle/4CFzbsd3Xn1Lstns8",
     is_accepting_responses: true,
   },
   {
     label: "Cameraman",
-    form_url:
-      "https://docs.google.com/forms/d/e/1FAIpQLScVl_PS4pdEdQ_4HwN6OO761pMiz7moYdwuyBTdnEsGE2dj3A/viewform?usp=sf_link",
+    form_url: "https://forms.gle/LpXTwzCNKjVZN3De9",
     is_accepting_responses: true,
   },
 ];
