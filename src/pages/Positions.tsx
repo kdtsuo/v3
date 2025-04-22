@@ -400,77 +400,40 @@ export default function Positions() {
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col space-y-2">
                       <Label>Select Action:</Label>
-                      <Popover
-                        open={actionTypeOpen}
-                        onOpenChange={setActionTypeOpen}
+                      <Select
+                        value={selectedAction || ""}
+                        onValueChange={(value) => {
+                          setSelectedAction(value as ActionType);
+                          if (value === "add") {
+                            setSelectedAdminPosition("");
+                          }
+                        }}
                       >
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={actionTypeOpen}
-                            className="justify-between cursor-pointer"
-                          >
-                            {selectedAction
-                              ? selectedAction === "add"
-                                ? "Add Position"
-                                : selectedAction === "update"
-                                ? "Update Position"
-                                : "Delete Position"
-                              : "Select action..."}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <div className="rounded-md border">
-                            <div
-                              className={cn(
-                                "cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                selectedAction === "add"
-                                  ? "bg-accent text-accent-foreground"
-                                  : "transparent"
-                              )}
-                              onClick={() => {
-                                setSelectedAction("add");
-                                setActionTypeOpen(false);
-                                setSelectedAdminPosition("");
-                              }}
-                            >
-                              <Plus className="mr-2 h-4 w-4" /> Add Position
-                            </div>
-                            <Separator />
-                            <div
-                              className={cn(
-                                "cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                selectedAction === "update"
-                                  ? "bg-accent text-accent-foreground"
-                                  : "transparent"
-                              )}
-                              onClick={() => {
-                                setSelectedAction("update");
-                                setActionTypeOpen(false);
-                              }}
-                            >
-                              <Edit className="mr-2 h-4 w-4" /> Update Position
-                            </div>
-                            <Separator />
-                            <div
-                              className={cn(
-                                "cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                selectedAction === "delete"
-                                  ? "bg-accent text-accent-foreground"
-                                  : "transparent"
-                              )}
-                              onClick={() => {
-                                setSelectedAction("delete");
-                                setActionTypeOpen(false);
-                              }}
-                            >
-                              <Trash className="mr-2 h-4 w-4" /> Delete Position
-                            </div>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select action..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="add">
+                              <div className="flex items-center">
+                                <Plus className="mr-2 h-4 w-4" /> Add Position
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="update">
+                              <div className="flex items-center">
+                                <Edit className="mr-2 h-4 w-4" /> Update
+                                Position
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="delete">
+                              <div className="flex items-center">
+                                <Trash className="mr-2 h-4 w-4" /> Delete
+                                Position
+                              </div>
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     {/* Position Selection (only for update and delete) */}
@@ -478,70 +441,39 @@ export default function Positions() {
                       selectedAction === "delete") && (
                       <div className="flex flex-col space-y-2">
                         <Label>Select Position:</Label>
-                        <Popover
-                          open={positionSelectOpen}
-                          onOpenChange={setPositionSelectOpen}
+                        <Select
+                          value={selectedAdminPosition}
+                          onValueChange={(value) => {
+                            setSelectedAdminPosition(value);
+                          }}
                         >
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              aria-expanded={positionSelectOpen}
-                              className="justify-between cursor-pointer"
-                            >
-                              {selectedAdminPosition
-                                ? ((label) =>
-                                    label.length > 38
-                                      ? label.substring(0, 35) + "..."
-                                      : label)(
-                                    positionsData.find(
-                                      (p) =>
-                                        p.label
-                                          .toLowerCase()
-                                          .replace(/\s+/g, "") ===
-                                        selectedAdminPosition
-                                    )?.label || "Select position..."
-                                  )
-                                : "Select position..."}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[200px] p-0">
-                            <ScrollArea className="h-34" type="auto">
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select position..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
                               {positionsData.map((position) => {
                                 const positionValue = position.label
                                   .toLowerCase()
                                   .replace(/\s+/g, "");
+
                                 return (
-                                  <div key={positionValue}>
-                                    <div
-                                      className={cn(
-                                        "cursor-pointer relative flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                                        selectedAdminPosition === positionValue
-                                          ? "bg-accent text-accent-foreground"
-                                          : "transparent"
-                                      )}
-                                      onClick={() => {
-                                        setSelectedAdminPosition(positionValue);
-                                        setPositionSelectOpen(false);
-                                      }}
-                                    >
+                                  <SelectItem
+                                    key={positionValue}
+                                    value={positionValue}
+                                  >
+                                    <div className="flex items-center justify-between w-full">
                                       {position.label.length > 38
                                         ? position.label.substring(0, 35) +
                                           "..."
                                         : position.label}
-                                      {selectedAdminPosition ===
-                                        positionValue && (
-                                        <Check className="ml-auto h-4 w-4" />
-                                      )}
                                     </div>
-                                    <Separator />
-                                  </div>
+                                  </SelectItem>
                                 );
                               })}
-                            </ScrollArea>
-                          </PopoverContent>
-                        </Popover>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
                     )}
 
