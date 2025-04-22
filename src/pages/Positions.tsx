@@ -12,23 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Check,
-  ChevronsUpDown,
-  Clipboard,
-  Edit,
-  Loader2,
-  X,
-  Plus,
-  Trash,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
+import { Clipboard, Edit, Loader2, X, Plus, Trash } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -56,13 +40,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -115,7 +97,6 @@ const positionSchema = z.object({
 });
 
 export default function Positions() {
-  const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
   const [formClosed, setFormClosed] = useState<boolean>(false);
   const [positionsData, setPositionsData] =
@@ -124,8 +105,6 @@ export default function Positions() {
   const { user } = useAuth();
 
   // Admin dialog states
-  const [actionTypeOpen, setActionTypeOpen] = useState<boolean>(false);
-  const [positionSelectOpen, setPositionSelectOpen] = useState<boolean>(false);
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
   const [selectedAdminPosition, setSelectedAdminPosition] =
     useState<string>("");
@@ -611,7 +590,7 @@ export default function Positions() {
                   className="cursor-pointer"
                   variant="secondary"
                 >
-                  Check positions
+                  Check Positions
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[350px] lg:w-[425px]">
