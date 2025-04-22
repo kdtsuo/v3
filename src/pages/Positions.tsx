@@ -26,6 +26,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -40,6 +41,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -115,22 +117,6 @@ export default function Positions() {
     },
   });
 
-  const fetchFormStatuses = useCallback(async (positions: Position[]) => {
-    setIsLoading(true);
-    try {
-      const updatedPositions = await Promise.all(
-        positions.map((position) => checkFormStatus(position))
-      );
-      setPositionsData(updatedPositions);
-    } catch (error) {
-      console.error("Error fetching form statuses:", error);
-      // If the overall Promise.all fails, still update the state with the provided positions
-      setPositionsData(positions);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   const fetchPositionFromDatabase = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -145,57 +131,15 @@ export default function Positions() {
       }
 
       const positions = data && data.length > 0 ? data : fallbackPositions;
-      // Pass the positions directly to fetchFormStatuses instead of setting state
-      await fetchFormStatuses(positions);
+      setPositionsData(positions);
     } catch (error) {
       console.error("Error fetching positions from database:", error);
       // Use fallback positions if database fetch fails
-      await fetchFormStatuses(fallbackPositions);
+      setPositionsData(fallbackPositions);
+    } finally {
+      setIsLoading(false);
     }
-  }, [fetchFormStatuses]);
-
-  // Function to check if a form is still accepting responses using AllOrigins
-  const checkFormStatus = async (position: Position) => {
-    try {
-      // Using allorigins.win as the CORS proxy
-      const allOriginsUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(
-        position.form_url
-      )}`;
-      const response = await fetch(allOriginsUrl);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const text = await response.text();
-      // Check if the form contains the text indicating it's closed
-      // Google Forms typically shows "This form is no longer accepting responses" when closed
-      const is_accepting_responses = !text.includes(
-        "no longer accepting response"
-      );
-
-      console.log(
-        `Form status for ${position.label}: ${
-          is_accepting_responses ? "Open" : "Closed"
-        }`
-      );
-
-      return {
-        ...position,
-        is_accepting_responses,
-      };
-    } catch (error) {
-      console.error(
-        `Failed to check form status for ${position.label}:`,
-        error
-      );
-      // In case of error, assume the form is still open to avoid false negatives
-      return {
-        ...position,
-        is_accepting_responses: true,
-      };
-    }
-  };
+  }, []);
 
   // Handle form submission based on action type
   const handleSubmit = async (data: z.infer<typeof positionSchema>) => {
@@ -477,28 +421,44 @@ export default function Positions() {
                             )}
                           />
 
-                          <div className="space-y-2">
-                            <FormField
-                              control={form.control}
-                              name="form_url"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Form URL</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      placeholder="https://docs.google.com/forms/d/e/..."
-                                      {...field}
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <Label className="text-muted-foreground font-normal leading-6">
-                              Forms from Google Forms will be automatically
-                              checked for availability.
-                            </Label>
-                          </div>
+                          <FormField
+                            control={form.control}
+                            name="form_url"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Form URL</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="https://docs.google.com/forms/d/e/..."
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="is_accepting_responses"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                <div className="space-y-0.5">
+                                  <FormLabel>Accepting Responses</FormLabel>
+                                  <FormDescription>
+                                    Toggle if this position is currently
+                                    accepting applications
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
 
                           <div className="flex justify-end gap-2">
                             <DialogClose asChild>
@@ -647,18 +607,6 @@ export default function Positions() {
                   </div>
                 )}
                 <DialogFooter>
-                  {isLoading && (
-                    <div className="flex items-center justify-center">
-                      <Loader2
-                        size={15}
-                        className="animate-spin mr-2 text-slate-500"
-                      />
-                      <span className="text-xs text-slate-500">
-                        Checking form for availability...
-                      </span>
-                    </div>
-                  )}
-
                   <DialogClose asChild>
                     {value && (
                       <Button
@@ -684,7 +632,7 @@ export default function Positions() {
                       <Button
                         variant="default"
                         className="cursor-pointer"
-                        disabled={!value || isLoading}
+                        disabled={!value}
                         onClick={() => {
                           const selectedPosition = positionsData.find(
                             (p) =>
