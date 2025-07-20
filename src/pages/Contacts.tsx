@@ -2,6 +2,7 @@ import discordlogo from "@/assets/img/icons/discordlogo.png";
 import githublogo from "@/assets/img/icons/githublogo.png";
 import instagramlogo from "@/assets/img/icons/instagramlogo.png";
 import maillogo from "@/assets/img/icons/maillogo.png";
+import facebooklogo from "@/assets/img/icons/facebooklogo.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -122,6 +123,11 @@ export default function Contacts() {
       icon: githublogo,
       href: "https://github.com/kdtsuo/v3",
       title: "GitHub",
+    },
+    {
+      icon: facebooklogo,
+      href: "https://www.facebook.com/profile.php?id=61577850668849",
+      title: "Facebook",
     },
   ];
 
