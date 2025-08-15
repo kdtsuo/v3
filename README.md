@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + TailwindCSS + shadcn
+# NextTs + shadcn
 
 ## You can visit the website [here](https://kdtsuo.vercel.app/)
 
