@@ -1,4 +1,4 @@
-# NextTs + shadcn
+# NextTS + shadcn
 
 ## You can visit the website [here](https://kdtsuo.vercel.app/)
 
