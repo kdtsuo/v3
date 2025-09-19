@@ -1,5 +1,5 @@
-# React + TypeScript + Vite + TailwindCSS + shadcn
+# NextTS + shadcn
 
-## You can visit the website [here](https://kdtsuo.github.io/v3)
+## You can visit the website [here](https://kdtsuo.vercel.app/)
 
 ## Or read license [here](https://github.com/kdtsuo/v3/blob/main/LICENSE)
