@@ -277,36 +277,36 @@ export default function Positions() {
   }, [selectedAction, selectedAdminPosition, positionsData, form]);
 
   return (
-    <div className="animate-fade-in overflow-x-hidden">
-      <div className="w-screen h-screen relative">
+    <div className='animate-fade-in overflow-x-hidden'>
+      <div className='w-screen h-screen relative'>
         <img
-          className="absolute inset-0 object-cover w-full h-full brightness-[0.25]"
+          className='absolute inset-0 object-cover w-full h-full brightness-[0.25]'
           src={joinourteam}
-          alt="team"
+          alt='team'
         />
 
-        <div className="relative flex flex-col justify-center items-center h-full p-4 text-white space-y-4">
+        <div className='relative flex flex-col justify-center items-center h-full p-4 text-white space-y-4'>
           <div>
-            <h1 className="text-3xl font-bold lg:text-4xl text-center my-5 text-lightblue-100">
+            <h1 className='text-3xl font-bold lg:text-4xl text-center my-5 text-lightblue-100'>
               Find out what position fits you!
             </h1>
-            <p className="text-xl lg:paragraph text-center max-w-screen-sm">
+            <p className='text-xl lg:paragraph text-center max-w-screen-sm'>
               We have a variety of positions available for you to join! Whether
               you're interested in dancing, videography, or graphic design, we
               have a spot for you.
             </p>
           </div>
-          <div className="flex justify-center gap-4">
+          <div className='flex justify-center gap-4'>
             {/* Edit Positions Section */}
             {user && (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className="cursor-pointer" variant="secondary">
+                  <Button className='cursor-pointer' variant='secondary'>
                     <Edit />
                     Edit Positions
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[350px] lg:w-[500px]">
+                <DialogContent className='w-[350px] lg:w-[500px]'>
                   <DialogHeader>
                     <DialogTitle>Manage Positions</DialogTitle>
                     <DialogDescription>
@@ -315,8 +315,8 @@ export default function Positions() {
                   </DialogHeader>
 
                   {/* Action Type Selection */}
-                  <div className="flex flex-col gap-4">
-                    <div className="flex flex-col space-y-2">
+                  <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col space-y-2'>
                       <Label>Select Action:</Label>
                       <Select
                         value={selectedAction || ""}
@@ -327,25 +327,25 @@ export default function Positions() {
                           }
                         }}
                       >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select action..." />
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Select action...' />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectItem value="add">
-                              <div className="flex items-center">
-                                <Plus className="mr-2 h-4 w-4" /> Add Position
+                            <SelectItem value='add'>
+                              <div className='flex items-center'>
+                                <Plus className='mr-2 h-4 w-4' /> Add Position
                               </div>
                             </SelectItem>
-                            <SelectItem value="update">
-                              <div className="flex items-center">
-                                <Edit className="mr-2 h-4 w-4" /> Update
+                            <SelectItem value='update'>
+                              <div className='flex items-center'>
+                                <Edit className='mr-2 h-4 w-4' /> Update
                                 Position
                               </div>
                             </SelectItem>
-                            <SelectItem value="delete">
-                              <div className="flex items-center">
-                                <Trash className="mr-2 h-4 w-4" /> Delete
+                            <SelectItem value='delete'>
+                              <div className='flex items-center'>
+                                <Trash className='mr-2 h-4 w-4' /> Delete
                                 Position
                               </div>
                             </SelectItem>
@@ -357,7 +357,7 @@ export default function Positions() {
                     {/* Position Selection (only for update and delete) */}
                     {(selectedAction === "update" ||
                       selectedAction === "delete") && (
-                      <div className="flex flex-col space-y-2">
+                      <div className='flex flex-col space-y-2'>
                         <Label>Select Position:</Label>
                         <Select
                           value={selectedAdminPosition}
@@ -365,8 +365,8 @@ export default function Positions() {
                             setSelectedAdminPosition(value);
                           }}
                         >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select position..." />
+                          <SelectTrigger className='w-full'>
+                            <SelectValue placeholder='Select position...' />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
@@ -380,7 +380,7 @@ export default function Positions() {
                                     key={positionValue}
                                     value={positionValue}
                                   >
-                                    <div className="flex items-center justify-between w-full">
+                                    <div className='flex items-center justify-between w-full'>
                                       {position.label.length > 38
                                         ? position.label.substring(0, 35) +
                                           "..."
@@ -402,17 +402,17 @@ export default function Positions() {
                       <Form {...form}>
                         <form
                           onSubmit={form.handleSubmit(handleSubmit)}
-                          className="space-y-4"
+                          className='space-y-4'
                         >
                           <FormField
                             control={form.control}
-                            name="label"
+                            name='label'
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Position Name</FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="Enter position name"
+                                    placeholder='Enter position name'
                                     {...field}
                                   />
                                 </FormControl>
@@ -423,13 +423,13 @@ export default function Positions() {
 
                           <FormField
                             control={form.control}
-                            name="form_url"
+                            name='form_url'
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Form URL</FormLabel>
                                 <FormControl>
                                   <Input
-                                    placeholder="https://docs.google.com/forms/d/e/..."
+                                    placeholder='https://docs.google.com/forms/d/e/...'
                                     {...field}
                                   />
                                 </FormControl>
@@ -440,10 +440,10 @@ export default function Positions() {
 
                           <FormField
                             control={form.control}
-                            name="is_accepting_responses"
+                            name='is_accepting_responses'
                             render={({ field }) => (
-                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                                <div className="space-y-0.5">
+                              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                                <div className='space-y-0.5'>
                                   <FormLabel>Accepting Responses</FormLabel>
                                   <FormDescription>
                                     Toggle if this position is currently
@@ -460,22 +460,24 @@ export default function Positions() {
                             )}
                           />
 
-                          <div className="flex justify-end gap-2">
+                          <div className='flex justify-end gap-2'>
                             <DialogClose asChild>
-                              <Button type="button" variant="outline">
+                              <Button type='button' variant='outline'>
                                 Close
                               </Button>
                             </DialogClose>
                             <Button
-                              type="submit"
-                              variant="default"
+                              type='submit'
+                              variant='default'
                               disabled={isSubmitting}
                             >
                               {isSubmitting && (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                <Loader2 className='h-4 w-4 animate-spin' />
                               )}
                               {selectedAction === "add"
                                 ? "Add Position"
+                                : isSubmitting
+                                ? "Updating..."
                                 : "Update Position"}
                             </Button>
                           </div>
@@ -488,7 +490,7 @@ export default function Positions() {
                     {selectedAction === "delete" && selectedAdminPosition && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="destructive">Delete Position</Button>
+                          <Button variant='destructive'>Delete Position</Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
@@ -519,10 +521,10 @@ export default function Positions() {
                             <AlertDialogAction
                               onClick={handleDeletePosition}
                               disabled={isSubmitting}
-                              className="bg-destructive dark:text-destructive-foreground not-dark:text-background"
+                              className='bg-destructive dark:text-destructive-foreground not-dark:text-background'
                             >
                               {isSubmitting && (
-                                <Loader2 className="animate-spin" />
+                                <Loader2 className='animate-spin' />
                               )}
                               Yea get rid of dat hoe
                             </AlertDialogAction>
@@ -542,20 +544,20 @@ export default function Positions() {
                   onClick={() => {
                     fetchPositionFromDatabase();
                   }}
-                  className="cursor-pointer"
-                  variant="secondary"
+                  className='cursor-pointer'
+                  variant='secondary'
                 >
                   Check Positions
                 </Button>
               </DialogTrigger>
-              <DialogContent className="w-[350px] lg:w-[425px]">
+              <DialogContent className='w-[350px] lg:w-[425px]'>
                 <DialogHeader>
                   <DialogTitle>Positions</DialogTitle>
                 </DialogHeader>
                 <DialogDescription>
                   Select a position that you're interested in.
                 </DialogDescription>
-                <div className="flex justify-center items-center">
+                <div className='flex justify-center items-center'>
                   <Select
                     value={value}
                     onValueChange={(newValue) => {
@@ -563,8 +565,8 @@ export default function Positions() {
                     }}
                     disabled={isLoading}
                   >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select position..." />
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder='Select position...' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -584,10 +586,10 @@ export default function Positions() {
                                   : ""
                               }
                             >
-                              <div className="flex items-center justify-between w-full">
+                              <div className='flex items-center justify-between w-full'>
                                 {position.label}
                                 {!position.is_accepting_responses && (
-                                  <X className="ml-2 h-4 w-4 text-red-500" />
+                                  <X className='ml-2 h-4 w-4 text-red-500' />
                                 )}
                               </div>
                             </SelectItem>
@@ -599,8 +601,8 @@ export default function Positions() {
                 </div>
                 {/* Show message when selected form is closed */}
                 {value && formClosed && (
-                  <div className="flex items-center text-red-500">
-                    <span className="text-xs">
+                  <div className='flex items-center text-red-500'>
+                    <span className='text-xs'>
                       We are not accepting applications for this position
                       currently
                     </span>
@@ -610,8 +612,8 @@ export default function Positions() {
                   <DialogClose asChild>
                     {value && (
                       <Button
-                        variant="secondary"
-                        className="border cursor-pointer"
+                        variant='secondary'
+                        className='border cursor-pointer'
                         onClick={() => {
                           navigator.clipboard.writeText(
                             positionsData.find(
@@ -630,8 +632,8 @@ export default function Positions() {
                   <DialogClose asChild>
                     {value && (
                       <Button
-                        variant="default"
-                        className="cursor-pointer"
+                        variant='default'
+                        className='cursor-pointer'
                         disabled={!value}
                         onClick={() => {
                           const selectedPosition = positionsData.find(
