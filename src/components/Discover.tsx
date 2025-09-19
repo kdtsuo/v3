@@ -43,14 +43,14 @@ export default function Discover() {
   ];
 
   return (
-    <Card className='text-center p-10 mx-10'>
+    <Card className='text-center mx-10'>
       <CardHeader>
         <CardTitle>
           <div className='text-3xl md:text-6xl font-bold'>Discover More</div>
         </CardTitle>
       </CardHeader>
 
-      <CardContent className='flex justify-center gap-6 flex-wrap mx-5'>
+      <CardContent className='flex justify-center gap-6 flex-wrap'>
         {/* Cards Container */}
         {discoverCards.map((card, index) => (
           <DiscoverCard

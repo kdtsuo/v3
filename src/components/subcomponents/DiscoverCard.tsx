@@ -53,7 +53,7 @@ export default function DiscoverCard({
             {Icon && (
               <Icon size={30} strokeWidth={2} className='mx-auto text-white' />
             )}
-            <CardTitle className='text-2xl md:text-3xl font-bold text-white'>
+            <CardTitle className='text-xl md:text-3xl font-bold text-white'>
               {title}
             </CardTitle>
           </CardHeader>
