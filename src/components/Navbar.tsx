@@ -38,13 +38,13 @@ function ThemeToggle() {
 
   return (
     <div
-      role="button"
-      className="p-2 outline rounded-xl flex"
+      role='button'
+      className='p-2 outline rounded-xl flex'
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
-      <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
+      <SunIcon className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+      <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+      <span className='sr-only'>Toggle theme</span>
     </div>
   );
 }
@@ -90,12 +90,12 @@ function LoginDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant='outline'>
           Login
           <LogIn />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Login</DialogTitle>
           <DialogDescription>
@@ -105,24 +105,24 @@ function LoginDialog() {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSignIn}>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+          <div className='grid gap-4 py-4'>
+            <div className='grid gap-2'>
+              <Label htmlFor='email'>Email</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="Email"
+                id='email'
+                type='email'
+                placeholder='Email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
+            <div className='grid gap-2'>
+              <Label htmlFor='password'>Password</Label>
               <Input
-                id="password"
-                type="password"
-                placeholder="Password"
+                id='password'
+                type='password'
+                placeholder='Password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -130,10 +130,10 @@ function LoginDialog() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" className="cursor-pointer" disabled={loading}>
+            <Button type='submit' className='cursor-pointer' disabled={loading}>
               {loading ? (
                 <>
-                  <Loader2 className="animate-spin" />
+                  <Loader2 className='animate-spin' />
                   Signing In...
                 </>
               ) : (
@@ -171,10 +171,10 @@ function LogoutDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" disabled={isLoggingOut}>
+        <Button variant='outline' disabled={isLoggingOut}>
           {isLoggingOut ? (
             <>
-              <Loader2 size={16} className="mr-2 animate-spin" />
+              <Loader2 size={16} className='mr-2 animate-spin' />
               Logging out...
             </>
           ) : (
@@ -185,7 +185,7 @@ function LogoutDialog() {
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[300px]">
+      <DialogContent className='max-w-[300px]'>
         <DialogHeader>
           <DialogTitle>Logout</DialogTitle>
           <DialogDescription>
@@ -194,7 +194,7 @@ function LogoutDialog() {
         </DialogHeader>
         <DialogFooter>
           <Button onClick={handleSignOut}>
-            {isLoggingOut && <Loader2 className="animate-spin" />}
+            {isLoggingOut && <Loader2 className='animate-spin' />}
             {isLoggingOut ? "Logging out..." : "Logout"}
           </Button>
         </DialogFooter>
@@ -244,22 +244,22 @@ export default function Navbar() {
 
   return (
     <div>
-      <div className="fixed left-1/2 top-0 z-50 mt-4 md:mt-7 w-11/12 max-w-7xl -translate-x-1/2">
-        <div className="w-full rounded-full border bg-background/80 backdrop-blur-md shadow-sm">
-          <div className=" w-full flex justify-between items-center py-4 px-2 lg:px-4">
+      <div className='fixed left-1/2 top-0 z-50 mt-4 md:mt-7 w-11/12 max-w-7xl -translate-x-1/2'>
+        <div className='w-full rounded-full border bg-background/80 backdrop-blur-md shadow-sm'>
+          <div className=' w-full flex justify-between items-center py-4 px-2 lg:px-4'>
             {/* Logo */}
-            <Link to="/">
+            <Link to='/'>
               <img
                 src={kdtlogotransparent}
-                alt="KDT Logo"
-                className="w-16 h-auto"
+                alt='KDT Logo'
+                className='w-16 h-auto'
               />
             </Link>
 
             <div>
               {/* Navigation Links - Desktop */}
-              <div className="hidden lg:flex items-center gap-2">
-                <div className="flex items-center gap-2 lg:gap-4">
+              <div className='hidden lg:flex items-center gap-2'>
+                <div className='flex items-center gap-2 lg:gap-4'>
                   <ThemeToggle />
                   {items.map((item) => {
                     const path = item.toLowerCase();
@@ -273,37 +273,37 @@ export default function Navbar() {
                         key={item}
                         asChild
                         variant={isActive ? "default" : "outline"}
-                        className="text-base font-medium"
+                        className='text-base font-medium'
                       >
                         <Link to={`/${itemPath}`}>{item}</Link>
                       </Button>
                     );
                   })}
                 </div>
-                <div className="mx-4 flex items-center">{authSection}</div>
+                <div className='mx-4 flex items-center'>{authSection}</div>
               </div>
 
               {/* Mobile Menu Button */}
-              <div className="lg:hidden h-auto flex items-center gap-4">
+              <div className='lg:hidden h-auto flex items-center gap-4'>
                 <ThemeToggle />
                 <Sheet open={open} onOpenChange={setOpen}>
                   <SheetTrigger asChild>
-                    <div role="button" className="p-2 outline rounded-xl">
+                    <div role='button' className='p-2 outline rounded-xl'>
                       <Menu />
                     </div>
                   </SheetTrigger>
-                  <SheetContent side="right">
-                    <SheetHeader className="flex items-center">
+                  <SheetContent side='right'>
+                    <SheetHeader className='flex items-center'>
                       <SheetTitle>
                         <img
                           src={kdtlogotransparent}
-                          alt="KDT Logo"
-                          className="w-28 h-auto mx-auto"
+                          alt='KDT Logo'
+                          className='w-28 h-auto mx-auto'
                         />
                       </SheetTitle>
                     </SheetHeader>
-                    <div className="flex flex-col items-center justify-center space-y-4 text-xl w-1/2 mx-auto">
-                      <div className="flex items-center justify-center">
+                    <div className='flex flex-col items-center justify-center space-y-4 text-xl w-1/2 mx-auto'>
+                      <div className='flex items-center justify-center'>
                         <ThemeToggle />
                       </div>
                       {items.map((item) => {
@@ -319,23 +319,23 @@ export default function Navbar() {
                             asChild
                             variant={isActive ? "default" : "ghost"}
                             onClick={() => setOpen(false)}
-                            className="w-full justify-center text-lg"
+                            className='w-full justify-center text-lg'
                           >
                             <Link to={`/${itemPath}`}>{item}</Link>
                           </Button>
                         );
                       })}
-                      <div className="flex flex-col items-center gap-4">
+                      <div className='flex flex-col items-center gap-4'>
                         {authSection}
                       </div>
-                      <div className="w-full flex justify-center">
+                      <div className='w-full flex justify-center'>
                         <IconLink links={linkIcons} />
                       </div>
                     </div>
                   </SheetContent>
                 </Sheet>
 
-                <div className="mr-1"></div>
+                <div className='mr-1'></div>
               </div>
             </div>
           </div>

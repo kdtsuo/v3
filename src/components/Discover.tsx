@@ -43,14 +43,14 @@ export default function Discover() {
   ];
 
   return (
-    <Card className="text-center py-10 bg-primary rounded-none border-none">
+    <Card className='text-center p-10 mx-10'>
       <CardHeader>
-        <CardTitle className="text-primary-foreground">
-          <div className="text-3xl md:text-6xl font-bold">Discover More</div>
+        <CardTitle>
+          <div className='text-3xl md:text-6xl font-bold'>Discover More</div>
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex justify-center gap-6 flex-wrap mx-5">
+      <CardContent className='flex justify-center gap-6 flex-wrap mx-5'>
         {/* Cards Container */}
         {discoverCards.map((card, index) => (
           <DiscoverCard
@@ -61,7 +61,7 @@ export default function Discover() {
             image={card.image}
             link={card.link}
             isOpen={card.isOpen}
-            className="w-full md:w-full lg:w-1/3 aspect-video"
+            className='w-full lg:w-1/3 aspect-video'
           />
         ))}
       </CardContent>
