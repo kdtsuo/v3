@@ -269,7 +269,7 @@ export default function QuickLinks() {
               </DialogHeader>
               <div className='space-y-4'>
                 <div className='flex flex-col space-y-2'>
-                  <Label>Select Action:</Label>
+                  <Label>Select Action</Label>
                   <Select
                     value={selectedAction || ""}
                     onValueChange={(value) => {

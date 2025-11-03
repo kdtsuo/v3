@@ -317,7 +317,7 @@ export default function Positions() {
                   {/* Action Type Selection */}
                   <div className='flex flex-col gap-4'>
                     <div className='flex flex-col space-y-2'>
-                      <Label>Select Action:</Label>
+                      <Label>Select Action</Label>
                       <Select
                         value={selectedAction || ""}
                         onValueChange={(value) => {
