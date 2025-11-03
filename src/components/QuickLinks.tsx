@@ -133,14 +133,14 @@ function SortableItem({ link }: { link: Link }) {
         <GripVertical className='h-5 w-5 text-muted-foreground' />
       </div>
       <div className='flex-1 min-w-0'>
-        <p className='font-medium truncate'>
-          {link.label.length > 40
-            ? `${link.label.substring(0, 40)}...`
+        <p className='font-medium truncate text-sm'>
+          {link.label.length > 35
+            ? `${link.label.substring(0, 35)}...`
             : link.label}
         </p>
-        <p className='text-sm text-muted-foreground truncate'>
-          {link.link.length > 40
-            ? `${link.link.substring(0, 40)}...`
+        <p className='text-xs text-muted-foreground truncate'>
+          {link.link.length > 35
+            ? `${link.link.substring(0, 35)}...`
             : link.link}
         </p>
       </div>
@@ -629,7 +629,7 @@ export default function QuickLinks() {
                           .map((link) => link.id!)}
                         strategy={verticalListSortingStrategy}
                       >
-                        <div className='space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                        <div className='flex flex-col w-full space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
                           {links
                             .filter((link) => link.id !== undefined)
                             .map((link) => (
