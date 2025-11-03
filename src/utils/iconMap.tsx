@@ -1,14 +1,9 @@
-import { Link, Music, TicketMinus, LucideIcon } from "lucide-react";
+import { Link, Music, TicketMinus } from "lucide-react";
 import rubricLogo from "@/assets/img/icons/rubriclogo.png";
 import discordColorLogo from "@/assets/img/icons/discordcolorlogo.png";
 import googleFormsLogo from "@/assets/img/icons/googleformslogo.png";
 import youtubelogo from "@/assets/img/icons/youtubelogo.png";
-
-// Define a type for our icon map
-interface IconMapItem {
-  iconComponent?: LucideIcon;
-  imagePath?: string;
-}
+import { IconMapItem } from "@/types/type";
 
 // Map string identifiers to their respective icon components or image paths
 const iconMap: Record<string, IconMapItem> = {

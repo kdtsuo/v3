@@ -1,19 +1,13 @@
-import IconLinkWide from "@/components/subcomponents/IconLinkWide";
+import { IconLinkWide } from "@/components/subcomponents";
 import { DollarSign, Edit, Loader2 } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, useToast } from "@/hooks";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "./ui/button";
-import { useToast } from "@/hooks/useToast";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import {
+  Button,
   Form,
   FormControl,
   FormDescription,
@@ -21,14 +15,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import iconMap from "@/utils/iconMap";
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import type { Link } from "@/types/type";
-import {
+  Input,
+  RadioGroup,
+  RadioGroupItem,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -38,16 +27,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Label } from "@/components/ui/label";
-import {
+  Label,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { iconMap } from "@/utils";
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/lib";
+import type { Link, ActionType } from "@/types";
 
 const formSchema = z.object({
   label: z.string().min(1, "Label is required"),
@@ -91,8 +85,6 @@ const fallbackLinks: Link[] = [
   },
 ];
 
-type ActionType = "update" | "add" | "delete" | null;
-
 export default function QuickLinks() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,11 +106,7 @@ export default function QuickLinks() {
     },
   });
 
-  useEffect(() => {
-    fetchLinks();
-  }, []);
-
-  async function fetchLinks() {
+  const fetchLinks = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -143,7 +131,11 @@ export default function QuickLinks() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [toast]);
+
+  useEffect(() => {
+    fetchLinks();
+  }, [fetchLinks]);
 
   const handleManageSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
@@ -254,7 +246,7 @@ export default function QuickLinks() {
   return (
     <div
       className={`flex flex-col space-y-4 w-full px-4 lg:mx-4 
-                  mt-5 md:max-w-1/2 justify-center m-auto md:mt-10`}
+                  mt-5 md:max-w-1/2 justify-center m-auto md:mt-10 mb-4`}
     >
       {user && (
         <div className='flex justify-center space-x-2 mb-4'>

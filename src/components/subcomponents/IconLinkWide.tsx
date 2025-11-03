@@ -1,10 +1,8 @@
 import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import iconMap from "@/utils/iconMap";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-
-import type { IconLinkWideProps } from "@/types/type";
+import { Button, Badge } from "@/components/ui";
+import { iconMap } from "@/utils";
+import { cn } from "@/lib";
+import type { IconLinkWideProps } from "@/types";
 
 export default function IconLinkWide({
   iconType,

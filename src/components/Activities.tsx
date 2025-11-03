@@ -3,9 +3,9 @@ import events from "../assets/img/stock/events.jpeg";
 import events2 from "../assets/img/stock/events2.jpeg";
 import events3 from "../assets/img/stock/events3.jpeg";
 import showcase from "../assets/img/stock/showcase.jpeg";
-import Activity from "./subcomponents/Activity";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTheme } from "@/contexts/ThemeContext";
+import { Activity } from "./subcomponents";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
+import { useTheme } from "@/hooks";
 
 interface ActivityProps {
   images: string[];
@@ -39,7 +39,7 @@ export default function Activities() {
 
   return (
     <Card
-      className="mt-10 m-5"
+      className='mt-10 m-5'
       style={{
         background: `var(--bg-less-dotted-${
           theme === "dark" ? "dark" : "light"
@@ -47,7 +47,7 @@ export default function Activities() {
       }}
     >
       <CardHeader>
-        <CardTitle className="text-6xl text-center">Activities</CardTitle>
+        <CardTitle className='text-6xl text-center'>Activities</CardTitle>
       </CardHeader>
       <CardContent>
         <div>

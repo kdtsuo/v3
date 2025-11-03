@@ -1,8 +1,35 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
+import {
+  Card,
+  CardContent,
+  CardTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Badge,
+} from "@/components/ui";
+import { useAuth, useToast, useTheme } from "@/hooks";
+import { supabase } from "@/lib";
 
 // Import sponsor images
 import bubblewaffle from "@/assets/sponsors/bubblewaffle.png";
@@ -18,69 +45,12 @@ import {
   X,
   MapPin,
 } from "lucide-react";
-import Footer from "@/components/Footer";
+import { Footer } from "@/components";
 
-// Import UI components
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useTheme } from "@/contexts/ThemeContext";
-import { Badge } from "@/components/ui/badge";
-
-// Define types for sponsors and quick links
-interface SponsorData {
-  id?: string;
-  image: string;
-  title: string;
-  location: string;
-  maplink: string;
-  text: string;
-  websitelink: string;
-}
-
-// Sponsor Component
-interface SponsorProps {
-  id?: string;
-  image: string;
-  title: string;
-  location: string;
-  maplink: string;
-  text: string;
-  websitelink: string;
-  isAdmin?: boolean;
-  onSponsorDeleted?: () => void;
-}
+import type { SponsorData, SponsorProps } from "@/types";
 
 // Define the schema for our sponsor form
 const formSchema = z.object({

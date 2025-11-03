@@ -1,10 +1,10 @@
-import DiscoverCard from "@/components/subcomponents/DiscoverCard";
+import { DiscoverCard } from "@/components/subcomponents";
 import teamphoto from "@/assets/img/stock/teamphoto.jpeg";
 import joinourteam from "@/assets/img/stock/joinourteam.jpeg";
 import showcase from "@/assets/img/stock/showcase.jpeg";
 import events from "@/assets/img/stock/events.jpeg";
 import { BetweenHorizonalStart, Contact, HandCoins, Info } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 
 export default function Discover() {
   const discoverCards = [

@@ -5,7 +5,7 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: LucideIcon;
   label?: string;
   size?: number;
-  className?: string; // Renamed from style to className
+  className?: string;
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(

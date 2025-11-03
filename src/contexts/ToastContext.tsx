@@ -1,19 +1,6 @@
 import React, { createContext } from "react";
 import { toast as sonnerToast, ExternalToast } from "sonner";
-
-interface ToastContextType {
-  toast: {
-    success: (message: string, data?: ExternalToast) => void;
-    error: (message: string, data?: ExternalToast) => void;
-    info: (message: string, data?: ExternalToast) => void;
-    warning: (message: string, data?: ExternalToast) => void;
-    promise: typeof sonnerToast.promise;
-    custom: typeof sonnerToast.custom;
-    message: typeof sonnerToast.message;
-    loading: typeof sonnerToast.loading;
-    dismiss: typeof sonnerToast.dismiss;
-  };
-}
+import { ToastContextType } from "@/types/type";
 
 export const ToastContext = createContext<ToastContextType | undefined>(
   undefined

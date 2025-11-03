@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import kdtlogotransparent from "../assets/img/kdtlogotransparent.png";
 
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib";
 import { Loader2, LogIn, LogOut, Menu, MoonIcon, SunIcon } from "lucide-react";
 import { useState } from "react";
 import {
@@ -10,8 +10,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -19,18 +17,16 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+  Button,
+  Input,
+  Label,
+} from "@/components/ui";
 import instagramlogo from "../assets/img/icons/instagramlogo.png";
 import maillogo from "../assets/img/icons/maillogo.png";
 import discordlogo from "../assets/img/icons/discordlogo.png";
 import githublogo from "../assets/img/icons/githublogo.png";
-import IconLink from "./subcomponents/IconLink";
-import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/useToast";
-import { useTheme } from "@/contexts/ThemeContext";
+import { IconLink } from "./subcomponents";
+import { useAuth, useToast, useTheme } from "@/hooks";
 
 // Theme Toggle Button component
 function ThemeToggle() {

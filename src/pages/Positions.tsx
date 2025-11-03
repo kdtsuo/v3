@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import joinourteam from "@/assets/img/stock/joinourteam.jpeg";
-import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
+import { Footer } from "@/components";
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,15 +11,6 @@ import {
   DialogClose,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Clipboard, Edit, Loader2, X, Plus, Trash } from "lucide-react";
-import { useToast } from "@/hooks/useToast";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
   Form,
   FormControl,
   FormField,
@@ -27,9 +18,7 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
+  Input,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -39,25 +28,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import {
+  Label,
+  Switch,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-
-type Position = {
-  label: string;
-  form_url: string;
-  is_accepting_responses: boolean;
-};
-
-type ActionType = "update" | "add" | "delete" | null;
+} from "@/components/ui";
+import { Clipboard, Edit, Loader2, X, Plus, Trash } from "lucide-react";
+import { useToast, useAuth } from "@/hooks";
+import { supabase } from "@/lib";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Position, ActionType } from "@/types";
 
 const fallbackPositions: Position[] = [
   {

@@ -3,27 +3,30 @@ import githublogo from "@/assets/img/icons/githublogo.png";
 import instagramlogo from "@/assets/img/icons/instagramlogo.png";
 import maillogo from "@/assets/img/icons/maillogo.png";
 import facebooklogo from "@/assets/img/icons/facebooklogo.png";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/useToast";
+  Input,
+  Textarea,
+} from "@/components/ui";
+import { useToast, useTheme } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import emailjs from "emailjs-com";
-import Footer from "@/components/Footer";
+import { Footer } from "@/components";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
+import type { SocialLink } from "@/types";
 
 // Define schema for form validation
 const formSchema = z.object({
@@ -41,13 +44,6 @@ const formSchema = z.object({
 const service: string = "service_qii0r9i";
 const template: string = "template_se1ntd8";
 const user: string = "xA2mLRICgKakxEiNJ";
-
-// Define interface for social links
-interface SocialLink {
-  icon: string;
-  href: string;
-  title: string;
-}
 
 export default function Contacts() {
   const [isCurrentlySubmitting, setIsCurrentlySubmitting] = useState(false);

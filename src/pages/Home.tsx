@@ -1,7 +1,5 @@
-import QuickLinks from "@/components/QuickLinks";
-import Discover from "@/components/Discover";
-import Footer from "@/components/Footer";
-import { useTheme } from "@/contexts/ThemeContext";
+import { QuickLinks, Discover, Footer } from "@/components";
+import { useTheme } from "@/hooks";
 
 export default function Home() {
   const { theme } = useTheme();

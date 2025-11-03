@@ -1,5 +1,20 @@
-// src/components/type.ts
-// Abstracted types for component interfaces
+// src/types/type.ts
+// Centralized type definitions for the application
+
+import { LucideIcon } from "lucide-react";
+import { ExternalToast } from "sonner";
+import { Session, User } from "@supabase/supabase-js";
+import { toast as sonnerToast } from "sonner";
+
+// ============================================================================
+// COMMON TYPES
+// ============================================================================
+
+export type ActionType = "update" | "add" | "delete" | null;
+
+// ============================================================================
+// LINK TYPES
+// ============================================================================
 
 export type Link = {
   id?: number; // Supabase will provide this
@@ -20,3 +35,92 @@ export type IconLinkWideProps = {
   deleteMode?: boolean;
   price?: number;
 };
+
+// ============================================================================
+// PAGE-SPECIFIC TYPES
+// ============================================================================
+
+// Positions Page
+export type Position = {
+  label: string;
+  form_url: string;
+  is_accepting_responses: boolean;
+};
+
+// Contacts Page
+export interface SocialLink {
+  icon: string;
+  href: string;
+  title: string;
+}
+
+// Sponsors Page
+export interface SponsorData {
+  id?: string;
+  image: string;
+  title: string;
+  location: string;
+  maplink: string;
+  text: string;
+  websitelink: string;
+}
+
+export interface SponsorProps {
+  id?: string;
+  image: string;
+  title: string;
+  location: string;
+  maplink: string;
+  text: string;
+  websitelink: string;
+  isAdmin?: boolean;
+  onSponsorDeleted?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  deleteMode?: boolean;
+}
+
+// ============================================================================
+// CONTEXT TYPES
+// ============================================================================
+
+// Theme Context
+export type Theme = "light" | "dark" | "system";
+
+export interface ThemeContextType {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+}
+
+// Auth Context
+export type AuthContextType = {
+  session: Session | null;
+  user: User | null;
+  signOut: () => Promise<void>;
+  loading: boolean;
+};
+
+// Toast Context
+export interface ToastContextType {
+  toast: {
+    success: (message: string, data?: ExternalToast) => void;
+    error: (message: string, data?: ExternalToast) => void;
+    info: (message: string, data?: ExternalToast) => void;
+    warning: (message: string, data?: ExternalToast) => void;
+    promise: typeof sonnerToast.promise;
+    custom: typeof sonnerToast.custom;
+    message: typeof sonnerToast.message;
+    loading: typeof sonnerToast.loading;
+    dismiss: typeof sonnerToast.dismiss;
+  };
+}
+
+// ============================================================================
+// UTILITY TYPES
+// ============================================================================
+
+// Icon Map
+export interface IconMapItem {
+  iconComponent?: LucideIcon;
+  imagePath?: string;
+}

@@ -22,7 +22,7 @@ const HalftoneBackground: React.FC<HalftoneBackgroundProps> = ({
 
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns='http://www.w3.org/2000/svg'
       className={`absolute inset-0 w-full h-full ${className}`}
       style={{
         transform: `rotate(${angle}deg)`,
@@ -31,10 +31,10 @@ const HalftoneBackground: React.FC<HalftoneBackgroundProps> = ({
     >
       <defs>
         <pattern
-          id="halftone-pattern"
+          id='halftone-pattern'
           width={patternSize}
           height={patternSize}
-          patternUnits="userSpaceOnUse"
+          patternUnits='userSpaceOnUse'
         >
           <circle
             cx={patternSize / 2}
@@ -45,7 +45,7 @@ const HalftoneBackground: React.FC<HalftoneBackgroundProps> = ({
           />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#halftone-pattern)" />
+      <rect width='100%' height='100%' fill='url(#halftone-pattern)' />
     </svg>
   );
 };
