@@ -28,6 +28,7 @@ import {
   Input,
   Badge,
 } from "@/components/ui";
+import { Edit } from "lucide-react";
 import { useAuth, useToast, useTheme } from "@/hooks";
 import { supabase } from "@/lib";
 
@@ -62,7 +63,7 @@ const formSchema = z.object({
   websitelink: z.string().url("Please enter a valid website URL"),
 });
 
-const Sponsor: React.FC<SponsorProps> = ({
+const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
   id,
   image,
   title,
@@ -71,21 +72,43 @@ const Sponsor: React.FC<SponsorProps> = ({
   text,
   websitelink,
   isAdmin = false,
-  onSponsorDeleted,
+  onSponsorDeleted = () => {},
+  onSponsorUpdated = () => {},
 }) => {
   const [imageError, setImageError] = useState(false);
   const { theme } = useTheme();
+  const [editOpen, setEditOpen] = useState(false);
 
   return (
-    <Card
-      className='group relative overflow-hidden gap-0 rounded-xl t200e animate-fade-in
-       w-full max-w-md mx-auto p-0 '
-    >
-      {/* Admin delete button */}
-      {isAdmin && id && onSponsorDeleted && (
-        <DeleteSponsorDialog
+    <Card className='group relative overflow-hidden gap-0 rounded-xl t200e animate-fade-in w-full max-w-md mx-auto p-0 '>
+      {/* Admin buttons */}
+      {isAdmin && id && (
+        <div className='absolute top-1 right-1 z-20 flex gap-2'>
+          <Button
+            className='h-8 w-8 p-0'
+            variant='secondary'
+            size='sm'
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditOpen(true);
+            }}
+          >
+            <Edit size={16} />
+          </Button>
+          <DeleteSponsorDialog
+            sponsor={{ id, image, title, location, maplink, text, websitelink }}
+            onSponsorDeleted={onSponsorDeleted}
+          />
+        </div>
+      )}
+
+      {/* Edit Sponsor Dialog */}
+      {isAdmin && id && (
+        <EditSponsorDialog
+          open={editOpen}
+          setOpen={setEditOpen}
           sponsor={{ id, image, title, location, maplink, text, websitelink }}
-          onSponsorDeleted={onSponsorDeleted}
+          onSponsorUpdated={onSponsorUpdated}
         />
       )}
 
@@ -149,6 +172,190 @@ const Sponsor: React.FC<SponsorProps> = ({
     </Card>
   );
 };
+// EditSponsorDialog component
+function EditSponsorDialog({
+  open,
+  setOpen,
+  sponsor,
+  onSponsorUpdated,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  sponsor: SponsorData;
+  onSponsorUpdated: () => void;
+}) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: sponsor.title || "",
+      image: sponsor.image || "",
+      location: sponsor.location || "",
+      maplink: sponsor.maplink || "",
+      text: sponsor.text || "",
+      websitelink: sponsor.websitelink || "",
+    },
+  });
+
+  useEffect(() => {
+    form.reset({
+      title: sponsor.title || "",
+      image: sponsor.image || "",
+      location: sponsor.location || "",
+      maplink: sponsor.maplink || "",
+      text: sponsor.text || "",
+      websitelink: sponsor.websitelink || "",
+    });
+  }, [sponsor, form]);
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from("sponsors")
+        .update({
+          title: values.title,
+          image: values.image,
+          location: values.location,
+          maplink: values.maplink,
+          text: values.text,
+          websitelink: values.websitelink,
+        })
+        .eq("id", sponsor.id);
+
+      if (error) throw error;
+
+      toast.success("Sponsor updated successfully!");
+      setOpen(false);
+      onSponsorUpdated();
+    } catch (error) {
+      console.error("Error updating sponsor:", error);
+      toast.error("Failed to update sponsor. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className='sm:max-w-[600px]'>
+        <DialogHeader>
+          <DialogTitle>Edit Sponsor</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='space-y-6'
+          >
+            <div className='grid gap-4 py-2'>
+              <FormField
+                control={form.control}
+                name='title'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Sponsor name' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='image'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Image URL</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://example.com/image.png'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='location'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Input placeholder='123 Main St' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='maplink'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Map Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='https://maps.google.com/...'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='text'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Discount Text</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='e.g. 10% off for KDT members!'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='websitelink'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sponsor's Website Link</FormLabel>
+                    <FormControl>
+                      <Input placeholder='https://example.com' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='flex justify-end'>
+              <Button type='submit' disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Updating...
+                  </>
+                ) : (
+                  "Update Sponsor"
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 // Add Sponsor Dialog Component
 function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
@@ -386,7 +593,7 @@ function DeleteSponsorDialog({
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          className='flex items-center gap-2 cursor-pointer absolute top-2 right-2 z-20 h-8 w-8 p-0'
+          className='flex items-center gap-2 z-20 size-8 p-0'
           variant='destructive'
           size='sm'
           onClick={(e) => e.stopPropagation()}
@@ -559,6 +766,7 @@ export default function Sponsors() {
                   websitelink={sponsor.websitelink}
                   isAdmin={!!user}
                   onSponsorDeleted={fetchSponsors}
+                  onSponsorUpdated={fetchSponsors}
                 />
               ))}
             </div>
