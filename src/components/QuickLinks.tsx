@@ -1,5 +1,5 @@
 import { IconLinkWide } from "@/components/subcomponents";
-import { DollarSign, Edit, Loader2 } from "lucide-react";
+import { DollarSign, Edit, Loader2, GripVertical } from "lucide-react";
 import { useAuth, useToast } from "@/hooks";
 import {
   Dialog,
@@ -35,6 +35,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -85,6 +102,52 @@ const fallbackLinks: Link[] = [
   },
 ];
 
+// Sortable item component for drag and drop
+function SortableItem({ link }: { link: Link }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: link.id! });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className='flex items-center gap-2 p-3 bg-secondary border-2 border-ring rounded-md'
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className='cursor-grab active:cursor-grabbing flex-shrink-0'
+      >
+        <GripVertical className='h-5 w-5 text-muted-foreground' />
+      </div>
+      <div className='flex-1 min-w-0'>
+        <p className='font-medium truncate'>
+          {link.label.length > 40
+            ? `${link.label.substring(0, 40)}...`
+            : link.label}
+        </p>
+        <p className='text-sm text-muted-foreground truncate'>
+          {link.link.length > 40
+            ? `${link.link.substring(0, 40)}...`
+            : link.link}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function QuickLinks() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
@@ -112,6 +175,7 @@ export default function QuickLinks() {
       const { data, error } = await supabase
         .from("links")
         .select("*")
+        .order("order", { ascending: true })
         .order("date", { ascending: false });
 
       if (error) {
@@ -136,6 +200,56 @@ export default function QuickLinks() {
   useEffect(() => {
     fetchLinks();
   }, [fetchLinks]);
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setLinks((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  const handleSaveOrder = async () => {
+    setIsSubmitting(true);
+    try {
+      const updates = links.map((link, index) => ({
+        id: link.id,
+        order: index,
+      }));
+
+      for (const update of updates) {
+        const { error } = await supabase
+          .from("links")
+          .update({ order: update.order })
+          .eq("id", update.id);
+
+        if (error) throw error;
+      }
+
+      toast.success("Link order saved successfully!");
+      setManageOpen(false);
+      setSelectedAction(null);
+      await fetchLinks();
+    } catch (error) {
+      toast.error("Failed to save link order");
+      console.error("Error saving order: ", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleManageSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
@@ -280,6 +394,7 @@ export default function QuickLinks() {
                         <SelectItem value='add'>Add Link</SelectItem>
                         <SelectItem value='update'>Update Link</SelectItem>
                         <SelectItem value='delete'>Delete Link</SelectItem>
+                        <SelectItem value='reorder'>Reorder Links</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -496,6 +611,45 @@ export default function QuickLinks() {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
+                )}
+                {selectedAction === "reorder" && (
+                  <div className='space-y-4 w-full'>
+                    <p className='text-sm text-muted-foreground'>
+                      Drag and drop the links below to reorder them. Click "Save
+                      Order" when done.
+                    </p>
+                    <DndContext
+                      sensors={sensors}
+                      collisionDetection={closestCenter}
+                      onDragEnd={handleDragEnd}
+                    >
+                      <SortableContext
+                        items={links
+                          .filter((link) => link.id !== undefined)
+                          .map((link) => link.id!)}
+                        strategy={verticalListSortingStrategy}
+                      >
+                        <div className='space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                          {links
+                            .filter((link) => link.id !== undefined)
+                            .map((link) => (
+                              <SortableItem key={link.id} link={link} />
+                            ))}
+                        </div>
+                      </SortableContext>
+                    </DndContext>
+                    <Button
+                      onClick={handleSaveOrder}
+                      className='w-full'
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className='animate-spin' />
+                      ) : (
+                        "Save Order"
+                      )}
+                    </Button>
+                  </div>
                 )}
               </div>
             </DialogContent>

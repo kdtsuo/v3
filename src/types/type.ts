@@ -10,7 +10,7 @@ import { toast as sonnerToast } from "sonner";
 // COMMON TYPES
 // ============================================================================
 
-export type ActionType = "update" | "add" | "delete" | null;
+export type ActionType = "update" | "add" | "delete" | "reorder" | null;
 
 // ============================================================================
 // LINK TYPES
@@ -23,6 +23,7 @@ export type Link = {
   link: string;
   date: string;
   price?: number;
+  order?: number; // For reordering links
 };
 
 export type IconLinkWideProps = {
