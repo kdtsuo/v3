@@ -1,8 +1,8 @@
 import { DiscoverCard } from "@/components/subcomponents";
-import teamphoto from "@/assets/img/stock/teamphoto.jpeg";
-import joinourteam from "@/assets/img/stock/joinourteam.jpeg";
-import showcase from "@/assets/img/stock/showcase.jpeg";
-import events from "@/assets/img/stock/events.jpeg";
+import teamphoto from "@/assets/img/stock/teamphoto.jpeg?w=800&format=webp&quality=80";
+import joinourteam from "@/assets/img/stock/joinourteam.jpeg?w=800&format=webp&quality=80";
+import showcase from "@/assets/img/stock/showcase.jpeg?w=800&format=webp&quality=80";
+import events from "@/assets/img/stock/events.jpeg?w=800&format=webp&quality=80";
 import { BetweenHorizonalStart, Contact, HandCoins, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 
