@@ -121,7 +121,7 @@ const Sponsor: React.FC<SponsorProps> = ({
       </div>
 
       {/* Sponsor content */}
-      <CardContent className='p-6 text-center bg-primary space-y-4 flex flex-col justify-center items-center'>
+      <CardContent className='p-6 text-center bg-muted/20 space-y-4 flex flex-col justify-center items-center'>
         <CardTitle>
           <Button
             onClick={(e) => {
@@ -129,7 +129,7 @@ const Sponsor: React.FC<SponsorProps> = ({
               window.open(websitelink, "_blank");
             }}
           >
-            <div className='text-2xl'>{title}</div>
+            <div className='text-lg md:text-2xl font-medium'>{title}</div>
             <SquareArrowOutUpRight />
           </Button>
         </CardTitle>
@@ -141,7 +141,7 @@ const Sponsor: React.FC<SponsorProps> = ({
           }}
         >
           <MapPin />
-          <div className='text-sm font-medium'>{location}</div>
+          <div className='text-xs md:text-sm font-medium'>{location}</div>
           <SquareArrowOutUpRight size={10} />
         </Button>
         <Badge className='text-sm bg-yellow-500 text-black'>{text}</Badge>
