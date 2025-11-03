@@ -17,16 +17,7 @@ import iconMap from "@/utils/iconMap";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-interface IconLinkWideProps {
-  iconType?: string;
-  label: string;
-  link: string;
-  className?: string;
-  isOpen?: boolean;
-  date?: string;
-  onDelete?: () => void;
-  deleteMode?: boolean;
-}
+import type { IconLinkWideProps } from "@/types/type";
 
 export default function IconLinkWide({
   iconType,
@@ -37,6 +28,7 @@ export default function IconLinkWide({
   onDelete,
   deleteMode,
   date,
+  price,
 }: IconLinkWideProps) {
   const { user } = useAuth();
   const isNew = date

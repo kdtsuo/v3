@@ -28,25 +28,16 @@ import { Switch } from "@/components/ui/switch";
 import iconMap from "@/utils/iconMap";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import type { Link } from "@/types/type";
 
-// Define the schema for our form
 const formSchema = z.object({
   label: z.string().min(1, "Label is required"),
   link: z.string().url("Please enter a valid URL"),
   iconType: z.string().min(1, "Icon type is required"),
   isOpen: z.boolean().default(true),
+  price: z.number().optional(),
 });
 
-// Define the type for our links
-interface Link {
-  id?: number; // Supabase will provide this
-  iconType: string;
-  label: string;
-  link: string;
-  isOpen: boolean;
-  date: string;
-}
-// Define fallback links to display when no links are available
 const fallbackLinks: Link[] = [
   {
     iconType: "rubric",
@@ -86,12 +77,10 @@ export default function QuickLinks() {
   const [deleteMode, setDeleteMode] = useState(false);
   const { user } = useAuth();
 
-  // Fetch links from Supabase on component mount
   useEffect(() => {
     fetchLinks();
   }, []);
 
-  // Function to fetch links from Supabase
   async function fetchLinks() {
     try {
       setLoading(true);
@@ -106,10 +95,8 @@ export default function QuickLinks() {
       }
 
       if (data && data.length > 0) {
-        // Only use database data if there are records
         setLinks(data);
       } else {
-        // No links returned or empty array, use fallback links
         setLinks(fallbackLinks);
       }
     } catch (error) {
@@ -121,10 +108,8 @@ export default function QuickLinks() {
     }
   }
 
-  // Function to delete a link
   async function deleteLink(id: number, label: string) {
     try {
-      // Get current user
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -142,7 +127,6 @@ export default function QuickLinks() {
 
       const updatedLinks = links.filter((link) => link.id !== id);
 
-      // If we deleted the last database link, show fallback links
       if (updatedLinks.length === 0) {
         setLinks(fallbackLinks);
       } else {
@@ -156,7 +140,6 @@ export default function QuickLinks() {
     }
   }
 
-  // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -164,12 +147,12 @@ export default function QuickLinks() {
       link: "",
       iconType: "link",
       isOpen: true,
+      price: undefined,
     },
   });
-  // Function to add a new link
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Get current user
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -179,17 +162,14 @@ export default function QuickLinks() {
         return;
       }
 
-      // Format the current date as YYYY-MM-DD
       const currentDate = new Date().toISOString().split("T")[0];
 
-      // Create the new link object
       const newLink = {
         ...values,
         date: currentDate,
-        user_id: user.id, // Add user ID to link data
+        user_id: user.id,
       };
 
-      // Insert into Supabase
       const { data, error } = await supabase
         .from("links")
         .insert([newLink])
@@ -217,31 +197,31 @@ export default function QuickLinks() {
                   mt-5 md:max-w-1/2 justify-center m-auto md:mt-10`}
     >
       {user && (
-        <div className="flex justify-center space-x-2 mb-4">
+        <div className='flex justify-center space-x-2 mb-4'>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button variant="default">
+              <Button variant='default'>
                 <ListPlus />
                 Add Links
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className='sm:max-w-[500px]'>
               <DialogHeader>
                 <DialogTitle>Add New Link</DialogTitle>
               </DialogHeader>
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
+                  className='space-y-6'
                 >
                   <FormField
                     control={form.control}
-                    name="label"
+                    name='label'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Link Label</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter link title" {...field} />
+                          <Input placeholder='Enter link title' {...field} />
                         </FormControl>
                         <FormDescription>
                           This is the name that will be displayed for the link.
@@ -252,12 +232,12 @@ export default function QuickLinks() {
                   />
                   <FormField
                     control={form.control}
-                    name="link"
+                    name='link'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>URL</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://example.com" {...field} />
+                          <Input placeholder='https://example.com' {...field} />
                         </FormControl>
                         <FormDescription>
                           Enter the full URL including https://
@@ -268,7 +248,7 @@ export default function QuickLinks() {
                   />
                   <FormField
                     control={form.control}
-                    name="iconType"
+                    name='iconType'
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Icon Type</FormLabel>
@@ -276,7 +256,7 @@ export default function QuickLinks() {
                           <RadioGroup
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            className="flex flex-row flex-wrap justify-start md:justify-around"
+                            className='flex flex-row flex-wrap justify-start md:justify-around'
                           >
                             {Object.keys(iconMap).map((iconKey) => {
                               const Icon = iconMap[iconKey].iconComponent;
@@ -284,13 +264,13 @@ export default function QuickLinks() {
                               return (
                                 <FormItem
                                   key={iconKey}
-                                  className="flex flex-col items-center space-y-2"
+                                  className='flex flex-col items-center space-y-2'
                                 >
                                   <FormControl>
                                     <RadioGroupItem
                                       value={iconKey}
                                       id={iconKey}
-                                      className="sr-only"
+                                      className='sr-only'
                                     />
                                   </FormControl>
                                   <label
@@ -306,7 +286,7 @@ export default function QuickLinks() {
                                       <img
                                         src={imagePath}
                                         alt={iconKey}
-                                        className="w-8 h-8 object-contain"
+                                        className='w-8 h-8 object-contain'
                                       />
                                     )}
                                   </label>
@@ -321,10 +301,10 @@ export default function QuickLinks() {
                   />
                   <FormField
                     control={form.control}
-                    name="isOpen"
+                    name='isOpen'
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                        <div className="space-y-0.5">
+                      <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                        <div className='space-y-0.5'>
                           <FormLabel>Available</FormLabel>
                           <FormDescription>
                             Is this link currently available?
@@ -339,7 +319,33 @@ export default function QuickLinks() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
+                  <FormField
+                    control={form.control}
+                    name='price'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Price (optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder='Enter a number'
+                            type='number'
+                            min='0'
+                            step='0.01'
+                            {...field}
+                            value={
+                              typeof field.value === "number" ? field.value : ""
+                            }
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Leave blank to hide price. Enter 0 for Free, or any
+                          value greater than 0.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type='submit' className='w-full'>
                     Add Link
                   </Button>
                 </form>
@@ -348,7 +354,7 @@ export default function QuickLinks() {
           </Dialog>
           <Button
             variant={deleteMode ? "default" : "outline"}
-            className="w-fit"
+            className='w-fit'
             onClick={() => setDeleteMode(!deleteMode)}
           >
             {deleteMode ? <Check /> : <Trash2 />}
@@ -358,8 +364,8 @@ export default function QuickLinks() {
       )}
 
       {loading ? (
-        <div className="flex justify-center py-8">
-          <Loader2 className="animate-spin rounded-full h-12 w-12 text-gray-700" />
+        <div className='flex justify-center py-8'>
+          <Loader2 className='animate-spin rounded-full h-12 w-12 text-gray-700' />
         </div>
       ) : (
         links.map((link) => (
@@ -370,9 +376,10 @@ export default function QuickLinks() {
             link={link.link}
             isOpen={link.isOpen}
             date={link.date}
-            className="bg-secondary border-2 
+            price={link.price}
+            className='bg-secondary border-2 
             border-ring text-center drop-shadow-box
-            hover:bg-muted"
+            hover:bg-muted'
             deleteMode={deleteMode}
             onDelete={
               link.id !== undefined
