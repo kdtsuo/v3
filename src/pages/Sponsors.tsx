@@ -242,7 +242,7 @@ function EditSponsorDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className='sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Edit Sponsor</DialogTitle>
+          <DialogTitle>Manage Sponsors</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

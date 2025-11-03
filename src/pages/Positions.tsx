@@ -284,13 +284,13 @@ export default function Positions() {
             </p>
           </div>
           <div className='flex justify-center gap-4'>
-            {/* Edit Positions Section */}
+            {/* Manage Positions Section */}
             {user && (
               <Dialog>
                 <DialogTrigger asChild>
                   <Button className='cursor-pointer' variant='secondary'>
                     <Edit />
-                    Edit Positions
+                    Manage Positions
                   </Button>
                 </DialogTrigger>
                 <DialogContent className='w-[350px] lg:w-[500px]'>
