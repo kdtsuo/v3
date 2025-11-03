@@ -27,6 +27,7 @@ import discordlogo from "../assets/img/icons/discordlogo.png";
 import githublogo from "../assets/img/icons/githublogo.png";
 import { IconLink } from "./subcomponents";
 import { useAuth, useToast, useTheme } from "@/hooks";
+import LanguageSelector from "./LanguageSelector";
 
 // Theme Toggle Button component
 function ThemeToggle() {
@@ -259,6 +260,8 @@ export default function Navbar() {
               <div className='hidden lg:flex items-center gap-2'>
                 <div className='flex items-center gap-2 lg:gap-4'>
                   <ThemeToggle />
+                  {/* turned off for now, just playing */}
+                  {/* <LanguageSelector /> */}
                   {items.map((item) => {
                     const path = item.toLowerCase();
                     const itemPath = path === "home" ? "" : path;
@@ -284,6 +287,8 @@ export default function Navbar() {
               {/* Mobile Menu Button */}
               <div className='lg:hidden h-auto flex items-center gap-4'>
                 <ThemeToggle />
+                {/* turned off for now, just playing */}
+                {/* <LanguageSelector /> */}
                 <Sheet open={open} onOpenChange={setOpen}>
                   <SheetTrigger asChild>
                     <div role='button' className='p-2 outline rounded-xl'>
