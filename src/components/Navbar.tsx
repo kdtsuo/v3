@@ -29,7 +29,7 @@ import discordlogo from "../assets/img/icons/discordlogo.png";
 import githublogo from "../assets/img/icons/githublogo.png";
 import IconLink from "./subcomponents/IconLink";
 import { useAuth } from "@/contexts/AuthContext";
-import { toast, Toaster } from "sonner";
+import { useToast } from "@/hooks/useToast";
 import { useTheme } from "@/contexts/ThemeContext";
 
 // Theme Toggle Button component
@@ -55,6 +55,7 @@ function LoginDialog() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,6 +151,7 @@ function LoginDialog() {
 function LogoutDialog() {
   const { user, signOut } = useAuth();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { toast } = useToast();
 
   const handleSignOut = async () => {
     try {
@@ -341,7 +343,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

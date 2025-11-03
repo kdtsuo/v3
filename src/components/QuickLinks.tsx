@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import { toast, Toaster } from "sonner";
+import { useToast } from "@/hooks/useToast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -97,6 +97,7 @@ export default function QuickLinks() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { toast } = useToast();
 
   const [manageOpen, setManageOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
@@ -475,9 +476,7 @@ export default function QuickLinks() {
                 {selectedAction === "delete" && selectedLinkId && (
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button variant='destructive' className='w-full'>
-                        Delete Link
-                      </Button>
+                      <Button variant='destructive'>Delete Link</Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
@@ -531,8 +530,6 @@ export default function QuickLinks() {
           />
         ))
       )}
-
-      <Toaster />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Sponsors from "./pages/Sponsors";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import { inject } from "@vercel/analytics";
+import { Toaster } from "@/components/ui/sonner";
 
 inject();
 
@@ -19,15 +20,16 @@ function App() {
         <ScrollToTop />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Root />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/positions" element={<Positions />} />
-          <Route path="/contacts" element={<Contact />} />
-          <Route path="/sponsors" element={<Sponsors />} />
-          <Route path="*" element={<NotFound />} /> {/* Catch-all for 404s */}
+          <Route path='/' element={<Root />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/positions' element={<Positions />} />
+          <Route path='/contacts' element={<Contact />} />
+          <Route path='/sponsors' element={<Sponsors />} />
+          <Route path='*' element={<NotFound />} /> {/* Catch-all for 404s */}
         </Routes>
       </HashRouter>
+      <Toaster />
     </>
   );
 }

@@ -15,10 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Toaster } from "sonner";
+import { useToast } from "@/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import * as z from "zod";
 import emailjs from "emailjs-com";
 import Footer from "@/components/Footer";
@@ -53,6 +52,7 @@ interface SocialLink {
 export default function Contacts() {
   const [isCurrentlySubmitting, setIsCurrentlySubmitting] = useState(false);
   const { theme } = useTheme();
+  const { toast } = useToast();
   // Define form with React Hook Form and zod validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -134,39 +134,39 @@ export default function Contacts() {
   return (
     <>
       <div
-        className="animate-fade-in"
+        className='animate-fade-in'
         style={{
           background: `var(--bg-dotted-${theme === "dark" ? "dark" : "light"})`,
         }}
       >
         <div></div>
         <div
-          className="h-auto lg:h-screen w-full flex items-center justify-center pt-36  
-        "
+          className='h-auto lg:h-screen w-full flex items-center justify-center pt-36  
+        '
         >
-          <Card className="m-5 w-full max-w-6xl overflow-hidden">
-            <CardContent className="p-0 flex flex-col lg:flex-row relative">
+          <Card className='m-5 w-full max-w-6xl overflow-hidden'>
+            <CardContent className='p-0 flex flex-col lg:flex-row relative'>
               {/* Social Media Cards Section */}
-              <div className="w-full lg:w-1/3 flex flex-col justify-center items-center p-12 py-6 lg:py-12">
-                <div className="w-full flex-grow justify-center flex flex-col py-8 space-y-2">
-                  <h2 className="text-3xl font-bold text-center pb-2">
+              <div className='w-full lg:w-1/3 flex flex-col justify-center items-center p-12 py-6 lg:py-12'>
+                <div className='w-full flex-grow justify-center flex flex-col py-8 space-y-2'>
+                  <h2 className='text-3xl font-bold text-center pb-2'>
                     Connect With Us
                   </h2>
                   {socialLinks.map((link, index) => (
                     <a
                       key={index}
                       href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
-                      <Card className="hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-secondary-foreground">
-                        <CardHeader className="flex flex-row items-center justify-between lg:justify-start space-x-4">
+                      <Card className='hover:shadow-lg transition-all duration-200 hover:-translate-y-1 bg-secondary-foreground'>
+                        <CardHeader className='flex flex-row items-center justify-between lg:justify-start space-x-4'>
                           <img
                             src={link.icon}
                             alt={link.title}
-                            className="w-12 h-12 dark:invert-100 not-dark:invert-0"
+                            className='w-12 h-12 dark:invert-100 not-dark:invert-0'
                           />
-                          <CardTitle className="text-xl font-extralight text-primary-foreground">
+                          <CardTitle className='text-xl font-extralight text-primary-foreground'>
                             {link.title}
                           </CardTitle>
                         </CardHeader>
@@ -177,27 +177,27 @@ export default function Contacts() {
               </div>
 
               {/* Divider Line */}
-              <div className="hidden lg:block absolute left-1/3 top-0 bottom-0 w-0.5 bg-muted my-8"></div>
-              <div className="block lg:hidden w-full h-0.5 bg-muted my-4"></div>
+              <div className='hidden lg:block absolute left-1/3 top-0 bottom-0 w-0.5 bg-muted my-8'></div>
+              <div className='block lg:hidden w-full h-0.5 bg-muted my-4'></div>
 
               {/* Contact Form Section */}
-              <div className="w-full lg:w-2/3 p-12">
+              <div className='w-full lg:w-2/3 p-12'>
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6"
+                    className='space-y-6'
                   >
-                    <h2 className="text-3xl font-bold text-center mb-6">
+                    <h2 className='text-3xl font-bold text-center mb-6'>
                       Directly Contact Us
                     </h2>
                     <FormField
                       control={form.control}
-                      name="name"
+                      name='name'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xl">Name</FormLabel>
+                          <FormLabel className='text-xl'>Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your name" {...field} />
+                            <Input placeholder='Your name' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -206,13 +206,13 @@ export default function Contacts() {
 
                     <FormField
                       control={form.control}
-                      name="email"
+                      name='email'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xl">Email</FormLabel>
+                          <FormLabel className='text-xl'>Email</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="your.email@example.com"
+                              placeholder='your.email@example.com'
                               {...field}
                             />
                           </FormControl>
@@ -223,14 +223,14 @@ export default function Contacts() {
 
                     <FormField
                       control={form.control}
-                      name="message"
+                      name='message'
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xl">Message</FormLabel>
+                          <FormLabel className='text-xl'>Message</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Your message..."
-                              className="min-h-32 resize-none"
+                              placeholder='Your message...'
+                              className='min-h-32 resize-none'
                               {...field}
                             />
                           </FormControl>
@@ -241,12 +241,12 @@ export default function Contacts() {
 
                     <Button
                       disabled={isCurrentlySubmitting}
-                      type="submit"
-                      variant="default"
-                      className="w-full"
+                      type='submit'
+                      variant='default'
+                      className='w-full'
                     >
                       {isCurrentlySubmitting && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                       )}
                       {isCurrentlySubmitting ? "Sending..." : "Send Message"}
                     </Button>
@@ -255,8 +255,6 @@ export default function Contacts() {
               </div>
             </CardContent>
           </Card>
-
-          <Toaster />
         </div>
       </div>
 

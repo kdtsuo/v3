@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/useToast";
 
 // Import sponsor images
 import bubblewaffle from "@/assets/sponsors/bubblewaffle.png";
@@ -108,8 +108,8 @@ const Sponsor: React.FC<SponsorProps> = ({
 
   return (
     <Card
-      className="group relative overflow-hidden gap-0 rounded-xl t200e animate-fade-in
-       w-full max-w-md mx-auto p-0 "
+      className='group relative overflow-hidden gap-0 rounded-xl t200e animate-fade-in
+       w-full max-w-md mx-auto p-0 '
     >
       {/* Admin delete button */}
       {isAdmin && id && onSponsorDeleted && (
@@ -120,13 +120,13 @@ const Sponsor: React.FC<SponsorProps> = ({
       )}
 
       {/* Sponsor logo area */}
-      <div className="relative h-48 overflow-hidden">
+      <div className='relative h-48 overflow-hidden'>
         <div
-          className="block w-full h-full"
+          className='block w-full h-full'
           onClick={(e) => e.stopPropagation()}
         >
           <div
-            className="absolute inset-0 flex items-center justify-center p-6"
+            className='absolute inset-0 flex items-center justify-center p-6'
             style={{
               background: `var(--bg-xless-dotted-${
                 theme === "dark" ? "dark" : "light"
@@ -134,15 +134,15 @@ const Sponsor: React.FC<SponsorProps> = ({
             }}
           >
             {imageError ? (
-              <div className="flex flex-col items-center justify-center">
-                <ImageIcon size={48} className="text-gray-300 mb-2" />
-                <span className="text-gray-500 text-sm">{title}</span>
+              <div className='flex flex-col items-center justify-center'>
+                <ImageIcon size={48} className='text-gray-300 mb-2' />
+                <span className='text-gray-500 text-sm'>{title}</span>
               </div>
             ) : (
               <img
                 src={image}
                 alt={title}
-                className="object-contain max-h-32 t200e group-hover:scale-110"
+                className='object-contain max-h-32 t200e group-hover:scale-110'
                 onError={() => setImageError(true)}
               />
             )}
@@ -151,7 +151,7 @@ const Sponsor: React.FC<SponsorProps> = ({
       </div>
 
       {/* Sponsor content */}
-      <CardContent className="p-6 text-center bg-primary space-y-4 flex flex-col justify-center items-center">
+      <CardContent className='p-6 text-center bg-primary space-y-4 flex flex-col justify-center items-center'>
         <CardTitle>
           <Button
             onClick={(e) => {
@@ -159,22 +159,22 @@ const Sponsor: React.FC<SponsorProps> = ({
               window.open(websitelink, "_blank");
             }}
           >
-            <div className="text-2xl">{title}</div>
+            <div className='text-2xl'>{title}</div>
             <SquareArrowOutUpRight />
           </Button>
         </CardTitle>
         <Button
-          variant="secondary"
+          variant='secondary'
           onClick={(e) => {
             e.stopPropagation();
             window.open(maplink, "_blank");
           }}
         >
           <MapPin />
-          <div className="text-sm font-medium">{location}</div>
+          <div className='text-sm font-medium'>{location}</div>
           <SquareArrowOutUpRight size={10} />
         </Button>
-        <Badge className="text-sm bg-yellow-500 text-black">{text}</Badge>
+        <Badge className='text-sm bg-yellow-500 text-black'>{text}</Badge>
       </CardContent>
     </Card>
   );
@@ -184,6 +184,7 @@ const Sponsor: React.FC<SponsorProps> = ({
 function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -240,30 +241,30 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          className="flex items-center gap-2 cursor-pointer"
-          variant="default"
+          className='flex items-center gap-2 cursor-pointer'
+          variant='default'
         >
           <ListPlus size={20} /> Add Sponsor
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className='sm:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle>Add New Sponsor</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-6"
+            className='space-y-6'
           >
-            <div className="grid gap-4 py-2">
+            <div className='grid gap-4 py-2'>
               <FormField
                 control={form.control}
-                name="title"
+                name='title'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Title</FormLabel>
                     <FormControl>
-                      <Input placeholder="Sponsor name" {...field} />
+                      <Input placeholder='Sponsor name' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -272,13 +273,13 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
 
               <FormField
                 control={form.control}
-                name="image"
+                name='image'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="https://example.com/image.png"
+                        placeholder='https://example.com/image.png'
                         {...field}
                       />
                     </FormControl>
@@ -292,12 +293,12 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
 
               <FormField
                 control={form.control}
-                name="location"
+                name='location'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="123 Main St" {...field} />
+                      <Input placeholder='123 Main St' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -306,13 +307,13 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
 
               <FormField
                 control={form.control}
-                name="maplink"
+                name='maplink'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Map Link</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="https://maps.google.com/..."
+                        placeholder='https://maps.google.com/...'
                         {...field}
                       />
                     </FormControl>
@@ -323,13 +324,13 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
 
               <FormField
                 control={form.control}
-                name="text"
+                name='text'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Discount Text</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="e.g. 10% off for KDT members!"
+                        placeholder='e.g. 10% off for KDT members!'
                         {...field}
                       />
                     </FormControl>
@@ -340,12 +341,12 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
 
               <FormField
                 control={form.control}
-                name="websitelink"
+                name='websitelink'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Sponsor's Website Link</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://example.com" {...field} />
+                      <Input placeholder='https://example.com' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -353,11 +354,11 @@ function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
               />
             </div>
 
-            <div className="flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
+            <div className='flex justify-end'>
+              <Button type='submit' disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                     Adding...
                   </>
                 ) : (
@@ -381,6 +382,7 @@ function DeleteSponsorDialog({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { toast } = useToast();
 
   const handleDelete = async () => {
     if (!sponsor.id) {
@@ -414,9 +416,9 @@ function DeleteSponsorDialog({
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          className="flex items-center gap-2 cursor-pointer absolute top-2 right-2 z-20 h-8 w-8 p-0"
-          variant="destructive"
-          size="sm"
+          className='flex items-center gap-2 cursor-pointer absolute top-2 right-2 z-20 h-8 w-8 p-0'
+          variant='destructive'
+          size='sm'
           onClick={(e) => e.stopPropagation()}
         >
           <X size={16} />
@@ -444,11 +446,11 @@ function DeleteSponsorDialog({
               handleDelete();
             }}
             disabled={isDeleting}
-            className="bg-destructive dark:text-primary not-dark:text-white hover:bg-destructive/90"
+            className='bg-destructive dark:text-primary not-dark:text-white hover:bg-destructive/90'
           >
             {isDeleting ? (
               <>
-                <Loader2 className="animate-spin" />
+                <Loader2 className='animate-spin' />
                 Deleting...
               </>
             ) : (
@@ -467,6 +469,7 @@ export default function Sponsors() {
   const [isLoading, setIsLoading] = useState(true);
   const [sponsors, setSponsors] = useState<SponsorData[]>([]);
   const { theme } = useTheme();
+  const { toast } = useToast();
 
   // Fetch sponsors from Supabase
   const fetchSponsors = useCallback(async () => {
@@ -542,7 +545,7 @@ export default function Sponsors() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [toast]);
 
   // Fetch sponsors on component mount
   useEffect(() => {
@@ -552,28 +555,28 @@ export default function Sponsors() {
   return (
     <div>
       <section
-        id="sponsors"
-        className="relative overflow-hidden px-10 pt-30 md:pt-46"
+        id='sponsors'
+        className='relative overflow-hidden px-10 pt-30 md:pt-46'
         style={{
           background: `var(--bg-dotted-${theme === "dark" ? "dark" : "light"})`,
         }}
       >
-        <div className="max-w-6xl mx-auto relative z-10">
+        <div className='max-w-6xl mx-auto relative z-10'>
           {/* Admin section for logged in users */}
           {user && (
-            <div className="mb-10 pt-10 flex justify-end">
+            <div className='mb-10 pt-10 flex justify-end'>
               <AddSponsorDialog onSponsorAdded={fetchSponsors} />
             </div>
           )}
 
           {/* Loading state */}
           {isLoading ? (
-            <div className="flex justify-center items-center min-h-[200px]">
-              <Loader2 className="h-10 w-10 animate-spin text-lb-500" />
+            <div className='flex justify-center items-center min-h-[200px]'>
+              <Loader2 className='h-10 w-10 animate-spin text-lb-500' />
             </div>
           ) : (
             /* Sponsors grid */
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
+            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16'>
               {sponsors.map((sponsor, index) => (
                 <Sponsor
                   key={index}

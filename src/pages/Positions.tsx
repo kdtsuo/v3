@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Clipboard, Edit, Loader2, X, Plus, Trash } from "lucide-react";
-import { toast, Toaster } from "sonner";
+import { useToast } from "@/hooks/useToast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { z } from "zod";
@@ -100,6 +100,7 @@ export default function Positions() {
     useState<Position[]>(fallbackPositions);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { user } = useAuth();
+  const { toast } = useToast();
 
   // Admin dialog states
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
@@ -526,7 +527,7 @@ export default function Positions() {
                               {isSubmitting && (
                                 <Loader2 className='animate-spin' />
                               )}
-                              Yea get rid of dat hoe
+                              Delete
                             </AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
@@ -655,7 +656,6 @@ export default function Positions() {
         </div>
       </div>
 
-      <Toaster />
       <Footer />
     </div>
   );
