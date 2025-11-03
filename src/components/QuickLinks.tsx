@@ -1,5 +1,5 @@
 import IconLinkWide from "@/components/subcomponents/IconLinkWide";
-import { Check, ListPlus, Loader2, Trash2 } from "lucide-react";
+import { Check, DollarSign, ListPlus, Loader2, Trash2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Dialog,
@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
 import iconMap from "@/utils/iconMap";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
@@ -34,8 +33,11 @@ const formSchema = z.object({
   label: z.string().min(1, "Label is required"),
   link: z.string().url("Please enter a valid URL"),
   iconType: z.string().min(1, "Icon type is required"),
-  isOpen: z.boolean().default(true),
-  price: z.number().optional(),
+  price: z
+    .number({ invalid_type_error: "Enter a number or leave blank" })
+    .min(0, "Enter a number or leave blank")
+    .optional()
+    .or(z.literal(undefined)),
 });
 
 const fallbackLinks: Link[] = [
@@ -43,30 +45,30 @@ const fallbackLinks: Link[] = [
     iconType: "rubric",
     label: "Merch",
     link: "https://campus.hellorubric.com/?s=7805",
-    isOpen: true,
     date: "2024-10-31",
+    price: undefined,
   },
   {
     iconType: "rubric",
     label: "Membership & Ticket Sales",
     link: "https://campus.hellorubric.com/?s=7805",
-    isOpen: true,
     date: "2024-10-31",
+    price: undefined,
   },
   {
     iconType: "googleForms",
     label: "Google Forms",
     link: "https://forms.gle/yVZcBeKBWPCm235aA",
-    isOpen: true,
     date: "2024-10-31",
+    price: undefined,
   },
 
   {
     iconType: "discord",
     label: "Discord Server",
     link: "https://discord.com/invite/tbKkvjV2W8",
-    isOpen: true,
     date: "2024-10-31",
+    price: undefined,
   },
 ];
 
@@ -146,7 +148,6 @@ export default function QuickLinks() {
       label: "",
       link: "",
       iconType: "link",
-      isOpen: true,
       price: undefined,
     },
   });
@@ -301,41 +302,29 @@ export default function QuickLinks() {
                   />
                   <FormField
                     control={form.control}
-                    name='isOpen'
-                    render={({ field }) => (
-                      <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
-                        <div className='space-y-0.5'>
-                          <FormLabel>Available</FormLabel>
-                          <FormDescription>
-                            Is this link currently available?
-                          </FormDescription>
-                        </div>
-                        <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
                     name='price'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Price (optional)</FormLabel>
+                        <FormLabel>Price</FormLabel>
                         <FormControl>
-                          <Input
-                            placeholder='Enter a number'
-                            type='number'
-                            min='0'
-                            step='0.01'
-                            {...field}
-                            value={
-                              typeof field.value === "number" ? field.value : ""
-                            }
-                          />
+                          <div className='flex items-center justify-between'>
+                            <DollarSign className='mr-2' size={25} />
+                            <Input
+                              className='no-spinner'
+                              type='number'
+                              placeholder='Enter a number or leave blank to hide'
+                              {...field}
+                              value={
+                                field.value === undefined ? "" : field.value
+                              }
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                field.onChange(
+                                  val === "" ? undefined : Number(val)
+                                );
+                              }}
+                            />
+                          </div>
                         </FormControl>
                         <FormDescription>
                           Leave blank to hide price. Enter 0 for Free, or any
@@ -374,7 +363,6 @@ export default function QuickLinks() {
             iconType={link.iconType}
             label={link.label}
             link={link.link}
-            isOpen={link.isOpen}
             date={link.date}
             price={link.price}
             className='bg-secondary border-2 

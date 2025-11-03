@@ -51,14 +51,14 @@ export default function DiscoverCard({
         <div className='relative z-10 flex flex-col items-center justify-center text-center h-full p-6'>
           <CardHeader className='pb-2'>
             {Icon && (
-              <Icon size={30} strokeWidth={2} className='mx-auto text-white' />
+              <Icon size={25} strokeWidth={2} className='mx-auto text-white' />
             )}
-            <CardTitle className='text-xl md:text-3xl font-bold text-white'>
+            <CardTitle className='text-lg md:text-3xl font-bold text-white'>
               {title}
             </CardTitle>
           </CardHeader>
           <CardContent className='pt-0'>
-            <CardDescription className='text-md md:text-xl text-gray-200 t200e'>
+            <CardDescription className='text-sm md:text-xl text-gray-200 t200e'>
               {description}
             </CardDescription>
           </CardContent>

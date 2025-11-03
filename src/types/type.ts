@@ -6,7 +6,6 @@ export type Link = {
   iconType: string;
   label: string;
   link: string;
-  isOpen: boolean;
   date: string;
   price?: number;
 };
@@ -16,7 +15,6 @@ export type IconLinkWideProps = {
   label: string;
   link: string;
   className?: string;
-  isOpen?: boolean;
   date?: string;
   onDelete?: () => void;
   deleteMode?: boolean;
