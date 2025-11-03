@@ -258,5 +258,6 @@ input[type="number"].no-spinner::-webkit-outer-spin-button {
 
 /* Hide number input spinners for Firefox */
 input[type="number"].no-spinner {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
