@@ -1,5 +1,5 @@
 import IconLinkWide from "@/components/subcomponents/IconLinkWide";
-import { Check, DollarSign, ListPlus, Loader2, Trash2 } from "lucide-react";
+import { DollarSign, Edit, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Dialog,
@@ -28,6 +28,26 @@ import iconMap from "@/utils/iconMap";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import type { Link } from "@/types/type";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   label: z.string().min(1, "Label is required"),
@@ -62,7 +82,6 @@ const fallbackLinks: Link[] = [
     date: "2024-10-31",
     price: undefined,
   },
-
   {
     iconType: "discord",
     label: "Discord Server",
@@ -72,12 +91,27 @@ const fallbackLinks: Link[] = [
   },
 ];
 
+type ActionType = "update" | "add" | "delete" | null;
+
 export default function QuickLinks() {
-  const [open, setOpen] = useState(false);
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
-  const [deleteMode, setDeleteMode] = useState(false);
   const { user } = useAuth();
+
+  const [manageOpen, setManageOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState<ActionType>(null);
+  const [selectedLinkId, setSelectedLinkId] = useState<number | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const manageForm = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      label: "",
+      link: "",
+      iconType: "link",
+      price: undefined,
+    },
+  });
 
   useEffect(() => {
     fetchLinks();
@@ -110,87 +144,111 @@ export default function QuickLinks() {
     }
   }
 
-  async function deleteLink(id: number, label: string) {
+  const handleManageSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
     try {
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
       if (!user) {
-        toast.error("You must be logged in to delete links");
+        toast.error("You must be logged in to manage links");
         return;
       }
 
-      const { error } = await supabase.from("links").delete().eq("id", id);
+      if (selectedAction === "add") {
+        const currentDate = new Date().toISOString().split("T")[0];
+        const newLink = {
+          ...values,
+          date: currentDate,
+          user_id: user.id,
+        };
 
-      if (error) {
-        throw error;
+        const { data, error } = await supabase
+          .from("links")
+          .insert([newLink])
+          .select();
+
+        if (error) throw error;
+        if (data) {
+          setLinks([data[0], ...links]);
+          toast.success(`Added new link: ${values.label}`);
+        }
+      } else if (selectedAction === "update" && selectedLinkId) {
+        const { error } = await supabase
+          .from("links")
+          .update(values)
+          .eq("id", selectedLinkId);
+
+        if (error) throw error;
+        toast.success(`Updated link: ${values.label}`);
+        await fetchLinks();
       }
 
-      const updatedLinks = links.filter((link) => link.id !== id);
+      setManageOpen(false);
+      setSelectedAction(null);
+      setSelectedLinkId(null);
+      manageForm.reset();
+    } catch (error) {
+      toast.error("Failed to manage link");
+      console.error("Error managing link: ", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
+  // Handle delete in manage
+  const handleManageDelete = async () => {
+    if (!selectedLinkId) return;
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from("links")
+        .delete()
+        .eq("id", selectedLinkId);
+
+      if (error) throw error;
+
+      const updatedLinks = links.filter((link) => link.id !== selectedLinkId);
       if (updatedLinks.length === 0) {
         setLinks(fallbackLinks);
       } else {
         setLinks(updatedLinks);
       }
 
-      toast.success(`Deleted link: ${label}`);
+      toast.success("Link deleted successfully!");
+      setManageOpen(false);
+      setSelectedAction(null);
+      setSelectedLinkId(null);
     } catch (error) {
       toast.error("Failed to delete link");
       console.error("Error deleting link: ", error);
+    } finally {
+      setIsSubmitting(false);
     }
-  }
+  };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      label: "",
-      link: "",
-      iconType: "link",
-      price: undefined,
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        toast.error("You must be logged in to add links");
-        return;
+  // Reset manage form when action changes
+  useEffect(() => {
+    if (selectedAction === "add") {
+      manageForm.reset({
+        label: "",
+        link: "",
+        iconType: "link",
+        price: undefined,
+      });
+    } else if (selectedAction === "update" && selectedLinkId) {
+      const link = links.find((l) => l.id === selectedLinkId);
+      if (link) {
+        manageForm.reset({
+          label: link.label,
+          link: link.link,
+          iconType: link.iconType,
+          price: link.price,
+        });
       }
-
-      const currentDate = new Date().toISOString().split("T")[0];
-
-      const newLink = {
-        ...values,
-        date: currentDate,
-        user_id: user.id,
-      };
-
-      const { data, error } = await supabase
-        .from("links")
-        .insert([newLink])
-        .select();
-
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        setLinks([data[0], ...links]);
-        toast.success(`Added new link: ${values.label}`);
-        setOpen(false);
-        form.reset();
-      }
-    } catch (error) {
-      toast.error("Failed to add link");
-      console.error("Error adding link: ", error);
     }
-  }
+  }, [selectedAction, selectedLinkId, manageForm, links]);
 
   return (
     <div
@@ -199,156 +257,258 @@ export default function QuickLinks() {
     >
       {user && (
         <div className='flex justify-center space-x-2 mb-4'>
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog open={manageOpen} onOpenChange={setManageOpen}>
             <DialogTrigger asChild>
-              <Button variant='default'>
-                <ListPlus />
-                Add Links
+              <Button variant='outline'>
+                <Edit /> Manage Links
               </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[500px]'>
               <DialogHeader>
-                <DialogTitle>Add New Link</DialogTitle>
+                <DialogTitle>Manage Links</DialogTitle>
               </DialogHeader>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className='space-y-6'
-                >
-                  <FormField
-                    control={form.control}
-                    name='label'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Link Label</FormLabel>
-                        <FormControl>
-                          <Input placeholder='Enter link title' {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          This is the name that will be displayed for the link.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='link'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>URL</FormLabel>
-                        <FormControl>
-                          <Input placeholder='https://example.com' {...field} />
-                        </FormControl>
-                        <FormDescription>
-                          Enter the full URL including https://
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='iconType'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Icon Type</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className='flex flex-row flex-wrap justify-start md:justify-around'
-                          >
-                            {Object.keys(iconMap).map((iconKey) => {
-                              const Icon = iconMap[iconKey].iconComponent;
-                              const imagePath = iconMap[iconKey].imagePath;
-                              return (
-                                <FormItem
-                                  key={iconKey}
-                                  className='flex flex-col items-center space-y-2'
-                                >
-                                  <FormControl>
-                                    <RadioGroupItem
-                                      value={iconKey}
-                                      id={iconKey}
-                                      className='sr-only'
-                                    />
-                                  </FormControl>
-                                  <label
-                                    htmlFor={iconKey}
-                                    className={`flex flex-col items-center justify-center rounded-md border-2 p-4 cursor-pointer hover:bg-accent ${
-                                      field.value === iconKey
-                                        ? "border-primary bg-accent"
-                                        : "border-muted"
-                                    }`}
-                                  >
-                                    {Icon && <Icon strokeWidth={2} size={30} />}
-                                    {imagePath && (
-                                      <img
-                                        src={imagePath}
-                                        alt={iconKey}
-                                        className='w-8 h-8 object-contain'
-                                      />
-                                    )}
-                                  </label>
-                                </FormItem>
-                              );
-                            })}
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='price'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Price</FormLabel>
-                        <FormControl>
-                          <div className='flex items-center justify-between'>
-                            <DollarSign className='mr-2' size={25} />
-                            <Input
-                              className='no-spinner'
-                              type='number'
-                              placeholder='Enter a number or leave blank to hide'
-                              {...field}
-                              value={
-                                field.value === undefined ? "" : field.value
-                              }
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                field.onChange(
-                                  val === "" ? undefined : Number(val)
-                                );
-                              }}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormDescription>
-                          Leave blank to hide price. Enter 0 for Free, or any
-                          value greater than 0.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type='submit' className='w-full'>
-                    Add Link
-                  </Button>
-                </form>
-              </Form>
+              <div className='space-y-4'>
+                <div className='flex flex-col space-y-2'>
+                  <Label>Select Action:</Label>
+                  <Select
+                    value={selectedAction || ""}
+                    onValueChange={(value) => {
+                      setSelectedAction(value as ActionType);
+                      if (value === "add") {
+                        setSelectedLinkId(null);
+                      }
+                    }}
+                  >
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder='Select action...' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value='add'>Add Link</SelectItem>
+                        <SelectItem value='update'>Update Link</SelectItem>
+                        <SelectItem value='delete'>Delete Link</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {(selectedAction === "update" ||
+                  selectedAction === "delete") && (
+                  <div className='flex flex-col space-y-2'>
+                    <Label>Select Link:</Label>
+                    <Select
+                      value={selectedLinkId?.toString() || ""}
+                      onValueChange={(value) =>
+                        setSelectedLinkId(Number(value))
+                      }
+                    >
+                      <SelectTrigger className='w-full'>
+                        <SelectValue placeholder='Select link...' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {links
+                            .filter((link) => link.id !== undefined)
+                            .map((link) => (
+                              <SelectItem
+                                key={link.id}
+                                value={link.id!.toString()}
+                              >
+                                {link.label}
+                              </SelectItem>
+                            ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                {(selectedAction === "add" ||
+                  (selectedAction === "update" && selectedLinkId)) && (
+                  <Form {...manageForm}>
+                    <form
+                      onSubmit={manageForm.handleSubmit(handleManageSubmit)}
+                      className='space-y-2'
+                    >
+                      <FormField
+                        control={manageForm.control}
+                        name='label'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Link Label</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder='Enter link title'
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              This is the name that will be displayed for the
+                              link.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={manageForm.control}
+                        name='link'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>URL</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder='https://example.com'
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Enter the full URL including https://
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={manageForm.control}
+                        name='iconType'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Icon Type</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                className='flex flex-row flex-wrap justify-start md:justify-around'
+                              >
+                                {Object.keys(iconMap).map((iconKey) => {
+                                  const Icon = iconMap[iconKey].iconComponent;
+                                  const imagePath = iconMap[iconKey].imagePath;
+                                  return (
+                                    <FormItem
+                                      key={iconKey}
+                                      className='flex flex-col items-center space-y-2'
+                                    >
+                                      <FormControl>
+                                        <RadioGroupItem
+                                          value={iconKey}
+                                          id={`manage-${iconKey}`}
+                                          className='sr-only'
+                                        />
+                                      </FormControl>
+                                      <label
+                                        htmlFor={`manage-${iconKey}`}
+                                        className={`flex flex-col items-center justify-center rounded-md border-2 p-4 cursor-pointer hover:bg-accent ${
+                                          field.value === iconKey
+                                            ? "border-primary bg-accent"
+                                            : "border-muted"
+                                        }`}
+                                      >
+                                        {Icon && (
+                                          <Icon strokeWidth={2} size={30} />
+                                        )}
+                                        {imagePath && (
+                                          <img
+                                            src={imagePath}
+                                            alt={iconKey}
+                                            className='w-8 h-8 object-contain'
+                                          />
+                                        )}
+                                      </label>
+                                    </FormItem>
+                                  );
+                                })}
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={manageForm.control}
+                        name='price'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Price</FormLabel>
+                            <FormControl>
+                              <div className='flex items-center justify-between'>
+                                <DollarSign className='mr-2' size={25} />
+                                <Input
+                                  className='no-spinner items-center'
+                                  type='number'
+                                  placeholder='Enter a number or leave blank to hide'
+                                  {...field}
+                                  value={
+                                    field.value === undefined ? "" : field.value
+                                  }
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    field.onChange(
+                                      val === "" ? undefined : Number(val)
+                                    );
+                                  }}
+                                />
+                              </div>
+                            </FormControl>
+                            <FormDescription>
+                              Leave blank to hide price. Enter 0 for Free, or
+                              any positive value.
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        type='submit'
+                        className='w-full'
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <Loader2 className='animate-spin' />
+                        ) : selectedAction === "add" ? (
+                          "Add Link"
+                        ) : (
+                          "Update Link"
+                        )}
+                      </Button>
+                    </form>
+                  </Form>
+                )}
+                {selectedAction === "delete" && selectedLinkId && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant='destructive' className='w-full'>
+                        Delete Link
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Permanently delete the link "
+                          {links.find((l) => l.id === selectedLinkId)?.label}"
+                          from the database? This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleManageDelete}
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <Loader2 className='animate-spin' />
+                          ) : (
+                            "Delete"
+                          )}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             </DialogContent>
           </Dialog>
-          <Button
-            variant={deleteMode ? "default" : "outline"}
-            className='w-fit'
-            onClick={() => setDeleteMode(!deleteMode)}
-          >
-            {deleteMode ? <Check /> : <Trash2 />}
-            {deleteMode ? "Done" : "Delete Links"}
-          </Button>
         </div>
       )}
 
@@ -368,12 +528,6 @@ export default function QuickLinks() {
             className='bg-secondary border-2 
             border-ring text-center drop-shadow-box
             hover:bg-muted'
-            deleteMode={deleteMode}
-            onDelete={
-              link.id !== undefined
-                ? () => deleteLink(link.id as number, link.label)
-                : undefined
-            }
           />
         ))
       )}

@@ -1,18 +1,5 @@
-import { ChevronRight, X } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast, Toaster } from "sonner";
 import iconMap from "@/utils/iconMap";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -24,23 +11,12 @@ export default function IconLinkWide({
   label,
   link,
   className,
-  onDelete,
-  deleteMode,
   date,
   price,
 }: IconLinkWideProps) {
-  const { user } = useAuth();
   const isNew = date
     ? new Date(date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     : false;
-
-  const deleteLink = () => {
-    if (onDelete) {
-      onDelete();
-    } else {
-      toast.success(`Deleted link: ${label}`);
-    }
-  };
 
   const iconDetails = iconType ? iconMap[iconType] : undefined;
   const Icon = iconDetails?.iconComponent;
@@ -78,40 +54,6 @@ export default function IconLinkWide({
 
   return (
     <div className='flex items-center justify-center relative'>
-      {user && deleteMode && (
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              size='icon'
-              variant='destructive'
-              className='absolute -top-2 -left-2 size-8 rounded-full p-0 z-10'
-            >
-              <X size={14} />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className='sm:max-w-md'>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Link</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete the "{label}" link? This action
-                cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className='flex-row gap-2 flex justify-center'>
-              <AlertDialogCancel className='cursor-pointer'>
-                Cancel
-              </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={deleteLink}
-                className='bg-destructive hover:bg-destructive/90 cursor-pointer'
-              >
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )}
-
       <Button
         asChild
         variant='ghost'
@@ -127,8 +69,6 @@ export default function IconLinkWide({
           <LinkContent />
         </div>
       </Button>
-
-      <Toaster />
     </div>
   );
 }
