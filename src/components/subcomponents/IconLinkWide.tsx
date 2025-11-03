@@ -29,7 +29,9 @@ export default function IconLinkWide({
             <img src={imagePath} alt={label} className='w-8 h-auto' />
           )}
         </div>
-        <h1 className='flex-grow text-center text-base md:text-xl'>{label}</h1>
+        <h1 className='flex-grow text-center text-base md:text-xl truncate'>
+          {label}
+        </h1>
         <div className='flex-shrink-0'>
           <ChevronRight className='t200e opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-0' />
         </div>
@@ -42,7 +44,10 @@ export default function IconLinkWide({
           </Badge>
         )}
         {typeof price === "number" && !isNaN(price) && (
-          <Badge variant={"green"} className='text-xs rounded-md'>
+          <Badge
+            variant={price === 0 ? "green" : "gold"}
+            className='text-xs rounded-md'
+          >
             <h1>{price === 0 ? "FREE" : `$${price.toFixed(2)}`}</h1>
           </Badge>
         )}
