@@ -378,9 +378,9 @@ export default function QuickLinks() {
               </DialogHeader>
               <ScrollArea
                 type='always'
-                className='max-h-[50vh] sm:max-h-[70vh]'
+                className='max-h-[50vh] sm:max-h-[70vh] pr-4'
               >
-                <div className='space-y-4 px-2 pr-6'>
+                <div className='space-y-4 px-2'>
                   <div className='flex flex-col space-y-2 '>
                     <Label>Select Action</Label>
                     <Select
