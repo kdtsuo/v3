@@ -127,6 +127,8 @@ export default function Contacts() {
     },
   ];
 
+  const directContact = false;
+
   return (
     <>
       <div
@@ -141,13 +143,23 @@ export default function Contacts() {
         '
         >
           <Card className='m-5 w-full max-w-6xl overflow-hidden'>
-            <CardContent className='p-0 flex flex-col lg:flex-row relative'>
+            <CardContent
+              className={`${
+                !directContact ? "" : "flex flex-col p-0 lg:flex-row relative"
+              }`}
+            >
               {/* Social Media Cards Section */}
-              <div className='w-full lg:w-1/3 flex flex-col justify-center items-center p-12 py-6 lg:py-12'>
-                <div className='w-full flex-grow justify-center flex flex-col py-8 space-y-2'>
-                  <h2 className='text-3xl font-bold text-center pb-2'>
-                    Connect With Us
-                  </h2>
+              <div
+                className={`${
+                  !directContact
+                    ? "w-full sm:w-1/2 mx-auto flex flex-col "
+                    : "w-full lg:w-1/3 flex flex-col justify-center items-center p-12 py-6 lg:py-12"
+                }`}
+              >
+                <h2 className='text-3xl font-bold text-center pb-2'>
+                  Connect With Us
+                </h2>
+                <div className='w-full flex-grow justify-center flex flex-col py-4 space-y-2'>
                   {socialLinks.map((link, index) => (
                     <a
                       key={index}
@@ -173,11 +185,27 @@ export default function Contacts() {
               </div>
 
               {/* Divider Line */}
-              <div className='hidden lg:block absolute left-1/3 top-0 bottom-0 w-0.5 bg-muted my-8'></div>
-              <div className='block lg:hidden w-full h-0.5 bg-muted my-4'></div>
+              <div
+                className={` ${
+                  !directContact
+                    ? "hidden"
+                    : "hidden lg:block absolute left-1/3 top-0 bottom-0 w-0.5 bg-muted my-8"
+                }`}
+              ></div>
+              <div
+                className={`${
+                  !directContact
+                    ? "hidden"
+                    : "block lg:hidden w-full h-0.5 bg-muted my-4"
+                } `}
+              ></div>
 
               {/* Contact Form Section */}
-              <div className='w-full lg:w-2/3 p-12'>
+              <div
+                className={`${
+                  !directContact ? "hidden" : "w-full lg:w-2/3 p-12 "
+                }`}
+              >
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
