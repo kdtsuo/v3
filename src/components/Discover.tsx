@@ -47,7 +47,7 @@ export default function Discover() {
   ];
 
   return (
-    <Card className='text-center mx-10'>
+    <Card className='text-center mx-4'>
       <CardHeader>
         <CardTitle>
           <div className='text-3xl md:text-6xl font-bold'>Discover More</div>
