@@ -151,8 +151,11 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
               e.stopPropagation();
               window.open(websitelink, "_blank");
             }}
+            className='w-full'
           >
-            <div className='text-lg md:text-2xl font-medium'>{title}</div>
+            <div className='text-lg md:text-xl font-medium truncate'>
+              {title}
+            </div>
             <SquareArrowOutUpRight />
           </Button>
         </CardTitle>
