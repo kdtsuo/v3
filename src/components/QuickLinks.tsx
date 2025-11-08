@@ -34,6 +34,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  ScrollArea,
+  ScrollBar,
 } from "@/components/ui";
 import {
   DndContext,
@@ -374,284 +376,292 @@ export default function QuickLinks() {
               <DialogHeader>
                 <DialogTitle>Manage Links</DialogTitle>
               </DialogHeader>
-              <div className='space-y-4'>
-                <div className='flex flex-col space-y-2'>
-                  <Label>Select Action</Label>
-                  <Select
-                    value={selectedAction || ""}
-                    onValueChange={(value) => {
-                      setSelectedAction(value as ActionType);
-                      if (value === "add") {
-                        setSelectedLinkId(null);
-                      }
-                    }}
-                  >
-                    <SelectTrigger className='w-full'>
-                      <SelectValue placeholder='Select action...' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value='add'>Add Link</SelectItem>
-                        <SelectItem value='update'>Update Link</SelectItem>
-                        <SelectItem value='delete'>Delete Link</SelectItem>
-                        <SelectItem value='reorder'>Reorder Links</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                {(selectedAction === "update" ||
-                  selectedAction === "delete") && (
-                  <div className='flex flex-col space-y-2'>
-                    <Label>Select Link:</Label>
+              <ScrollArea
+                type='always'
+                className='max-h-[50vh] sm:max-h-[70vh]'
+              >
+                <div className='space-y-4 px-2 pr-6'>
+                  <div className='flex flex-col space-y-2 '>
+                    <Label>Select Action</Label>
                     <Select
-                      value={selectedLinkId?.toString() || ""}
-                      onValueChange={(value) =>
-                        setSelectedLinkId(Number(value))
-                      }
+                      value={selectedAction || ""}
+                      onValueChange={(value) => {
+                        setSelectedAction(value as ActionType);
+                        if (value === "add") {
+                          setSelectedLinkId(null);
+                        }
+                      }}
                     >
                       <SelectTrigger className='w-full'>
-                        <SelectValue placeholder='Select link...' />
+                        <SelectValue placeholder='Select action...' />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {links
-                            .filter((link) => link.id !== undefined)
-                            .map((link) => (
-                              <SelectItem
-                                key={link.id}
-                                value={link.id!.toString()}
-                              >
-                                {link.label}
-                              </SelectItem>
-                            ))}
+                          <SelectItem value='add'>Add Link</SelectItem>
+                          <SelectItem value='update'>Update Link</SelectItem>
+                          <SelectItem value='delete'>Delete Link</SelectItem>
+                          <SelectItem value='reorder'>Reorder Links</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
                   </div>
-                )}
-                {(selectedAction === "add" ||
-                  (selectedAction === "update" && selectedLinkId)) && (
-                  <Form {...manageForm}>
-                    <form
-                      onSubmit={manageForm.handleSubmit(handleManageSubmit)}
-                      className='space-y-2'
-                    >
-                      <FormField
-                        control={manageForm.control}
-                        name='label'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Link Label</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='Enter link title'
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              This is the name that will be displayed for the
-                              link.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={manageForm.control}
-                        name='link'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>URL</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder='https://example.com'
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Enter the full URL including https://
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={manageForm.control}
-                        name='iconType'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Icon Type</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                className='flex flex-row flex-wrap justify-start md:justify-around'
-                              >
-                                {Object.keys(iconMap).map((iconKey) => {
-                                  const Icon = iconMap[iconKey].iconComponent;
-                                  const imagePath = iconMap[iconKey].imagePath;
-                                  return (
-                                    <FormItem
-                                      key={iconKey}
-                                      className='flex flex-col items-center space-y-2'
-                                    >
-                                      <FormControl>
-                                        <RadioGroupItem
-                                          value={iconKey}
-                                          id={`manage-${iconKey}`}
-                                          className='sr-only'
-                                        />
-                                      </FormControl>
-                                      <label
-                                        htmlFor={`manage-${iconKey}`}
-                                        className={`flex flex-col items-center justify-center rounded-md border-2 p-4 cursor-pointer hover:bg-accent ${
-                                          field.value === iconKey
-                                            ? "border-primary bg-accent"
-                                            : "border-muted"
-                                        }`}
-                                      >
-                                        {Icon && (
-                                          <Icon strokeWidth={2} size={30} />
-                                        )}
-                                        {imagePath && (
-                                          <img
-                                            src={imagePath}
-                                            alt={iconKey}
-                                            className='w-8 h-8 object-contain'
-                                          />
-                                        )}
-                                      </label>
-                                    </FormItem>
-                                  );
-                                })}
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={manageForm.control}
-                        name='price'
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Price</FormLabel>
-                            <FormControl>
-                              <div className='flex items-center justify-between'>
-                                <DollarSign className='mr-2' size={25} />
+                  {(selectedAction === "update" ||
+                    selectedAction === "delete") && (
+                    <div className='flex flex-col space-y-2'>
+                      <Label>Select Link:</Label>
+                      <Select
+                        value={selectedLinkId?.toString() || ""}
+                        onValueChange={(value) =>
+                          setSelectedLinkId(Number(value))
+                        }
+                      >
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Select link...' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {links
+                              .filter((link) => link.id !== undefined)
+                              .map((link) => (
+                                <SelectItem
+                                  key={link.id}
+                                  value={link.id!.toString()}
+                                >
+                                  {link.label}
+                                </SelectItem>
+                              ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+                  {(selectedAction === "add" ||
+                    (selectedAction === "update" && selectedLinkId)) && (
+                    <Form {...manageForm}>
+                      <form
+                        onSubmit={manageForm.handleSubmit(handleManageSubmit)}
+                        className='space-y-2'
+                      >
+                        <FormField
+                          control={manageForm.control}
+                          name='label'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Link Label</FormLabel>
+                              <FormControl>
                                 <Input
-                                  className='no-spinner items-center'
-                                  type='number'
-                                  placeholder='Enter a number or leave blank to hide'
+                                  placeholder='Enter link title'
                                   {...field}
-                                  value={
-                                    field.value === undefined ? "" : field.value
-                                  }
-                                  onChange={(e) => {
-                                    const val = e.target.value;
-                                    field.onChange(
-                                      val === "" ? undefined : Number(val)
-                                    );
-                                  }}
                                 />
-                              </div>
-                            </FormControl>
-                            <FormDescription>
-                              Leave blank to hide price. Enter 0 for Free, or
-                              any positive value.
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              </FormControl>
+                              <FormDescription>
+                                This is the name that will be displayed for the
+                                link.
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={manageForm.control}
+                          name='link'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>URL</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder='https://example.com'
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Enter the full URL including https://
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={manageForm.control}
+                          name='iconType'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Icon Type</FormLabel>
+                              <FormControl>
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                  className='flex flex-row flex-wrap justify-start md:justify-around'
+                                >
+                                  {Object.keys(iconMap).map((iconKey) => {
+                                    const Icon = iconMap[iconKey].iconComponent;
+                                    const imagePath =
+                                      iconMap[iconKey].imagePath;
+                                    return (
+                                      <FormItem
+                                        key={iconKey}
+                                        className='flex flex-col items-center space-y-2'
+                                      >
+                                        <FormControl>
+                                          <RadioGroupItem
+                                            value={iconKey}
+                                            id={`manage-${iconKey}`}
+                                            className='sr-only'
+                                          />
+                                        </FormControl>
+                                        <label
+                                          htmlFor={`manage-${iconKey}`}
+                                          className={`flex flex-col items-center justify-center rounded-md border-2 p-4 cursor-pointer hover:bg-accent ${
+                                            field.value === iconKey
+                                              ? "border-primary bg-accent"
+                                              : "border-muted"
+                                          }`}
+                                        >
+                                          {Icon && (
+                                            <Icon strokeWidth={2} size={30} />
+                                          )}
+                                          {imagePath && (
+                                            <img
+                                              src={imagePath}
+                                              alt={iconKey}
+                                              className='w-8 h-8 object-contain'
+                                            />
+                                          )}
+                                        </label>
+                                      </FormItem>
+                                    );
+                                  })}
+                                </RadioGroup>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={manageForm.control}
+                          name='price'
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Price</FormLabel>
+                              <FormControl>
+                                <div className='flex items-center justify-between'>
+                                  <DollarSign className='mr-2' size={25} />
+                                  <Input
+                                    className='no-spinner items-center'
+                                    type='number'
+                                    placeholder='Enter a number or leave blank'
+                                    {...field}
+                                    value={
+                                      field.value === undefined
+                                        ? ""
+                                        : field.value
+                                    }
+                                    onChange={(e) => {
+                                      const val = e.target.value;
+                                      field.onChange(
+                                        val === "" ? undefined : Number(val)
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormDescription>
+                                Leave blank to hide price. Enter 0 for Free, or
+                                any positive value.
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <Button
+                          type='submit'
+                          className='w-full'
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? (
+                            <Loader2 className='animate-spin' />
+                          ) : selectedAction === "add" ? (
+                            "Add Link"
+                          ) : (
+                            "Update Link"
+                          )}
+                        </Button>
+                      </form>
+                    </Form>
+                  )}
+                  {selectedAction === "delete" && selectedLinkId && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant='destructive'>Delete Link</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Permanently delete the link "
+                            {links.find((l) => l.id === selectedLinkId)?.label}"
+                            from the database? This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleManageDelete}
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <Loader2 className='animate-spin' />
+                            ) : (
+                              "Delete"
+                            )}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+                  {selectedAction === "reorder" && (
+                    <div className='space-y-4 w-full'>
+                      <p className='text-sm text-muted-foreground'>
+                        Drag and drop the links below to reorder them. Click
+                        "Save Order" when done.
+                      </p>
+                      <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}
+                      >
+                        <SortableContext
+                          items={links
+                            .filter((link) => link.id !== undefined)
+                            .map((link) => link.id!)}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          <div className='flex flex-col w-full space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                            {links
+                              .filter((link) => link.id !== undefined)
+                              .map((link) => (
+                                <SortableItem key={link.id} link={link} />
+                              ))}
+                          </div>
+                        </SortableContext>
+                      </DndContext>
                       <Button
-                        type='submit'
+                        onClick={handleSaveOrder}
                         className='w-full'
                         disabled={isSubmitting}
                       >
                         {isSubmitting ? (
                           <Loader2 className='animate-spin' />
-                        ) : selectedAction === "add" ? (
-                          "Add Link"
                         ) : (
-                          "Update Link"
+                          "Save Order"
                         )}
                       </Button>
-                    </form>
-                  </Form>
-                )}
-                {selectedAction === "delete" && selectedLinkId && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant='destructive'>Delete Link</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Permanently delete the link "
-                          {links.find((l) => l.id === selectedLinkId)?.label}"
-                          from the database? This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={handleManageDelete}
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <Loader2 className='animate-spin' />
-                          ) : (
-                            "Delete"
-                          )}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                )}
-                {selectedAction === "reorder" && (
-                  <div className='space-y-4 w-full'>
-                    <p className='text-sm text-muted-foreground'>
-                      Drag and drop the links below to reorder them. Click "Save
-                      Order" when done.
-                    </p>
-                    <DndContext
-                      sensors={sensors}
-                      collisionDetection={closestCenter}
-                      onDragEnd={handleDragEnd}
-                    >
-                      <SortableContext
-                        items={links
-                          .filter((link) => link.id !== undefined)
-                          .map((link) => link.id!)}
-                        strategy={verticalListSortingStrategy}
-                      >
-                        <div className='flex flex-col w-full space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
-                          {links
-                            .filter((link) => link.id !== undefined)
-                            .map((link) => (
-                              <SortableItem key={link.id} link={link} />
-                            ))}
-                        </div>
-                      </SortableContext>
-                    </DndContext>
-                    <Button
-                      onClick={handleSaveOrder}
-                      className='w-full'
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        <Loader2 className='animate-spin' />
-                      ) : (
-                        "Save Order"
-                      )}
-                    </Button>
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
             </DialogContent>
           </Dialog>
         </div>
