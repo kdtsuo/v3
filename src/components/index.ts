@@ -1,4 +1,3 @@
-// Barrel exports for components
 export { default as Activities } from './Activities';
 export { default as Discover } from './Discover';
 export { default as Footer } from './Footer';

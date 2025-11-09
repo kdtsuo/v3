@@ -38,7 +38,6 @@ export default function LanguageSelector() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Initialize Google Translate
     if (!isInitialized) {
       const script = document.createElement('script');
       script.src =
@@ -51,7 +50,7 @@ export default function LanguageSelector() {
           {
             pageLanguage: 'en',
             includedLanguages: 'en,ko,zh-CN,ja',
-            layout: 0, // InlineLayout.SIMPLE
+            layout: 0,
             autoDisplay: false,
           },
           'google_translate_element',
@@ -71,14 +70,12 @@ export default function LanguageSelector() {
       setCurrentLanguage(selected);
     }
 
-    // Trigger Google Translate
     const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
 
     if (selectElement) {
       selectElement.value = langCode;
       selectElement.dispatchEvent(new Event('change'));
 
-      // Refresh the page after a short delay to allow translation to trigger
       setTimeout(() => {
         window.location.reload();
       }, 100);

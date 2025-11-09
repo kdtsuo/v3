@@ -88,12 +88,10 @@ export default function Positions() {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  // Admin dialog states
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
   const [selectedAdminPosition, setSelectedAdminPosition] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Position form using react-hook-form with zod validation
   const form = useForm<z.infer<typeof positionSchema>>({
     resolver: zodResolver(positionSchema),
     defaultValues: {
@@ -120,19 +118,16 @@ export default function Positions() {
       setPositionsData(positions);
     } catch (error) {
       console.error('Error fetching positions from database:', error);
-      // Use fallback positions if database fetch fails
       setPositionsData(fallbackPositions);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // Handle form submission based on action type
   const handleSubmit = async (data: z.infer<typeof positionSchema>) => {
     setIsSubmitting(true);
     try {
       if (selectedAction === 'add') {
-        // Add position to database
         const { error } = await supabase.from('positions').insert([
           {
             ...data,
@@ -143,7 +138,6 @@ export default function Positions() {
         if (error) throw error;
         toast.success('Position added successfully!');
       } else if (selectedAction === 'update') {
-        // Update position in database
         const position = positionsData.find(
           (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
         );
@@ -158,11 +152,7 @@ export default function Positions() {
         if (error) throw error;
         toast.success('Position updated successfully!');
       }
-
-      // Refresh positions data
       await fetchPositionFromDatabase();
-
-      // Reset states
       setSelectedAction(null);
       setSelectedAdminPosition('');
     } catch (error) {
@@ -173,7 +163,6 @@ export default function Positions() {
     }
   };
 
-  // Handle position deletion
   const handleDeletePosition = async () => {
     setIsSubmitting(true);
     try {
@@ -193,7 +182,6 @@ export default function Positions() {
       toast.success('Position deleted successfully!');
       await fetchPositionFromDatabase();
 
-      // Reset states
       setSelectedAction(null);
       setSelectedAdminPosition('');
     } catch (error) {
@@ -204,12 +192,10 @@ export default function Positions() {
     }
   };
 
-  // Check all form status when component mounts
   useEffect(() => {
     fetchPositionFromDatabase();
   }, [fetchPositionFromDatabase]);
 
-  // Update formClosed status when value changes
   useEffect(() => {
     if (value) {
       const selectedPosition = positionsData.find(
@@ -232,7 +218,6 @@ export default function Positions() {
     }
   }, [value, positionsData]);
 
-  // Set form values when editing a position
   useEffect(() => {
     if (selectedAction === 'update' && selectedAdminPosition) {
       const position = positionsData.find(
@@ -246,7 +231,6 @@ export default function Positions() {
         });
       }
     } else if (selectedAction === 'add') {
-      // Reset form when adding a new position
       form.reset({
         label: '',
         form_url: '',

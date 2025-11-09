@@ -9,28 +9,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     () => (localStorage.getItem('theme') as Theme) || 'system',
   );
 
-  // Update theme when it changes
   useEffect(() => {
     const root = window.document.documentElement;
 
-    // Remove existing class
     root.classList.remove('light', 'dark');
 
     if (theme === 'system') {
-      // Check system preference
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
       root.classList.add(systemTheme);
       localStorage.setItem('theme', theme);
     } else {
-      // Apply selected theme
       root.classList.add(theme);
       localStorage.setItem('theme', theme);
     }
   }, [theme]);
 
-  // Listen for system preference changes
   useEffect(() => {
     if (theme === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

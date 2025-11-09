@@ -16,7 +16,7 @@ export function getMonthsSince(createdAt: string | undefined): number {
 
   const totalMonths = yearsDiff * 12 + monthsDiff;
 
-  return Math.max(0, totalMonths); // Prevent negative values
+  return Math.max(0, totalMonths);
 }
 
 export function getMonthsAndDaysSince(createdAt: string | undefined): {

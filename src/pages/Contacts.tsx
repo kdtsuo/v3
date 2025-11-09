@@ -55,7 +55,6 @@ export default function Contacts() {
   const [isCurrentlySubmitting, setIsCurrentlySubmitting] = useState(false);
   const { theme } = useTheme();
   const { toast } = useToast();
-  // Define form with React Hook Form and zod validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,7 +72,7 @@ export default function Contacts() {
       from_name: string;
       from_email: string;
       message: string;
-      [key: string]: string; // Allow for additional string properties
+      [key: string]: string;
     }
 
     const templateParams: EmailJSTemplateParams = {
@@ -162,7 +161,7 @@ export default function Contacts() {
                 <div
                   className={`${
                     !directContact
-                      ? 'grid grid-cols-1 gap-4 sm:grid-cols-2'
+                      ? 'grid grid-cols-1 gap-4 lg:grid-cols-2'
                       : 'flex w-full flex-grow flex-col justify-center space-y-2 py-4'
                     }`}
                 >
@@ -172,7 +171,7 @@ export default function Contacts() {
                       href={link.href}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='last:col-span-2'
+                      className='lg:last:col-span-2'
                     >
                       <Card
                         className='bg-secondary-foreground transition-all duration-200

@@ -103,7 +103,6 @@ const fallbackLinks: Link[] = [
   },
 ];
 
-// Sortable item component for drag and drop
 function SortableItem({ link }: { link: Link }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({
@@ -194,7 +193,6 @@ export default function QuickLinks() {
     fetchLinks();
   }, [fetchLinks]);
 
-  // Drag and drop sensors
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -294,7 +292,6 @@ export default function QuickLinks() {
     }
   };
 
-  // Handle delete in manage
   const handleManageDelete = async () => {
     if (!selectedLinkId) return;
     setIsSubmitting(true);
@@ -322,7 +319,6 @@ export default function QuickLinks() {
     }
   };
 
-  // Reset manage form when action changes
   useEffect(() => {
     if (selectedAction === 'add') {
       manageForm.reset({

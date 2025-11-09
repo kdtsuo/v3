@@ -1,11 +1,14 @@
 import { Link, Music, TicketMinus } from 'lucide-react';
+// @ts-expect-error static import
 import rubricLogo from '@/assets/img/icons/rubriclogo.png';
+// @ts-expect-error static import
 import discordColorLogo from '@/assets/img/icons/discordcolorlogo.png';
+// @ts-expect-error static import
 import googleFormsLogo from '@/assets/img/icons/googleformslogo.png';
+// @ts-expect-error static import
 import youtubelogo from '@/assets/img/icons/youtubelogo.png';
 import { IconMapItem } from '@/types/type';
 
-// Map string identifiers to their respective icon components or image paths
 const iconMap: Record<string, IconMapItem> = {
   link: { iconComponent: Link },
   youtube: { imagePath: youtubelogo },

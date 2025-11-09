@@ -170,7 +170,6 @@ const Sponsor: React.FC<
   );
 };
 
-// Sponsors Page Component
 export default function Sponsors() {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -200,7 +199,6 @@ export default function Sponsors() {
       if (data && data.length > 0) {
         setSponsors(data);
       } else {
-        // Use default sponsors if none found in the database
         setSponsors(defaultSponsors);
       }
     } catch (error) {
@@ -215,7 +213,6 @@ export default function Sponsors() {
     fetchSponsors();
   }, [fetchSponsors]);
 
-  // Find the top sponsor (most months supporting)
   const topSponsor = sponsors.length
     ? [...sponsors].sort(
         (a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at),

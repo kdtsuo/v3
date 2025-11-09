@@ -34,7 +34,6 @@ import { IconLink } from './subcomponents';
 import { useAuth, useToast, useTheme } from '@/hooks';
 // import LanguageSelector from './LanguageSelector';
 
-// Theme Toggle Button component
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
@@ -57,7 +56,6 @@ function ThemeToggle() {
   );
 }
 
-// Login Dialog Component
 function LoginDialog() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -80,7 +78,6 @@ function LoginDialog() {
           duration: 3000,
         });
       } else {
-        // Login successful
         setIsOpen(false);
         toast.success('Logged in successfully ' + data.session.user.email, {
           duration: 3000,
