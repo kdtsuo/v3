@@ -47,8 +47,8 @@ export function DeleteSponsorDialog({
       setIsOpen(false);
       onSponsorDeleted();
     } catch (error) {
-      console.error('Error deleting sponsor:', error);
       toast.error('Failed to delete sponsor. Please try again.');
+      throw error;
     } finally {
       setIsDeleting(false);
     }

@@ -66,7 +66,6 @@ export default function Contacts() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsCurrentlySubmitting(true);
-    console.log(values);
 
     interface EmailJSTemplateParams {
       from_name: string;
@@ -82,17 +81,15 @@ export default function Contacts() {
     };
 
     try {
-      const response = await emailjs.send(service, template, templateParams, user);
-      console.log('SUCCESS!', response.status, response.text);
+      await emailjs.send(service, template, templateParams, user);
       toast.success('Message sent!', {
         description: "Thank you for your message. We'll get back to you soon.",
       });
       form.reset();
-    } catch (err) {
-      console.log('FAILED...', err);
+    } catch (error) {
       toast.error('Message failed to send!', {
         description:
-          'Sorry, we were unable to send your message. Please try again later.',
+          'Sorry, we were unable to send your message. Please try again later.' + err,
       });
     } finally {
       setIsCurrentlySubmitting(false);

@@ -117,8 +117,8 @@ export default function Positions() {
       const positions = data && data.length > 0 ? data : fallbackPositions;
       setPositionsData(positions);
     } catch (error) {
-      console.error('Error fetching positions from database:', error);
       setPositionsData(fallbackPositions);
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -156,8 +156,8 @@ export default function Positions() {
       setSelectedAction(null);
       setSelectedAdminPosition('');
     } catch (error) {
-      console.error('Error managing position:', error);
       toast.error('Failed to manage position');
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -185,8 +185,8 @@ export default function Positions() {
       setSelectedAction(null);
       setSelectedAdminPosition('');
     } catch (error) {
-      console.error('Error deleting position:', error);
       toast.error('Failed to delete position');
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

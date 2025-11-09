@@ -80,8 +80,8 @@ export function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => voi
       setIsOpen(false);
       onSponsorAdded();
     } catch (error) {
-      console.error('Error adding sponsor:', error);
       toast.error('Failed to add sponsor. Please try again.');
+      throw error;
     } finally {
       setIsSubmitting(false);
     }

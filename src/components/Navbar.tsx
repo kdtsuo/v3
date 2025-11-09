@@ -83,11 +83,11 @@ function LoginDialog() {
           duration: 3000,
         });
       }
-    } catch (err) {
+    } catch (error) {
       toast.error('An unexpected error occurred', {
         duration: 3000,
       });
-      console.error(err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -165,10 +165,10 @@ function LogoutDialog() {
         duration: 3000,
       });
     } catch (error) {
-      console.error('Error signing out:', error);
       toast.error('Failed to log out. Please try again.', {
         duration: 3000,
       });
+      throw err;
     } finally {
       setIsLoggingOut(false);
     }

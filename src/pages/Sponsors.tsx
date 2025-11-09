@@ -202,9 +202,9 @@ export default function Sponsors() {
         setSponsors(defaultSponsors);
       }
     } catch (error) {
-      console.error('Error fetching sponsors:', error);
       toast.error('Failed to load sponsors. Using default data.');
       setSponsors(defaultSponsors);
+      throw error;
     } finally {
       setIsLoading(false);
     }

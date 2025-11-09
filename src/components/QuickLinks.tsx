@@ -182,8 +182,8 @@ export default function QuickLinks() {
       }
     } catch (error) {
       toast.error('Failed to load links from database');
-      console.error('Error loading links: ', error);
       setLinks(fallbackLinks);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -236,7 +236,7 @@ export default function QuickLinks() {
       await fetchLinks();
     } catch (error) {
       toast.error('Failed to save link order');
-      console.error('Error saving order: ', error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -286,7 +286,7 @@ export default function QuickLinks() {
       manageForm.reset();
     } catch (error) {
       toast.error('Failed to manage link');
-      console.error('Error managing link: ', error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -313,7 +313,7 @@ export default function QuickLinks() {
       setSelectedLinkId(null);
     } catch (error) {
       toast.error('Failed to delete link');
-      console.error('Error deleting link: ', error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
