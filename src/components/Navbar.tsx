@@ -87,7 +87,7 @@ function LoginDialog() {
       toast.error('An unexpected error occurred', {
         duration: 3000,
       });
-      throw err;
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -168,7 +168,7 @@ function LogoutDialog() {
       toast.error('Failed to log out. Please try again.', {
         duration: 3000,
       });
-      throw err;
+      throw error;
     } finally {
       setIsLoggingOut(false);
     }

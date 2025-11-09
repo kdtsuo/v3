@@ -89,8 +89,9 @@ export default function Contacts() {
     } catch (error) {
       toast.error('Message failed to send!', {
         description:
-          'Sorry, we were unable to send your message. Please try again later.' + err,
+          'Sorry, we were unable to send your message. Please try again later.',
       });
+      throw error;
     } finally {
       setIsCurrentlySubmitting(false);
     }
