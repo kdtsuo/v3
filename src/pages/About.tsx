@@ -1,4 +1,5 @@
 import { Activities, Footer } from '@/components';
+// @ts-expect-error static import
 import teamphoto from '../assets/img/stock/teamphoto.jpeg';
 
 export default function About() {

@@ -1,7 +1,12 @@
+// @ts-expect-error static import
 import discordlogo from '@/assets/img/icons/discordlogo.png';
+// @ts-expect-error static import
 import githublogo from '@/assets/img/icons/githublogo.png';
+// @ts-expect-error static import
 import instagramlogo from '@/assets/img/icons/instagramlogo.png';
+// @ts-expect-error static import
 import maillogo from '@/assets/img/icons/maillogo.png';
+// @ts-expect-error static import
 import facebooklogo from '@/assets/img/icons/facebooklogo.png';
 import {
   Button,

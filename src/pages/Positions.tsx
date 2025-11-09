@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+// @ts-expect-error static import
 import joinourteam from '@/assets/img/stock/joinourteam.jpeg';
 import { Footer } from '@/components';
 import {
