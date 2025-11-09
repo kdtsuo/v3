@@ -12,6 +12,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
   Form,
@@ -140,6 +141,12 @@ export default function Contacts() {
         <div></div>
         <div className='flex h-auto w-full items-center justify-center pt-36 lg:h-screen'>
           <Card className='m-5 w-full max-w-6xl overflow-hidden'>
+            <CardHeader>
+              <CardTitle className='text-4xl'>Connect With Us</CardTitle>
+              <CardDescription>
+                Let's get connected, we'd love to hear from you!
+              </CardDescription>
+            </CardHeader>
             <CardContent
               className={`${!directContact ? '' : 'relative flex flex-col p-0 lg:flex-row'}`}
             >
@@ -152,9 +159,12 @@ export default function Contacts() {
                       lg:py-12`
                   }`}
               >
-                <h2 className='pb-2 text-center text-3xl font-bold'>Connect With Us</h2>
                 <div
-                  className='flex w-full flex-grow flex-col justify-center space-y-2 py-4'
+                  className={`${
+                    !directContact
+                      ? 'grid grid-cols-1 gap-4 sm:grid-cols-2'
+                      : 'flex w-full flex-grow flex-col justify-center space-y-2 py-4'
+                    }`}
                 >
                   {socialLinks.map((link, index) => (
                     <a
@@ -162,15 +172,14 @@ export default function Contacts() {
                       href={link.href}
                       target='_blank'
                       rel='noopener noreferrer'
+                      className='last:col-span-2'
                     >
                       <Card
                         className='bg-secondary-foreground transition-all duration-200
                           hover:-translate-y-1 hover:shadow-lg'
                       >
-                        <CardHeader
-                          className='flex flex-row items-center justify-between space-x-4
-                            lg:justify-start'
-                        >
+                        <CardHeader className='flex flex-row items-center justify-between
+                          space-x-4'>
                           <img
                             src={link.icon}
                             alt={link.title}
