@@ -1,60 +1,60 @@
-import { DiscoverCard } from "@/components/subcomponents";
+import { DiscoverCard } from '@/components/subcomponents';
 // @ts-expect-error this is needed to ignore the error for the image imports
-import teamphoto from "@/assets/img/stock/teamphoto.jpeg?w=800&format=webp&quality=80";
+import teamphoto from '@/assets/img/stock/teamphoto.jpeg?w=800&format=webp&quality=80';
 // @ts-expect-error this is needed to ignore the error for the image imports
-import joinourteam from "@/assets/img/stock/joinourteam.jpeg?w=800&format=webp&quality=80";
+import joinourteam from '@/assets/img/stock/joinourteam.jpeg?w=800&format=webp&quality=80';
 // @ts-expect-error this is needed to ignore the error for the image imports
-import showcase from "@/assets/img/stock/showcase.jpeg?w=800&format=webp&quality=80";
+import showcase from '@/assets/img/stock/showcase.jpeg?w=800&format=webp&quality=80';
 // @ts-expect-error this is needed to ignore the error for the image imports
-import events from "@/assets/img/stock/events.jpeg?w=800&format=webp&quality=80";
-import { BetweenHorizonalStart, Contact, HandCoins, Info } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
+import events from '@/assets/img/stock/events.jpeg?w=800&format=webp&quality=80';
+import { BetweenHorizonalStart, Contact, HandCoins, Info } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 
 export default function Discover() {
   const discoverCards = [
     {
-      title: "More About Us",
+      title: 'More About Us',
       icon: Info,
-      description: "What makes us different",
+      description: 'What makes us different',
       image: teamphoto,
-      link: "/about",
+      link: '/about',
       isOpen: true,
     },
     {
-      title: "Contact Us",
+      title: 'Contact Us',
       icon: Contact,
-      description: "Get in touch",
+      description: 'Get in touch',
       image: showcase,
-      link: "/contacts",
+      link: '/contacts',
       isOpen: true,
     },
     {
-      title: "Positions",
+      title: 'Positions',
       icon: BetweenHorizonalStart,
-      description: "Find what position fits you",
+      description: 'Find what position fits you',
       image: joinourteam,
-      link: "/positions",
+      link: '/positions',
       isOpen: true,
     },
     {
-      title: "Sponsors",
+      title: 'Sponsors',
       icon: HandCoins,
-      description: "People who believe in us",
+      description: 'People who believe in us',
       image: events,
-      link: "/sponsors",
+      link: '/sponsors',
       isOpen: true,
     },
   ];
 
   return (
-    <Card className='text-center mx-4'>
+    <Card className='mx-4 text-center'>
       <CardHeader>
         <CardTitle>
-          <div className='text-3xl md:text-6xl font-bold'>Discover More</div>
+          <div className='text-3xl font-bold md:text-6xl'>Discover More</div>
         </CardTitle>
       </CardHeader>
 
-      <CardContent className='flex justify-center gap-6 flex-wrap'>
+      <CardContent className='flex flex-wrap justify-center gap-6'>
         {/* Cards Container */}
         {discoverCards.map((card, index) => (
           <DiscoverCard
@@ -65,7 +65,7 @@ export default function Discover() {
             image={card.image}
             link={card.link}
             isOpen={card.isOpen}
-            className='w-full lg:w-1/3 aspect-video'
+            className='aspect-video w-full lg:w-1/3'
           />
         ))}
       </CardContent>

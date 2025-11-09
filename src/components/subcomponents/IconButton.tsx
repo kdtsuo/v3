@@ -1,5 +1,5 @@
-import { LucideIcon } from "lucide-react";
-import { forwardRef, ButtonHTMLAttributes } from "react";
+import { LucideIcon } from 'lucide-react';
+import { forwardRef, ButtonHTMLAttributes } from 'react';
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: LucideIcon;
@@ -13,16 +13,16 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     return (
       <button
         ref={ref}
-        className={`flex items-center gap-2 p-2 rounded ${className || ""}`}
+        className={`flex items-center gap-2 rounded p-2 ${className || ''}`}
         {...props}
       >
         <Icon size={size} />
         {label && <span>{label}</span>}
       </button>
     );
-  }
+  },
 );
 
-IconButton.displayName = "IconButton";
+IconButton.displayName = 'IconButton';
 
 export default IconButton;

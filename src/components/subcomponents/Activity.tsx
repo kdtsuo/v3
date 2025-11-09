@@ -10,7 +10,7 @@ import {
   CardTitle,
   CardDescription,
   Separator,
-} from "@/components/ui";
+} from '@/components/ui';
 
 interface ActivityProps {
   images: string[];
@@ -20,28 +20,21 @@ interface ActivityProps {
   isLast?: boolean;
 }
 
-export default function Activity({
-  images,
-  title,
-  text,
-  reverse,
-  isLast = false,
-}: ActivityProps) {
+export default function Activity({ images, title, text, reverse, isLast = false }: ActivityProps) {
   return (
-    <div className='w-full flex flex-col items-center'>
+    <div className='flex w-full flex-col items-center'>
       <div
         className={`flex flex-col ${
-          reverse ? "lg:flex-row-reverse" : "lg:flex-row"
-        } 
-        w-full justify-center items-center md:space-x-4 overflow-hidden`}
+          reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'
+        } w-full items-center justify-center overflow-hidden md:space-x-4`}
       >
-        <div className='w-full lg:w-1/2 flex justify-center py-6 px-10'>
-          <Carousel className='w-11/12 lg:w-5/6 border rounded-xl'>
+        <div className='flex w-full justify-center px-10 py-6 lg:w-1/2'>
+          <Carousel className='w-11/12 rounded-xl border lg:w-5/6'>
             <CarouselContent>
               {images.map((img, index) => (
                 <CarouselItem key={index}>
                   <img
-                    className='w-full h-full rounded-xl shadow-lg object-cover'
+                    className='h-full w-full rounded-xl object-cover shadow-lg'
                     src={img}
                     alt={`${title} image`}
                   />
@@ -53,24 +46,17 @@ export default function Activity({
           </Carousel>
         </div>
 
-        <Card
-          className='w-full lg:w-1/2 max-w-lg shadow-lg
-          t200e hover:-translate-y-3'
-        >
+        <Card className='t200e w-full max-w-lg shadow-lg hover:-translate-y-3 lg:w-1/2'>
           <CardHeader>
-            <CardTitle className='text-2xl lg:text-3xl capitalize'>
-              {title}
-            </CardTitle>
+            <CardTitle className='text-2xl capitalize lg:text-3xl'>{title}</CardTitle>
           </CardHeader>
           <CardContent>
-            <CardDescription className='text-lg leading-relaxed'>
-              {text}
-            </CardDescription>
+            <CardDescription className='text-lg leading-relaxed'>{text}</CardDescription>
           </CardContent>
         </Card>
       </div>
 
-      {isLast && <Separator className='w-1/2 rounded-full my-10' />}
+      {isLast && <Separator className='my-10 w-1/2 rounded-full' />}
     </div>
   );
 }

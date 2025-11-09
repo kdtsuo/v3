@@ -1,2 +1,2 @@
 // Barrel exports for types
-export * from "./type";
+export * from './type';

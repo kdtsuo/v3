@@ -1,16 +1,16 @@
 // src/types/type.ts
 // Centralized type definitions for the application
 
-import { LucideIcon } from "lucide-react";
-import { ExternalToast } from "sonner";
-import { Session, User } from "@supabase/supabase-js";
-import { toast as sonnerToast } from "sonner";
+import { LucideIcon } from 'lucide-react';
+import { ExternalToast } from 'sonner';
+import { Session, User } from '@supabase/supabase-js';
+import { toast as sonnerToast } from 'sonner';
 
 // ============================================================================
 // COMMON TYPES
 // ============================================================================
 
-export type ActionType = "update" | "add" | "delete" | "reorder" | null;
+export type ActionType = 'update' | 'add' | 'delete' | 'reorder' | null;
 
 // ============================================================================
 // LINK TYPES
@@ -88,7 +88,7 @@ export interface SponsorProps {
 // ============================================================================
 
 // Theme Context
-export type Theme = "light" | "dark" | "system";
+export type Theme = 'light' | 'dark' | 'system';
 
 export interface ThemeContextType {
   theme: Theme;

@@ -10,7 +10,7 @@ interface IconLinkProps {
 
 export default function IconLink({ links }: IconLinkProps) {
   return (
-    <div className='grid grid-cols-2 gap-2 justify-items-center w-full mx-auto '>
+    <div className='mx-auto grid w-full grid-cols-2 justify-items-center gap-2'>
       {links.map((link, index) => (
         <a
           key={index}
@@ -20,7 +20,7 @@ export default function IconLink({ links }: IconLinkProps) {
           className='nudgeup fadein80 t200e'
         >
           <img
-            className='w-14 h-auto m-2 dark:invert-0 not-dark:invert-100'
+            className='m-2 h-auto w-14 not-dark:invert-100 dark:invert-0'
             src={link.imgSrc}
             alt={link.alt}
           />

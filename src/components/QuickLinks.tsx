@@ -1,6 +1,6 @@
-import { IconLinkWide } from "@/components/subcomponents";
-import { DollarSign, Edit, Loader2, GripVertical } from "lucide-react";
-import { useAuth, useToast } from "@/hooks";
+import { IconLinkWide } from '@/components/subcomponents';
+import { DollarSign, Edit, Loader2, GripVertical } from 'lucide-react';
+import { useAuth, useToast } from '@/hooks';
 import {
   Dialog,
   DialogContent,
@@ -35,7 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
   ScrollArea,
-} from "@/components/ui";
+} from '@/components/ui';
 import {
   DndContext,
   closestCenter,
@@ -44,75 +44,70 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { iconMap } from "@/utils";
-import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/lib";
-import type { Link, ActionType } from "@/types";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { iconMap } from '@/utils';
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/lib';
+import type { Link, ActionType } from '@/types';
 
 const formSchema = z.object({
-  label: z.string().min(1, "Label is required"),
-  link: z.string().url("Please enter a valid URL"),
-  iconType: z.string().min(1, "Icon type is required"),
+  label: z.string().min(1, 'Label is required'),
+  link: z.string().url('Please enter a valid URL'),
+  iconType: z.string().min(1, 'Icon type is required'),
   price: z
-    .number({ invalid_type_error: "Enter a number or leave blank" })
-    .min(0, "Enter a number or leave blank")
+    .number({ invalid_type_error: 'Enter a number or leave blank' })
+    .min(0, 'Enter a number or leave blank')
     .optional()
     .or(z.literal(undefined)),
 });
 
 const fallbackLinks: Link[] = [
   {
-    iconType: "rubric",
-    label: "Merch",
-    link: "https://campus.hellorubric.com/?s=7805",
-    date: "2024-10-31",
+    iconType: 'rubric',
+    label: 'Merch',
+    link: 'https://campus.hellorubric.com/?s=7805',
+    date: '2024-10-31',
     price: undefined,
   },
   {
-    iconType: "rubric",
-    label: "Membership & Ticket Sales",
-    link: "https://campus.hellorubric.com/?s=7805",
-    date: "2024-10-31",
+    iconType: 'rubric',
+    label: 'Membership & Ticket Sales',
+    link: 'https://campus.hellorubric.com/?s=7805',
+    date: '2024-10-31',
     price: undefined,
   },
   {
-    iconType: "googleForms",
-    label: "Google Forms",
-    link: "https://forms.gle/yVZcBeKBWPCm235aA",
-    date: "2024-10-31",
+    iconType: 'googleForms',
+    label: 'Google Forms',
+    link: 'https://forms.gle/yVZcBeKBWPCm235aA',
+    date: '2024-10-31',
     price: undefined,
   },
   {
-    iconType: "discord",
-    label: "Discord Server",
-    link: "https://discord.com/invite/tbKkvjV2W8",
-    date: "2024-10-31",
+    iconType: 'discord',
+    label: 'Discord Server',
+    link: 'https://discord.com/invite/tbKkvjV2W8',
+    date: '2024-10-31',
     price: undefined,
   },
 ];
 
 // Sortable item component for drag and drop
 function SortableItem({ link }: { link: Link }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: link.id! });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: link.id!,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -124,25 +119,21 @@ function SortableItem({ link }: { link: Link }) {
     <div
       ref={setNodeRef}
       style={style}
-      className='flex items-center gap-2 p-3 bg-secondary border-2 border-ring rounded-md'
+      className='bg-secondary border-ring flex items-center gap-2 rounded-md border-2 p-3'
     >
       <div
         {...attributes}
         {...listeners}
-        className='cursor-grab active:cursor-grabbing flex-shrink-0'
+        className='flex-shrink-0 cursor-grab active:cursor-grabbing'
       >
-        <GripVertical className='h-5 w-5 text-muted-foreground' />
+        <GripVertical className='text-muted-foreground h-5 w-5' />
       </div>
-      <div className='flex-1 min-w-0'>
-        <p className='font-medium truncate text-sm'>
-          {link.label.length > 35
-            ? `${link.label.substring(0, 35)}...`
-            : link.label}
+      <div className='min-w-0 flex-1'>
+        <p className='truncate text-sm font-medium'>
+          {link.label.length > 35 ? `${link.label.substring(0, 35)}...` : link.label}
         </p>
-        <p className='text-xs text-muted-foreground truncate'>
-          {link.link.length > 35
-            ? `${link.link.substring(0, 35)}...`
-            : link.link}
+        <p className='text-muted-foreground truncate text-xs'>
+          {link.link.length > 35 ? `${link.link.substring(0, 35)}...` : link.link}
         </p>
       </div>
     </div>
@@ -163,9 +154,9 @@ export default function QuickLinks() {
   const manageForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      label: "",
-      link: "",
-      iconType: "link",
+      label: '',
+      link: '',
+      iconType: 'link',
       price: undefined,
     },
   });
@@ -174,13 +165,13 @@ export default function QuickLinks() {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("links")
-        .select("*")
-        .order("order", { ascending: true })
-        .order("date", { ascending: false });
+        .from('links')
+        .select('*')
+        .order('order', { ascending: true })
+        .order('date', { ascending: false });
 
       if (error) {
-        console.error("Fetch error details:", error);
+        console.error('Fetch error details:', error);
         throw error;
       }
 
@@ -190,8 +181,8 @@ export default function QuickLinks() {
         setLinks(fallbackLinks);
       }
     } catch (error) {
-      toast.error("Failed to load links from database");
-      console.error("Error loading links: ", error);
+      toast.error('Failed to load links from database');
+      console.error('Error loading links: ', error);
       setLinks(fallbackLinks);
     } finally {
       setLoading(false);
@@ -207,7 +198,7 @@ export default function QuickLinks() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -233,20 +224,20 @@ export default function QuickLinks() {
 
       for (const update of updates) {
         const { error } = await supabase
-          .from("links")
+          .from('links')
           .update({ order: update.order })
-          .eq("id", update.id);
+          .eq('id', update.id);
 
         if (error) throw error;
       }
 
-      toast.success("Link order saved successfully!");
+      toast.success('Link order saved successfully!');
       setManageOpen(false);
       setSelectedAction(null);
       await fetchLinks();
     } catch (error) {
-      toast.error("Failed to save link order");
-      console.error("Error saving order: ", error);
+      toast.error('Failed to save link order');
+      console.error('Error saving order: ', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -260,33 +251,27 @@ export default function QuickLinks() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        toast.error("You must be logged in to manage links");
+        toast.error('You must be logged in to manage links');
         return;
       }
 
-      if (selectedAction === "add") {
-        const currentDate = new Date().toISOString().split("T")[0];
+      if (selectedAction === 'add') {
+        const currentDate = new Date().toISOString().split('T')[0];
         const newLink = {
           ...values,
           date: currentDate,
           user_id: user.id,
         };
 
-        const { data, error } = await supabase
-          .from("links")
-          .insert([newLink])
-          .select();
+        const { data, error } = await supabase.from('links').insert([newLink]).select();
 
         if (error) throw error;
         if (data) {
           setLinks([data[0], ...links]);
           toast.success(`Added new link: ${values.label}`);
         }
-      } else if (selectedAction === "update" && selectedLinkId) {
-        const { error } = await supabase
-          .from("links")
-          .update(values)
-          .eq("id", selectedLinkId);
+      } else if (selectedAction === 'update' && selectedLinkId) {
+        const { error } = await supabase.from('links').update(values).eq('id', selectedLinkId);
 
         if (error) throw error;
         toast.success(`Updated link: ${values.label}`);
@@ -298,8 +283,8 @@ export default function QuickLinks() {
       setSelectedLinkId(null);
       manageForm.reset();
     } catch (error) {
-      toast.error("Failed to manage link");
-      console.error("Error managing link: ", error);
+      toast.error('Failed to manage link');
+      console.error('Error managing link: ', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -310,10 +295,7 @@ export default function QuickLinks() {
     if (!selectedLinkId) return;
     setIsSubmitting(true);
     try {
-      const { error } = await supabase
-        .from("links")
-        .delete()
-        .eq("id", selectedLinkId);
+      const { error } = await supabase.from('links').delete().eq('id', selectedLinkId);
 
       if (error) throw error;
 
@@ -324,13 +306,13 @@ export default function QuickLinks() {
         setLinks(updatedLinks);
       }
 
-      toast.success("Link deleted successfully!");
+      toast.success('Link deleted successfully!');
       setManageOpen(false);
       setSelectedAction(null);
       setSelectedLinkId(null);
     } catch (error) {
-      toast.error("Failed to delete link");
-      console.error("Error deleting link: ", error);
+      toast.error('Failed to delete link');
+      console.error('Error deleting link: ', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -338,14 +320,14 @@ export default function QuickLinks() {
 
   // Reset manage form when action changes
   useEffect(() => {
-    if (selectedAction === "add") {
+    if (selectedAction === 'add') {
       manageForm.reset({
-        label: "",
-        link: "",
-        iconType: "link",
+        label: '',
+        link: '',
+        iconType: 'link',
         price: undefined,
       });
-    } else if (selectedAction === "update" && selectedLinkId) {
+    } else if (selectedAction === 'update' && selectedLinkId) {
       const link = links.find((l) => l.id === selectedLinkId);
       if (link) {
         manageForm.reset({
@@ -360,11 +342,10 @@ export default function QuickLinks() {
 
   return (
     <div
-      className={`flex flex-col space-y-4 w-full px-4 lg:mx-4 
-                  mt-5 md:max-w-1/2 justify-center m-auto md:mt-10 mb-4`}
+      className={`m-auto mt-5 mb-4 flex w-full flex-col justify-center space-y-4 px-4 md:mt-10 md:max-w-1/2 lg:mx-4`}
     >
       {user && (
-        <div className='flex justify-center space-x-2 mb-4'>
+        <div className='mb-4 flex justify-center space-x-2'>
           <Dialog open={manageOpen} onOpenChange={setManageOpen}>
             <DialogTrigger asChild>
               <Button variant='outline'>
@@ -375,18 +356,15 @@ export default function QuickLinks() {
               <DialogHeader>
                 <DialogTitle>Manage Links</DialogTitle>
               </DialogHeader>
-              <ScrollArea
-                type='always'
-                className='max-h-[50vh] sm:max-h-[70vh] pr-4'
-              >
+              <ScrollArea type='always' className='max-h-[50vh] pr-4 sm:max-h-[70vh]'>
                 <div className='space-y-4 px-2'>
-                  <div className='flex flex-col space-y-2 '>
+                  <div className='flex flex-col space-y-2'>
                     <Label>Select Action</Label>
                     <Select
-                      value={selectedAction || ""}
+                      value={selectedAction || ''}
                       onValueChange={(value) => {
                         setSelectedAction(value as ActionType);
-                        if (value === "add") {
+                        if (value === 'add') {
                           setSelectedLinkId(null);
                         }
                       }}
@@ -404,15 +382,12 @@ export default function QuickLinks() {
                       </SelectContent>
                     </Select>
                   </div>
-                  {(selectedAction === "update" ||
-                    selectedAction === "delete") && (
+                  {(selectedAction === 'update' || selectedAction === 'delete') && (
                     <div className='flex flex-col space-y-2'>
                       <Label>Select Link:</Label>
                       <Select
-                        value={selectedLinkId?.toString() || ""}
-                        onValueChange={(value) =>
-                          setSelectedLinkId(Number(value))
-                        }
+                        value={selectedLinkId?.toString() || ''}
+                        onValueChange={(value) => setSelectedLinkId(Number(value))}
                       >
                         <SelectTrigger className='w-full'>
                           <SelectValue placeholder='Select link...' />
@@ -422,10 +397,7 @@ export default function QuickLinks() {
                             {links
                               .filter((link) => link.id !== undefined)
                               .map((link) => (
-                                <SelectItem
-                                  key={link.id}
-                                  value={link.id!.toString()}
-                                >
+                                <SelectItem key={link.id} value={link.id!.toString()}>
                                   {link.label}
                                 </SelectItem>
                               ))}
@@ -434,8 +406,8 @@ export default function QuickLinks() {
                       </Select>
                     </div>
                   )}
-                  {(selectedAction === "add" ||
-                    (selectedAction === "update" && selectedLinkId)) && (
+                  {(selectedAction === 'add' ||
+                    (selectedAction === 'update' && selectedLinkId)) && (
                     <Form {...manageForm}>
                       <form
                         onSubmit={manageForm.handleSubmit(handleManageSubmit)}
@@ -448,14 +420,10 @@ export default function QuickLinks() {
                             <FormItem>
                               <FormLabel>Link Label</FormLabel>
                               <FormControl>
-                                <Input
-                                  placeholder='Enter link title'
-                                  {...field}
-                                />
+                                <Input placeholder='Enter link title' {...field} />
                               </FormControl>
                               <FormDescription>
-                                This is the name that will be displayed for the
-                                link.
+                                This is the name that will be displayed for the link.
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -468,10 +436,7 @@ export default function QuickLinks() {
                             <FormItem>
                               <FormLabel>URL</FormLabel>
                               <FormControl>
-                                <Input
-                                  placeholder='https://example.com'
-                                  {...field}
-                                />
+                                <Input placeholder='https://example.com' {...field} />
                               </FormControl>
                               <FormDescription>
                                 Enter the full URL including https://
@@ -494,8 +459,7 @@ export default function QuickLinks() {
                                 >
                                   {Object.keys(iconMap).map((iconKey) => {
                                     const Icon = iconMap[iconKey].iconComponent;
-                                    const imagePath =
-                                      iconMap[iconKey].imagePath;
+                                    const imagePath = iconMap[iconKey].imagePath;
                                     return (
                                       <FormItem
                                         key={iconKey}
@@ -510,20 +474,18 @@ export default function QuickLinks() {
                                         </FormControl>
                                         <label
                                           htmlFor={`manage-${iconKey}`}
-                                          className={`flex flex-col items-center justify-center rounded-md border-2 p-4 cursor-pointer hover:bg-accent ${
+                                          className={`hover:bg-accent flex cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 ${
                                             field.value === iconKey
-                                              ? "border-primary bg-accent"
-                                              : "border-muted"
+                                              ? 'border-primary bg-accent'
+                                              : 'border-muted'
                                           }`}
                                         >
-                                          {Icon && (
-                                            <Icon strokeWidth={2} size={30} />
-                                          )}
+                                          {Icon && <Icon strokeWidth={2} size={30} />}
                                           {imagePath && (
                                             <img
                                               src={imagePath}
                                               alt={iconKey}
-                                              className='w-8 h-8 object-contain'
+                                              className='h-8 w-8 object-contain'
                                             />
                                           )}
                                         </label>
@@ -550,81 +512,60 @@ export default function QuickLinks() {
                                     type='number'
                                     placeholder='Enter a number or leave blank'
                                     {...field}
-                                    value={
-                                      field.value === undefined
-                                        ? ""
-                                        : field.value
-                                    }
+                                    value={field.value === undefined ? '' : field.value}
                                     onChange={(e) => {
                                       const val = e.target.value;
-                                      field.onChange(
-                                        val === "" ? undefined : Number(val)
-                                      );
+                                      field.onChange(val === '' ? undefined : Number(val));
                                     }}
                                   />
                                 </div>
                               </FormControl>
                               <FormDescription>
-                                Leave blank to hide price. Enter 0 for Free, or
-                                any positive value.
+                                Leave blank to hide price. Enter 0 for Free, or any positive value.
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
-                        <Button
-                          type='submit'
-                          className='w-full'
-                          disabled={isSubmitting}
-                        >
+                        <Button type='submit' className='w-full' disabled={isSubmitting}>
                           {isSubmitting ? (
                             <Loader2 className='animate-spin' />
-                          ) : selectedAction === "add" ? (
-                            "Add Link"
+                          ) : selectedAction === 'add' ? (
+                            'Add Link'
                           ) : (
-                            "Update Link"
+                            'Update Link'
                           )}
                         </Button>
                       </form>
                     </Form>
                   )}
-                  {selectedAction === "delete" && selectedLinkId && (
+                  {selectedAction === 'delete' && selectedLinkId && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant='destructive'>Delete Link</Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Are you absolutely sure?
-                          </AlertDialogTitle>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                           <AlertDialogDescription>
                             Permanently delete the link "
-                            {links.find((l) => l.id === selectedLinkId)?.label}"
-                            from the database? This action cannot be undone.
+                            {links.find((l) => l.id === selectedLinkId)?.label}" from the database?
+                            This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={handleManageDelete}
-                            disabled={isSubmitting}
-                          >
-                            {isSubmitting ? (
-                              <Loader2 className='animate-spin' />
-                            ) : (
-                              "Delete"
-                            )}
+                          <AlertDialogAction onClick={handleManageDelete} disabled={isSubmitting}>
+                            {isSubmitting ? <Loader2 className='animate-spin' /> : 'Delete'}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
                   )}
-                  {selectedAction === "reorder" && (
-                    <div className='space-y-4 w-full'>
-                      <p className='text-sm text-muted-foreground'>
-                        Drag and drop the links below to reorder them. Click
-                        "Save Order" when done.
+                  {selectedAction === 'reorder' && (
+                    <div className='w-full space-y-4'>
+                      <p className='text-muted-foreground text-sm'>
+                        Drag and drop the links below to reorder them. Click "Save Order" when done.
                       </p>
                       <DndContext
                         sensors={sensors}
@@ -637,7 +578,7 @@ export default function QuickLinks() {
                             .map((link) => link.id!)}
                           strategy={verticalListSortingStrategy}
                         >
-                          <div className='flex flex-col w-full space-y-2 max-h-96 overflow-x-hidden overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
+                          <div className='scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex max-h-96 w-full flex-col space-y-2 overflow-x-hidden overflow-y-auto pr-2'>
                             {links
                               .filter((link) => link.id !== undefined)
                               .map((link) => (
@@ -646,16 +587,8 @@ export default function QuickLinks() {
                           </div>
                         </SortableContext>
                       </DndContext>
-                      <Button
-                        onClick={handleSaveOrder}
-                        className='w-full'
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? (
-                          <Loader2 className='animate-spin' />
-                        ) : (
-                          "Save Order"
-                        )}
+                      <Button onClick={handleSaveOrder} className='w-full' disabled={isSubmitting}>
+                        {isSubmitting ? <Loader2 className='animate-spin' /> : 'Save Order'}
                       </Button>
                     </div>
                   )}
@@ -668,7 +601,7 @@ export default function QuickLinks() {
 
       {loading ? (
         <div className='flex justify-center py-8'>
-          <Loader2 className='animate-spin rounded-full h-12 w-12 text-gray-700' />
+          <Loader2 className='h-12 w-12 animate-spin rounded-full text-gray-700' />
         </div>
       ) : (
         links.map((link) => (
@@ -679,9 +612,7 @@ export default function QuickLinks() {
             link={link.link}
             date={link.date}
             price={link.price}
-            className='bg-secondary border-2 
-            border-ring text-center drop-shadow-box
-            hover:bg-muted'
+            className='bg-secondary border-ring drop-shadow-box hover:bg-muted border-2 text-center'
           />
         ))
       )}

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
   Dialog,
   DialogContent,
@@ -17,25 +17,21 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "@/components/ui";
-import { Loader2, ListPlus } from "lucide-react";
-import { useToast } from "@/hooks";
-import { supabase } from "@/lib";
+} from '@/components/ui';
+import { Loader2, ListPlus } from 'lucide-react';
+import { useToast } from '@/hooks';
+import { supabase } from '@/lib';
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  image: z.string().url("Please enter a valid image URL"),
-  location: z.string().min(1, "Location is required"),
-  maplink: z.string().url("Please enter a valid map link URL"),
-  text: z.string().min(1, "Discount text is required"),
-  websitelink: z.string().url("Please enter a valid website URL"),
+  title: z.string().min(1, 'Title is required'),
+  image: z.string().url('Please enter a valid image URL'),
+  location: z.string().min(1, 'Location is required'),
+  maplink: z.string().url('Please enter a valid map link URL'),
+  text: z.string().min(1, 'Discount text is required'),
+  websitelink: z.string().url('Please enter a valid website URL'),
 });
 
-export function AddSponsorDialog({
-  onSponsorAdded,
-}: {
-  onSponsorAdded: () => void;
-}) {
+export function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -43,12 +39,12 @@ export function AddSponsorDialog({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      image: "",
-      location: "",
-      maplink: "",
-      text: "",
-      websitelink: "",
+      title: '',
+      image: '',
+      location: '',
+      maplink: '',
+      text: '',
+      websitelink: '',
     },
   });
 
@@ -60,10 +56,10 @@ export function AddSponsorDialog({
       } = await supabase.auth.getUser();
 
       if (!user) {
-        throw new Error("No authenticated user found");
+        throw new Error('No authenticated user found');
       }
 
-      const { error } = await supabase.from("sponsors").insert([
+      const { error } = await supabase.from('sponsors').insert([
         {
           title: values.title,
           image: values.image,
@@ -79,13 +75,13 @@ export function AddSponsorDialog({
         throw error;
       }
 
-      toast.success("Sponsor added successfully!");
+      toast.success('Sponsor added successfully!');
       form.reset();
       setIsOpen(false);
       onSponsorAdded();
     } catch (error) {
-      console.error("Error adding sponsor:", error);
-      toast.error("Failed to add sponsor. Please try again.");
+      console.error('Error adding sponsor:', error);
+      toast.error('Failed to add sponsor. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -94,10 +90,7 @@ export function AddSponsorDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          className='flex items-center gap-2 cursor-pointer'
-          variant='default'
-        >
+        <Button className='flex cursor-pointer items-center gap-2' variant='default'>
           <ListPlus size={20} /> Add Sponsor
         </Button>
       </DialogTrigger>
@@ -106,10 +99,7 @@ export function AddSponsorDialog({
           <DialogTitle>Add New Sponsor</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className='space-y-6'
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
             <div className='grid gap-4 py-2'>
               <FormField
                 control={form.control}
@@ -132,14 +122,9 @@ export function AddSponsorDialog({
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='https://example.com/image.png'
-                        {...field}
-                      />
+                      <Input placeholder='https://example.com/image.png' {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Enter a URL for the sponsor's logo image
-                    </FormDescription>
+                    <FormDescription>Enter a URL for the sponsor's logo image</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -166,10 +151,7 @@ export function AddSponsorDialog({
                   <FormItem>
                     <FormLabel>Map Link</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='https://maps.google.com/...'
-                        {...field}
-                      />
+                      <Input placeholder='https://maps.google.com/...' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -183,10 +165,7 @@ export function AddSponsorDialog({
                   <FormItem>
                     <FormLabel>Discount Text</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='e.g. 10% off for KDT members!'
-                        {...field}
-                      />
+                      <Input placeholder='e.g. 10% off for KDT members!' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -216,7 +195,7 @@ export function AddSponsorDialog({
                     Adding...
                   </>
                 ) : (
-                  "Add Sponsor"
+                  'Add Sponsor'
                 )}
               </Button>
             </div>

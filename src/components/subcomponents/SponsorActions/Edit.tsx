@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import {
   Dialog,
   DialogContent,
@@ -15,19 +15,19 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "@/components/ui";
-import { Loader2 } from "lucide-react";
-import { useToast } from "@/hooks";
-import { supabase } from "@/lib";
-import type { SponsorData } from "@/types";
+} from '@/components/ui';
+import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { SponsorData } from '@/types';
 
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  image: z.string().url("Please enter a valid image URL"),
-  location: z.string().min(1, "Location is required"),
-  maplink: z.string().url("Please enter a valid map link URL"),
-  text: z.string().min(1, "Discount text is required"),
-  websitelink: z.string().url("Please enter a valid website URL"),
+  title: z.string().min(1, 'Title is required'),
+  image: z.string().url('Please enter a valid image URL'),
+  location: z.string().min(1, 'Location is required'),
+  maplink: z.string().url('Please enter a valid map link URL'),
+  text: z.string().min(1, 'Discount text is required'),
+  websitelink: z.string().url('Please enter a valid website URL'),
 });
 
 interface EditSponsorDialogProps {
@@ -49,23 +49,23 @@ export function EditSponsorDialog({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: sponsor.title || "",
-      image: sponsor.image || "",
-      location: sponsor.location || "",
-      maplink: sponsor.maplink || "",
-      text: sponsor.text || "",
-      websitelink: sponsor.websitelink || "",
+      title: sponsor.title || '',
+      image: sponsor.image || '',
+      location: sponsor.location || '',
+      maplink: sponsor.maplink || '',
+      text: sponsor.text || '',
+      websitelink: sponsor.websitelink || '',
     },
   });
 
   useEffect(() => {
     form.reset({
-      title: sponsor.title || "",
-      image: sponsor.image || "",
-      location: sponsor.location || "",
-      maplink: sponsor.maplink || "",
-      text: sponsor.text || "",
-      websitelink: sponsor.websitelink || "",
+      title: sponsor.title || '',
+      image: sponsor.image || '',
+      location: sponsor.location || '',
+      maplink: sponsor.maplink || '',
+      text: sponsor.text || '',
+      websitelink: sponsor.websitelink || '',
     });
   }, [sponsor, form]);
 
@@ -73,7 +73,7 @@ export function EditSponsorDialog({
     setIsSubmitting(true);
     try {
       const { error } = await supabase
-        .from("sponsors")
+        .from('sponsors')
         .update({
           title: values.title,
           image: values.image,
@@ -82,16 +82,16 @@ export function EditSponsorDialog({
           text: values.text,
           websitelink: values.websitelink,
         })
-        .eq("id", sponsor.id);
+        .eq('id', sponsor.id);
 
       if (error) throw error;
 
-      toast.success("Sponsor updated successfully!");
+      toast.success('Sponsor updated successfully!');
       setOpen(false);
       onSponsorUpdated();
     } catch (error) {
-      console.error("Error updating sponsor:", error);
-      toast.error("Failed to update sponsor. Please try again.");
+      console.error('Error updating sponsor:', error);
+      toast.error('Failed to update sponsor. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -104,10 +104,7 @@ export function EditSponsorDialog({
           <DialogTitle>Edit Sponsor</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className='space-y-6'
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
             <div className='grid gap-4 py-2'>
               <FormField
                 control={form.control}
@@ -129,10 +126,7 @@ export function EditSponsorDialog({
                   <FormItem>
                     <FormLabel>Image URL</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='https://example.com/image.png'
-                        {...field}
-                      />
+                      <Input placeholder='https://example.com/image.png' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,10 +152,7 @@ export function EditSponsorDialog({
                   <FormItem>
                     <FormLabel>Map Link</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='https://maps.google.com/...'
-                        {...field}
-                      />
+                      <Input placeholder='https://maps.google.com/...' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -174,10 +165,7 @@ export function EditSponsorDialog({
                   <FormItem>
                     <FormLabel>Discount Text</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='e.g. 10% off for KDT members!'
-                        {...field}
-                      />
+                      <Input placeholder='e.g. 10% off for KDT members!' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -205,7 +193,7 @@ export function EditSponsorDialog({
                     Updating...
                   </>
                 ) : (
-                  "Update Sponsor"
+                  'Update Sponsor'
                 )}
               </Button>
             </div>

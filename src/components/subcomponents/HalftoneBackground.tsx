@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface HalftoneBackgroundProps {
   angle?: number; // Rotation angle of the halftone pattern
@@ -13,9 +13,9 @@ const HalftoneBackground: React.FC<HalftoneBackgroundProps> = ({
   angle = 45,
   pixelsPerDot = 5, // Default to 5 pixels per dot
   pixelsBetweenDots = 5, // Default to 5 pixels between dots
-  color = "#ffffff",
+  color = '#ffffff',
   opacity = 0.1,
-  className = "",
+  className = '',
 }) => {
   // Calculate total pattern size and dot position
   const patternSize = pixelsPerDot + pixelsBetweenDots;
@@ -23,10 +23,10 @@ const HalftoneBackground: React.FC<HalftoneBackgroundProps> = ({
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      className={`absolute inset-0 w-full h-full ${className}`}
+      className={`absolute inset-0 h-full w-full ${className}`}
       style={{
         transform: `rotate(${angle}deg)`,
-        transformOrigin: "center",
+        transformOrigin: 'center',
       }}
     >
       <defs>

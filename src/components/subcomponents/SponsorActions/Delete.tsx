@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,48 +10,42 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
-} from "@/components/ui";
-import { Loader2, X } from "lucide-react";
-import { useToast } from "@/hooks";
-import { supabase } from "@/lib";
-import type { SponsorData } from "@/types";
+} from '@/components/ui';
+import { Loader2, X } from 'lucide-react';
+import { useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { SponsorData } from '@/types';
 
 interface DeleteSponsorDialogProps {
   sponsor: SponsorData;
   onSponsorDeleted: () => void;
 }
 
-export function DeleteSponsorDialog({
-  sponsor,
-  onSponsorDeleted,
-}: DeleteSponsorDialogProps) {
+export function DeleteSponsorDialog({ sponsor, onSponsorDeleted }: DeleteSponsorDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
 
   const handleDelete = async () => {
     if (!sponsor.id) {
-      toast.error("Cannot delete sponsor without an ID");
+      toast.error('Cannot delete sponsor without an ID');
       return;
     }
 
     setIsDeleting(true);
     try {
-      const { error } = await supabase
-        .from("sponsors")
-        .delete()
-        .eq("id", sponsor.id);
+      const { error } = await supabase.from('sponsors').delete().eq('id', sponsor.id);
 
       if (error) {
         throw error;
       }
 
-      toast.success("Sponsor deleted successfully!");
+      toast.success('Sponsor deleted successfully!');
       setIsOpen(false);
       onSponsorDeleted();
     } catch (error) {
-      console.error("Error deleting sponsor:", error);
-      toast.error("Failed to delete sponsor. Please try again.");
+      console.error('Error deleting sponsor:', error);
+      toast.error('Failed to delete sponsor. Please try again.');
     } finally {
       setIsDeleting(false);
     }
@@ -61,7 +55,7 @@ export function DeleteSponsorDialog({
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          className='flex items-center gap-2 z-20 size-8 p-0'
+          className='z-20 flex size-8 items-center gap-2 p-0'
           variant='destructive'
           size='sm'
           onClick={(e) => e.stopPropagation()}
@@ -73,8 +67,8 @@ export function DeleteSponsorDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Sponsor</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete <strong>{sponsor.title}</strong>?
-            This action cannot be undone.
+            Are you sure you want to delete <strong>{sponsor.title}</strong>? This action cannot be
+            undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -91,7 +85,7 @@ export function DeleteSponsorDialog({
               handleDelete();
             }}
             disabled={isDeleting}
-            className='bg-destructive dark:text-primary not-dark:text-white hover:bg-destructive/90'
+            className='bg-destructive dark:text-primary hover:bg-destructive/90 not-dark:text-white'
           >
             {isDeleting ? (
               <>
@@ -99,7 +93,7 @@ export function DeleteSponsorDialog({
                 Deleting...
               </>
             ) : (
-              "Delete Sponsor"
+              'Delete Sponsor'
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

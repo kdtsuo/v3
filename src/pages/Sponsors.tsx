@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -10,26 +10,28 @@ import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
-} from "@/components/ui";
-import { Edit, Info } from "lucide-react";
-import { useAuth, useToast, useTheme, useMediaQuery } from "@/hooks";
-import { supabase } from "@/lib";
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from '@/components/ui';
+import { Edit, Info } from 'lucide-react';
+import { useAuth, useToast, useTheme, useMediaQuery } from '@/hooks';
+import { getMonthsAndDaysSince, supabase } from '@/lib';
 
-import defaultSponsors from "@/lib/default";
+import defaultSponsors from '@/lib/default';
 
-import {
-  Loader2,
-  SquareArrowOutUpRight,
-  ImageIcon,
-  MapPin,
-} from "lucide-react";
-import { Footer } from "@/components";
+import { Loader2, SquareArrowOutUpRight, ImageIcon, MapPin } from 'lucide-react';
+import { Footer } from '@/components';
 
-import { getMonthsSince } from "@/lib/";
-import { SponsorData, SponsorProps } from "@/types";
-import * as SponsorActions from "@/components/subcomponents/SponsorActions";
+import { getMonthsSince } from '@/lib/';
+import { SponsorData, SponsorProps } from '@/types';
+import * as SponsorActions from '@/components/subcomponents/SponsorActions';
 
-const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
+const Sponsor: React.FC<
+  SponsorProps & {
+    onSponsorUpdated?: () => void;
+  }
+> = ({
   id,
   image,
   title,
@@ -58,7 +60,7 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
   };
 
   return (
-    <Card className='group relative overflow-hidden gap-0 rounded-xl t200e animate-fade-in w-full max-w-md mx-auto p-0 '>
+    <Card className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0 overflow-hidden rounded-xl p-0'>
       {/* Admin buttons */}
       {isAdmin && id && (
         <>
@@ -84,15 +86,14 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
       <Badge
         variant={
           getMonthsSince(created_at) >= 8
-            ? "gold"
+            ? 'gold'
             : getMonthsSince(created_at) >= 4
-            ? "platinum"
-            : "silver"
+              ? 'platinum'
+              : 'silver'
         }
         className='absolute top-2 left-2 z-20'
       >
-        {getMonthsSince(created_at)}+
-        {getMonthsSince(created_at) === 1 ? " month" : " months"}
+        {getMonthsSince(created_at)}+{getMonthsSince(created_at) === 1 ? ' month' : ' months'}
       </Badge>
 
       {/* Edit Sponsor Dialog */}
@@ -107,28 +108,23 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
 
       {/* Sponsor logo area */}
       <div className='relative h-48 overflow-hidden'>
-        <div
-          className='block w-full h-full'
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className='block h-full w-full' onClick={(e) => e.stopPropagation()}>
           <div
             className='absolute inset-0 flex items-center justify-center p-6'
             style={{
-              background: `var(--bg-xless-dotted-${
-                theme === "dark" ? "dark" : "light"
-              })`,
+              background: `var(--bg-xless-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
             }}
           >
             {imageError ? (
               <div className='flex flex-col items-center justify-center'>
-                <ImageIcon size={48} className='text-gray-300 mb-2' />
-                <span className='text-gray-500 text-sm'>{title}</span>
+                <ImageIcon size={48} className='mb-2 text-gray-300' />
+                <span className='text-sm text-gray-500'>{title}</span>
               </div>
             ) : (
               <img
                 src={image}
                 alt={title}
-                className='object-contain max-h-32 t200e group-hover:scale-110'
+                className='t200e max-h-32 object-contain group-hover:scale-110'
                 onError={() => setImageError(true)}
               />
             )}
@@ -137,18 +133,16 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
       </div>
 
       {/* Sponsor content */}
-      <CardContent className='p-6 text-center bg-muted/20 space-y-4 flex flex-col justify-center items-center'>
+      <CardContent className='bg-muted/20 flex flex-col items-center justify-center space-y-4 p-6 text-center'>
         <CardTitle>
           <Button
             onClick={(e) => {
               e.stopPropagation();
-              window.open(websitelink, "_blank");
+              window.open(websitelink, '_blank');
             }}
             className='w-full'
           >
-            <div className='text-lg md:text-xl font-medium truncate'>
-              {title}
-            </div>
+            <div className='truncate text-lg font-medium md:text-xl'>{title}</div>
             <SquareArrowOutUpRight />
           </Button>
         </CardTitle>
@@ -156,14 +150,14 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
           variant='secondary'
           onClick={(e) => {
             e.stopPropagation();
-            window.open(maplink, "_blank");
+            window.open(maplink, '_blank');
           }}
         >
           <MapPin />
-          <div className='text-xs md:text-sm font-medium'>{location}</div>
-          <SquareArrowOutUpRight size={10} />
+          <div className='text-xs font-medium md:text-sm'>{location}</div>
+          <SquareArrowOutUpRight />
         </Button>
-        <Badge className='text-sm bg-yellow-500 text-black'>{text}</Badge>
+        <Badge className='bg-yellow-500 text-sm text-black'>{text}</Badge>
       </CardContent>
     </Card>
   );
@@ -176,13 +170,11 @@ export default function Sponsors() {
   const [sponsors, setSponsors] = useState<SponsorData[]>([]);
   const { theme } = useTheme();
   const { toast } = useToast();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const legacySponsors = sponsors.filter(
-    (s) => getMonthsSince(s.created_at) >= 8
-  );
+  const legacySponsors = sponsors.filter((s) => getMonthsSince(s.created_at) >= 8);
   const veteranSponsors = sponsors.filter(
-    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8
+    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8,
   );
   const newSponsors = sponsors.filter((s) => getMonthsSince(s.created_at) < 4);
 
@@ -190,10 +182,9 @@ export default function Sponsors() {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase
-        .from("sponsors")
-        .select("*")
-        .order("title", { ascending: true });
+      const { data, error } = await supabase.from('sponsors').select('*').order('title', {
+        ascending: true,
+      });
 
       if (error) {
         throw error;
@@ -206,8 +197,8 @@ export default function Sponsors() {
         setSponsors(defaultSponsors);
       }
     } catch (error) {
-      console.error("Error fetching sponsors:", error);
-      toast.error("Failed to load sponsors. Using default data.");
+      console.error('Error fetching sponsors:', error);
+      toast.error('Failed to load sponsors. Using default data.');
       setSponsors(defaultSponsors);
     } finally {
       setIsLoading(false);
@@ -217,27 +208,82 @@ export default function Sponsors() {
     fetchSponsors();
   }, [fetchSponsors]);
 
+  // Find the top sponsor (most months supporting)
+  const topSponsor = sponsors.length
+    ? [...sponsors].sort((a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at))[0]
+    : null;
+
   return (
     <div>
       <section
         id='sponsors'
         className='relative overflow-hidden px-6 pt-30 md:pt-46'
         style={{
-          background: `var(--bg-dotted-${theme === "dark" ? "dark" : "light"})`,
+          background: `var(--bg-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
         }}
       >
-        <div className='w-full sm:w-3/4 mx-auto relative z-10'>
+        <div className='relative z-10 mx-auto w-full sm:w-3/4'>
+          {/* Top Sponsor Hero Section */}
+          {topSponsor && (
+            <Card className='my-6 flex flex-col items-center gap-8 rounded-xl border-0 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-md md:flex-row dark:bg-yellow-900/20'>
+              <div className='flex-shrink-0'>
+                <Avatar className='h-32 w-32 border-4 border-yellow-400 shadow'>
+                  <AvatarImage src={topSponsor.image} alt={topSponsor.title} />
+                  <AvatarFallback className='flex items-center justify-center bg-yellow-300 text-2xl font-bold text-yellow-900'>
+                    {topSponsor.title?.charAt(0) ?? '?'}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+              <CardContent className='flex-1 text-center md:text-left'>
+                <CardTitle className='mb-2 flex items-center justify-center gap-2 text-3xl font-bold text-yellow-700 md:justify-start dark:text-yellow-300'>
+                  🌟 Top Sponsor: {topSponsor.title}
+                </CardTitle>
+                <CardDescription className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'>
+                  <p>
+                    Thank you for supporting us for{' '}
+                    <span className='font-semibold'>
+                      {getMonthsAndDaysSince(topSponsor.created_at).months}{' '}
+                      {getMonthsAndDaysSince(topSponsor.created_at).months === 1
+                        ? 'month'
+                        : 'months'}
+                      {', '}
+                      {getMonthsAndDaysSince(topSponsor.created_at).days}{' '}
+                      {getMonthsAndDaysSince(topSponsor.created_at).days === 1 ? 'day' : 'days'}
+                    </span>
+                  </p>
+                  <Badge variant='gold'>{topSponsor.text}</Badge>
+                </CardDescription>
+                <div className='flex flex-col justify-center gap-3 md:flex-row md:justify-start'>
+                  <Button
+                    variant='default'
+                    onClick={() => window.open(topSponsor.websitelink, '_blank')}
+                  >
+                    Visit Sponsor <SquareArrowOutUpRight />
+                  </Button>
+                  <Button
+                    variant='secondary'
+                    onClick={() => window.open(topSponsor.maplink, '_blank')}
+                  >
+                    <MapPin />
+                    {topSponsor.location}
+                    <SquareArrowOutUpRight />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Admin section for logged in users */}
           {user && (
-            <div className='mb-10 pt-10 flex justify-end'>
+            <div className='mb-10 flex justify-end pt-10'>
               <SponsorActions.AddSponsorDialog onSponsorAdded={fetchSponsors} />
             </div>
           )}
 
           {/* Loading state */}
           {isLoading ? (
-            <div className='flex justify-center items-center min-h-[200px]'>
-              <Loader2 className='h-10 w-10 animate-spin text-lb-500' />
+            <div className='flex min-h-[200px] items-center justify-center'>
+              <Loader2 className='text-lb-500 h-10 w-10 animate-spin' />
             </div>
           ) : (
             <section>
@@ -246,39 +292,28 @@ export default function Sponsors() {
                 <CardHeader>
                   <CardTitle className='text-3xl'>Sponsors</CardTitle>
                   <CardDescription>
-                    Our sponsors play a crucial role in supporting our mission
-                    and helping us achieve our goals at KDT. Become a sponsor
-                    now to help us continue our work!
+                    Become a sponsor now to help us continue our work!
                   </CardDescription>
                 </CardHeader>
                 <CardContent className='flex flex-col gap-8'>
                   {/* Legacy Sponsors */}
                   <div>
-                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                    <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex items-center cursor-pointer'>
+                          <span className='inline-flex cursor-pointer items-center'>
                             Way Paver Sponsors
-                            <Info
-                              size={20}
-                              className='ml-2 text-muted-foreground'
-                            />
+                            <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent
-                          side={isMobile ? "top" : "left"}
-                          align='center'
-                        >
-                          Our most dedicated sponsors who have been with us for
-                          8 or more months.
+                        <TooltipContent side={isMobile ? 'top' : 'left'} align='center'>
+                          Our most dedicated sponsors who have been with us for 8 or more months.
                         </TooltipContent>
                       </Tooltip>
                     </h1>
-                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                    <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {legacySponsors.length === 0 ? (
-                        <div className='text-gray-500'>
-                          No "Way Paver" sponsors yet.
-                        </div>
+                        <div className='text-gray-500'>No "Way Paver" sponsors yet.</div>
                       ) : (
                         legacySponsors.map((sponsor, index) => (
                           <Sponsor
@@ -295,27 +330,22 @@ export default function Sponsors() {
 
                   {/* Veteran Sponsors */}
                   <div>
-                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                    <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex items-center cursor-pointer'>
+                          <span className='inline-flex cursor-pointer items-center'>
                             Rising Stars Sponsors
-                            <Info
-                              size={20}
-                              className='ml-2 text-muted-foreground'
-                            />
+                            <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent side={isMobile ? "top" : "left"}>
+                        <TooltipContent side={isMobile ? 'top' : 'left'}>
                           Sponsors who have been with us for 4-7 months.
                         </TooltipContent>
                       </Tooltip>
                     </h1>
-                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                    <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {veteranSponsors.length === 0 ? (
-                        <div className='text-gray-500'>
-                          No rising star sponsors yet.
-                        </div>
+                        <div className='text-gray-500'>No rising star sponsors yet.</div>
                       ) : (
                         veteranSponsors.map((sponsor, index) => (
                           <Sponsor
@@ -332,27 +362,22 @@ export default function Sponsors() {
 
                   {/* New Sponsors */}
                   <div>
-                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                    <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex items-center cursor-pointer'>
+                          <span className='inline-flex cursor-pointer items-center'>
                             Debut Sponsors
-                            <Info
-                              size={20}
-                              className='ml-2 text-muted-foreground'
-                            />
+                            <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent side={isMobile ? "top" : "left"}>
+                        <TooltipContent side={isMobile ? 'top' : 'left'}>
                           Sponsors who joined us within the last 3 months.
                         </TooltipContent>
                       </Tooltip>
                     </h1>
-                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                    <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {newSponsors.length === 0 ? (
-                        <div className='text-gray-500'>
-                          No debut sponsors yet.
-                        </div>
+                        <div className='text-gray-500'>No debut sponsors yet.</div>
                       ) : (
                         newSponsors.map((sponsor, index) => (
                           <Sponsor

@@ -1,3 +1,3 @@
-export { AddSponsorDialog } from "./Add";
-export { EditSponsorDialog } from "./Edit";
-export { DeleteSponsorDialog } from "./Delete";
+export { AddSponsorDialog } from './Add';
+export { EditSponsorDialog } from './Edit';
+export { DeleteSponsorDialog } from './Delete';

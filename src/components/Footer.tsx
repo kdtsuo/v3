@@ -1,12 +1,6 @@
-import rmlogo from "@/assets/img/rmlogo.png";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui";
-import { useTheme } from "@/hooks";
+import rmlogo from '@/assets/img/rmlogo.png';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui';
+import { useTheme } from '@/hooks';
 
 export default function Footer() {
   const getYear = () => {
@@ -16,11 +10,9 @@ export default function Footer() {
   const { theme } = useTheme();
   return (
     <Card
-      className='text-center py-10 bg-primary-foreground rounded-none border-none'
+      className='bg-primary-foreground rounded-none border-none py-10 text-center'
       style={{
-        background: `var(--bg-xless-dotted-${
-          theme === "dark" ? "dark" : "light"
-        })`,
+        background: `var(--bg-xless-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
       }}
     >
       <CardHeader>
@@ -28,25 +20,17 @@ export default function Footer() {
         <CardDescription className='text-lg'></CardDescription>
       </CardHeader>
       <CardContent>
-        <div className='text-sm flex items-center justify-center space-x-2'>
+        <div className='flex items-center justify-center space-x-2 text-sm'>
           <p>Made with ❤️ by</p>
           <span>
-            <a
-              href='https://rinmeng.github.io'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img src={rmlogo} alt='rmlogo' className='w-16 h-auto mx-1' />
+            <a href='https://rinmeng.github.io' target='_blank' rel='noreferrer'>
+              <img src={rmlogo} alt='rmlogo' className='mx-1 h-auto w-16' />
             </a>
           </span>
         </div>
         <p>
-          All photos are provided by{" "}
-          <a
-            className='underline '
-            href='https://www.tsengphoto.ca/'
-            target='_blank'
-          >
+          All photos are provided by{' '}
+          <a className='underline' href='https://www.tsengphoto.ca/' target='_blank'>
             Tseng Photography
           </a>
           .

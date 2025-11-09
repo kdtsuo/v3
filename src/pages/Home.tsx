@@ -1,5 +1,5 @@
-import { QuickLinks, Discover, Footer } from "@/components";
-import { useTheme } from "@/hooks";
+import { QuickLinks, Discover, Footer } from '@/components';
+import { useTheme } from '@/hooks';
 
 export default function Home() {
   const { theme } = useTheme();
@@ -7,9 +7,9 @@ export default function Home() {
     <>
       <div
         id='top'
-        className='animate-fade-in mx-auto h-auto pt-34 md:pt-46 overflow-x-none pb-10'
+        className='animate-fade-in overflow-x-none mx-auto h-auto pt-34 pb-10 md:pt-46'
         style={{
-          background: `var(--bg-dotted-${theme === "dark" ? "dark" : "light"})`,
+          background: `var(--bg-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
         }}
       >
         <div className='text-center text-xl md:text-4xl'>
@@ -17,7 +17,7 @@ export default function Home() {
           <h1>dance classes, events, performances</h1>
           <h1>and meetups for all kpop fans ♥</h1>
         </div>
-        <div className='w-full flex justify-center'>
+        <div className='flex w-full justify-center'>
           <QuickLinks />
         </div>
         <Discover />

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import joinourteam from "@/assets/img/stock/joinourteam.jpeg";
-import { Footer } from "@/components";
+import { useState, useEffect, useCallback } from 'react';
+import joinourteam from '@/assets/img/stock/joinourteam.jpeg';
+import { Footer } from '@/components';
 import {
   Button,
   Dialog,
@@ -36,70 +36,68 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui";
-import { Clipboard, Edit, Loader2, X, Plus, Trash } from "lucide-react";
-import { useToast, useAuth } from "@/hooks";
-import { supabase } from "@/lib";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Position, ActionType } from "@/types";
+} from '@/components/ui';
+import { Clipboard, Edit, Loader2, X, Plus, Trash } from 'lucide-react';
+import { useToast, useAuth } from '@/hooks';
+import { supabase } from '@/lib';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { Position, ActionType } from '@/types';
 
 const fallbackPositions: Position[] = [
   {
-    label: "Senior Executive Team",
-    form_url: "https://forms.gle/ufezb8Gut92E7pMeA",
+    label: 'Senior Executive Team',
+    form_url: 'https://forms.gle/ufezb8Gut92E7pMeA',
     is_accepting_responses: true,
   },
   {
-    label: "Junior Executive Team",
-    form_url: "https://forms.gle/ufezb8Gut92E7pMeA",
+    label: 'Junior Executive Team',
+    form_url: 'https://forms.gle/ufezb8Gut92E7pMeA',
     is_accepting_responses: true,
   },
   {
-    label: "Dance Instructor",
-    form_url: "https://forms.gle/eciAuTKB63WLQzGg7",
+    label: 'Dance Instructor',
+    form_url: 'https://forms.gle/eciAuTKB63WLQzGg7',
     is_accepting_responses: true,
   },
   {
-    label: "Performance Group",
-    form_url: "https://forms.gle/4CFzbsd3Xn1Lstns8",
+    label: 'Performance Group',
+    form_url: 'https://forms.gle/4CFzbsd3Xn1Lstns8',
     is_accepting_responses: true,
   },
   {
-    label: "Cameraman",
-    form_url: "https://forms.gle/LpXTwzCNKjVZN3De9",
+    label: 'Cameraman',
+    form_url: 'https://forms.gle/LpXTwzCNKjVZN3De9',
     is_accepting_responses: true,
   },
 ];
 
 const positionSchema = z.object({
-  label: z.string().min(1, "Position name is required"),
-  form_url: z.string().url("Must be a valid URL"),
+  label: z.string().min(1, 'Position name is required'),
+  form_url: z.string().url('Must be a valid URL'),
   is_accepting_responses: z.boolean().default(true),
 });
 
 export default function Positions() {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>('');
   const [formClosed, setFormClosed] = useState<boolean>(false);
-  const [positionsData, setPositionsData] =
-    useState<Position[]>(fallbackPositions);
+  const [positionsData, setPositionsData] = useState<Position[]>(fallbackPositions);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { user } = useAuth();
   const { toast } = useToast();
 
   // Admin dialog states
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
-  const [selectedAdminPosition, setSelectedAdminPosition] =
-    useState<string>("");
+  const [selectedAdminPosition, setSelectedAdminPosition] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Position form using react-hook-form with zod validation
   const form = useForm<z.infer<typeof positionSchema>>({
     resolver: zodResolver(positionSchema),
     defaultValues: {
-      label: "",
-      form_url: "",
+      label: '',
+      form_url: '',
       is_accepting_responses: true,
     },
   });
@@ -108,19 +106,19 @@ export default function Positions() {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from("positions")
-        .select("*")
-        .order("created_at", { ascending: true });
+        .from('positions')
+        .select('*')
+        .order('created_at', { ascending: true });
 
       if (error) {
-        console.error("Fetch error details:", error);
+        console.error('Fetch error details:', error);
         throw error;
       }
 
       const positions = data && data.length > 0 ? data : fallbackPositions;
       setPositionsData(positions);
     } catch (error) {
-      console.error("Error fetching positions from database:", error);
+      console.error('Error fetching positions from database:', error);
       // Use fallback positions if database fetch fails
       setPositionsData(fallbackPositions);
     } finally {
@@ -132,9 +130,9 @@ export default function Positions() {
   const handleSubmit = async (data: z.infer<typeof positionSchema>) => {
     setIsSubmitting(true);
     try {
-      if (selectedAction === "add") {
+      if (selectedAction === 'add') {
         // Add position to database
-        const { error } = await supabase.from("positions").insert([
+        const { error } = await supabase.from('positions').insert([
           {
             ...data,
             user_id: user?.id,
@@ -142,23 +140,19 @@ export default function Positions() {
         ]);
 
         if (error) throw error;
-        toast.success("Position added successfully!");
-      } else if (selectedAction === "update") {
+        toast.success('Position added successfully!');
+      } else if (selectedAction === 'update') {
         // Update position in database
         const position = positionsData.find(
-          (p) =>
-            p.label.toLowerCase().replace(/\s+/g, "") === selectedAdminPosition
+          (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
         );
 
-        if (!position) throw new Error("Position not found");
+        if (!position) throw new Error('Position not found');
 
-        const { error } = await supabase
-          .from("positions")
-          .update(data)
-          .eq("label", position.label);
+        const { error } = await supabase.from('positions').update(data).eq('label', position.label);
 
         if (error) throw error;
-        toast.success("Position updated successfully!");
+        toast.success('Position updated successfully!');
       }
 
       // Refresh positions data
@@ -166,10 +160,10 @@ export default function Positions() {
 
       // Reset states
       setSelectedAction(null);
-      setSelectedAdminPosition("");
+      setSelectedAdminPosition('');
     } catch (error) {
-      console.error("Error managing position:", error);
-      toast.error("Failed to manage position");
+      console.error('Error managing position:', error);
+      toast.error('Failed to manage position');
     } finally {
       setIsSubmitting(false);
     }
@@ -180,28 +174,24 @@ export default function Positions() {
     setIsSubmitting(true);
     try {
       const position = positionsData.find(
-        (p) =>
-          p.label.toLowerCase().replace(/\s+/g, "") === selectedAdminPosition
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
       );
 
-      if (!position) throw new Error("Position not found");
+      if (!position) throw new Error('Position not found');
 
-      const { error } = await supabase
-        .from("positions")
-        .delete()
-        .eq("label", position.label);
+      const { error } = await supabase.from('positions').delete().eq('label', position.label);
 
       if (error) throw error;
 
-      toast.success("Position deleted successfully!");
+      toast.success('Position deleted successfully!');
       await fetchPositionFromDatabase();
 
       // Reset states
       setSelectedAction(null);
-      setSelectedAdminPosition("");
+      setSelectedAdminPosition('');
     } catch (error) {
-      console.error("Error deleting position:", error);
-      toast.error("Failed to delete position");
+      console.error('Error deleting position:', error);
+      toast.error('Failed to delete position');
     } finally {
       setIsSubmitting(false);
     }
@@ -216,11 +206,9 @@ export default function Positions() {
   useEffect(() => {
     if (value) {
       const selectedPosition = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, "") === value
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
       );
-      setFormClosed(
-        selectedPosition ? !selectedPosition.is_accepting_responses : false
-      );
+      setFormClosed(selectedPosition ? !selectedPosition.is_accepting_responses : false);
     } else {
       setFormClosed(false);
     }
@@ -229,11 +217,9 @@ export default function Positions() {
   useEffect(() => {
     if (value) {
       const selectedPosition = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, "") === value
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
       );
-      setFormClosed(
-        selectedPosition ? !selectedPosition.is_accepting_responses : false
-      );
+      setFormClosed(selectedPosition ? !selectedPosition.is_accepting_responses : false);
     } else {
       setFormClosed(false);
     }
@@ -241,10 +227,9 @@ export default function Positions() {
 
   // Set form values when editing a position
   useEffect(() => {
-    if (selectedAction === "update" && selectedAdminPosition) {
+    if (selectedAction === 'update' && selectedAdminPosition) {
       const position = positionsData.find(
-        (p) =>
-          p.label.toLowerCase().replace(/\s+/g, "") === selectedAdminPosition
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
       );
       if (position) {
         form.reset({
@@ -253,11 +238,11 @@ export default function Positions() {
           is_accepting_responses: position.is_accepting_responses,
         });
       }
-    } else if (selectedAction === "add") {
+    } else if (selectedAction === 'add') {
       // Reset form when adding a new position
       form.reset({
-        label: "",
-        form_url: "",
+        label: '',
+        form_url: '',
         is_accepting_responses: true,
       });
     }
@@ -265,22 +250,21 @@ export default function Positions() {
 
   return (
     <div className='animate-fade-in overflow-x-hidden'>
-      <div className='w-screen h-screen relative'>
+      <div className='relative h-screen w-screen'>
         <img
-          className='absolute inset-0 object-cover w-full h-full brightness-[0.25]'
+          className='absolute inset-0 h-full w-full object-cover brightness-[0.25]'
           src={joinourteam}
           alt='team'
         />
 
-        <div className='relative flex flex-col justify-center items-center h-full p-4 text-white space-y-4'>
+        <div className='relative flex h-full flex-col items-center justify-center space-y-4 p-4 text-white'>
           <div>
-            <h1 className='text-3xl font-bold lg:text-4xl text-center my-5 text-lightblue-100'>
+            <h1 className='text-lightblue-100 my-5 text-center text-3xl font-bold lg:text-4xl'>
               Find out what position fits you!
             </h1>
-            <p className='text-xl lg:paragraph text-center max-w-screen-sm'>
-              We have a variety of positions available for you to join! Whether
-              you're interested in dancing, videography, or graphic design, we
-              have a spot for you.
+            <p className='lg:paragraph max-w-screen-sm text-center text-xl'>
+              We have a variety of positions available for you to join! Whether you're interested in
+              dancing, videography, or graphic design, we have a spot for you.
             </p>
           </div>
           <div className='flex justify-center gap-4'>
@@ -306,11 +290,11 @@ export default function Positions() {
                     <div className='flex flex-col space-y-2'>
                       <Label>Select Action</Label>
                       <Select
-                        value={selectedAction || ""}
+                        value={selectedAction || ''}
                         onValueChange={(value) => {
                           setSelectedAction(value as ActionType);
-                          if (value === "add") {
-                            setSelectedAdminPosition("");
+                          if (value === 'add') {
+                            setSelectedAdminPosition('');
                           }
                         }}
                       >
@@ -326,14 +310,12 @@ export default function Positions() {
                             </SelectItem>
                             <SelectItem value='update'>
                               <div className='flex items-center'>
-                                <Edit className='mr-2 h-4 w-4' /> Update
-                                Position
+                                <Edit className='mr-2 h-4 w-4' /> Update Position
                               </div>
                             </SelectItem>
                             <SelectItem value='delete'>
                               <div className='flex items-center'>
-                                <Trash className='mr-2 h-4 w-4' /> Delete
-                                Position
+                                <Trash className='mr-2 h-4 w-4' /> Delete Position
                               </div>
                             </SelectItem>
                           </SelectGroup>
@@ -342,8 +324,7 @@ export default function Positions() {
                     </div>
 
                     {/* Position Selection (only for update and delete) */}
-                    {(selectedAction === "update" ||
-                      selectedAction === "delete") && (
+                    {(selectedAction === 'update' || selectedAction === 'delete') && (
                       <div className='flex flex-col space-y-2'>
                         <Label>Select Position:</Label>
                         <Select
@@ -360,17 +341,13 @@ export default function Positions() {
                               {positionsData.map((position) => {
                                 const positionValue = position.label
                                   .toLowerCase()
-                                  .replace(/\s+/g, "");
+                                  .replace(/\s+/g, '');
 
                                 return (
-                                  <SelectItem
-                                    key={positionValue}
-                                    value={positionValue}
-                                  >
-                                    <div className='flex items-center justify-between w-full'>
+                                  <SelectItem key={positionValue} value={positionValue}>
+                                    <div className='flex w-full items-center justify-between'>
                                       {position.label.length > 38
-                                        ? position.label.substring(0, 35) +
-                                          "..."
+                                        ? position.label.substring(0, 35) + '...'
                                         : position.label}
                                     </div>
                                   </SelectItem>
@@ -383,14 +360,10 @@ export default function Positions() {
                     )}
 
                     {/* Form for Add or Update */}
-                    {(selectedAction === "add" ||
-                      (selectedAction === "update" &&
-                        selectedAdminPosition)) && (
+                    {(selectedAction === 'add' ||
+                      (selectedAction === 'update' && selectedAdminPosition)) && (
                       <Form {...form}>
-                        <form
-                          onSubmit={form.handleSubmit(handleSubmit)}
-                          className='space-y-4'
-                        >
+                        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
                           <FormField
                             control={form.control}
                             name='label'
@@ -398,10 +371,7 @@ export default function Positions() {
                               <FormItem>
                                 <FormLabel>Position Name</FormLabel>
                                 <FormControl>
-                                  <Input
-                                    placeholder='Enter position name'
-                                    {...field}
-                                  />
+                                  <Input placeholder='Enter position name' {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -433,15 +403,11 @@ export default function Positions() {
                                 <div className='space-y-0.5'>
                                   <FormLabel>Accepting Responses</FormLabel>
                                   <FormDescription>
-                                    Toggle if this position is currently
-                                    accepting applications
+                                    Toggle if this position is currently accepting applications
                                   </FormDescription>
                                 </div>
                                 <FormControl>
-                                  <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                  />
+                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -453,19 +419,13 @@ export default function Positions() {
                                 Close
                               </Button>
                             </DialogClose>
-                            <Button
-                              type='submit'
-                              variant='default'
-                              disabled={isSubmitting}
-                            >
-                              {isSubmitting && (
-                                <Loader2 className='h-4 w-4 animate-spin' />
-                              )}
-                              {selectedAction === "add"
-                                ? "Add Position"
+                            <Button type='submit' variant='default' disabled={isSubmitting}>
+                              {isSubmitting && <Loader2 className='h-4 w-4 animate-spin' />}
+                              {selectedAction === 'add'
+                                ? 'Add Position'
                                 : isSubmitting
-                                ? "Updating..."
-                                : "Update Position"}
+                                  ? 'Updating...'
+                                  : 'Update Position'}
                             </Button>
                           </div>
                         </form>
@@ -474,31 +434,25 @@ export default function Positions() {
                   </div>
                   <DialogFooter>
                     {/* Delete Confirmation */}
-                    {selectedAction === "delete" && selectedAdminPosition && (
+                    {selectedAction === 'delete' && selectedAdminPosition && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button variant='destructive'>Delete Position</Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Are you absolutely sure?
-                            </AlertDialogTitle>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                             <AlertDialogDescription>
                               Permanently delete the position "
                               {(() => {
                                 const label =
                                   positionsData.find(
                                     (p) =>
-                                      p.label
-                                        .toLowerCase()
-                                        .replace(/\s+/g, "") ===
-                                      selectedAdminPosition
-                                  )?.label || "";
+                                      p.label.toLowerCase().replace(/\s+/g, '') ===
+                                      selectedAdminPosition,
+                                  )?.label || '';
 
-                                return label.length > 38
-                                  ? label.substring(0, 35) + "..."
-                                  : label;
+                                return label.length > 38 ? label.substring(0, 35) + '...' : label;
                               })()}
                               " from the database? This action cannot be undone.
                             </AlertDialogDescription>
@@ -510,9 +464,7 @@ export default function Positions() {
                               disabled={isSubmitting}
                               className='bg-destructive dark:text-destructive-foreground not-dark:text-background'
                             >
-                              {isSubmitting && (
-                                <Loader2 className='animate-spin' />
-                              )}
+                              {isSubmitting && <Loader2 className='animate-spin' />}
                               Delete
                             </AlertDialogAction>
                           </AlertDialogFooter>
@@ -541,10 +493,8 @@ export default function Positions() {
                 <DialogHeader>
                   <DialogTitle>Positions</DialogTitle>
                 </DialogHeader>
-                <DialogDescription>
-                  Select a position that you're interested in.
-                </DialogDescription>
-                <div className='flex justify-center items-center'>
+                <DialogDescription>Select a position that you're interested in.</DialogDescription>
+                <div className='flex items-center justify-center'>
                   <Select
                     value={value}
                     onValueChange={(newValue) => {
@@ -558,9 +508,7 @@ export default function Positions() {
                     <SelectContent>
                       <SelectGroup>
                         {positionsData.map((position) => {
-                          const positionValue = position.label
-                            .toLowerCase()
-                            .replace(/\s+/g, "");
+                          const positionValue = position.label.toLowerCase().replace(/\s+/g, '');
 
                           return (
                             <SelectItem
@@ -568,12 +516,10 @@ export default function Positions() {
                               value={positionValue}
                               disabled={!position.is_accepting_responses}
                               className={
-                                !position.is_accepting_responses
-                                  ? "text-red-500 opacity-75"
-                                  : ""
+                                !position.is_accepting_responses ? 'text-red-500 opacity-75' : ''
                               }
                             >
-                              <div className='flex items-center justify-between w-full'>
+                              <div className='flex w-full items-center justify-between'>
                                 {position.label}
                                 {!position.is_accepting_responses && (
                                   <X className='ml-2 h-4 w-4 text-red-500' />
@@ -590,8 +536,7 @@ export default function Positions() {
                 {value && formClosed && (
                   <div className='flex items-center text-red-500'>
                     <span className='text-xs'>
-                      We are not accepting applications for this position
-                      currently
+                      We are not accepting applications for this position currently
                     </span>
                   </div>
                 )}
@@ -600,16 +545,14 @@ export default function Positions() {
                     {value && (
                       <Button
                         variant='secondary'
-                        className='border cursor-pointer'
+                        className='cursor-pointer border'
                         onClick={() => {
                           navigator.clipboard.writeText(
                             positionsData.find(
-                              (p) =>
-                                p.label.toLowerCase().replace(/\s+/g, "") ===
-                                value
-                            )?.form_url || ""
+                              (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
+                            )?.form_url || '',
                           );
-                          toast.success("Copied link to clipboard!");
+                          toast.success('Copied link to clipboard!');
                         }}
                       >
                         Copy Link <Clipboard />
@@ -624,11 +567,9 @@ export default function Positions() {
                         disabled={!value}
                         onClick={() => {
                           const selectedPosition = positionsData.find(
-                            (p) =>
-                              p.label.toLowerCase().replace(/\s+/g, "") ===
-                              value
+                            (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
                           );
-                          window.open(selectedPosition?.form_url, "_blank");
+                          window.open(selectedPosition?.form_url, '_blank');
                         }}
                       >
                         Goto Form

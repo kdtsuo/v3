@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { Languages } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { Languages } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui";
+} from '@/components/ui';
 
 declare global {
   interface Window {
@@ -18,7 +18,7 @@ declare global {
             layout: number;
             autoDisplay: boolean;
           },
-          elementId: string
+          elementId: string,
         ) => void;
       };
     };
@@ -27,10 +27,10 @@ declare global {
 }
 
 const languages = [
-  { code: "en", name: "English", flag: "🇺🇸" },
-  { code: "ko", name: "한국어", flag: "🇰🇷" },
-  { code: "zh-CN", name: "中文", flag: "🇨🇳" },
-  { code: "ja", name: "日本語", flag: "🇯🇵" },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'zh-CN', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
 ];
 
 export default function LanguageSelector() {
@@ -40,21 +40,20 @@ export default function LanguageSelector() {
   useEffect(() => {
     // Initialize Google Translate
     if (!isInitialized) {
-      const script = document.createElement("script");
-      script.src =
-        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      const script = document.createElement('script');
+      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.body.appendChild(script);
 
       window.googleTranslateElementInit = () => {
         new window.google.translate.TranslateElement(
           {
-            pageLanguage: "en",
-            includedLanguages: "en,ko,zh-CN,ja",
+            pageLanguage: 'en',
+            includedLanguages: 'en,ko,zh-CN,ja',
             layout: 0, // InlineLayout.SIMPLE
             autoDisplay: false,
           },
-          "google_translate_element"
+          'google_translate_element',
         );
         setIsInitialized(true);
       };
@@ -72,13 +71,11 @@ export default function LanguageSelector() {
     }
 
     // Trigger Google Translate
-    const selectElement = document.querySelector(
-      ".goog-te-combo"
-    ) as HTMLSelectElement;
+    const selectElement = document.querySelector('.goog-te-combo') as HTMLSelectElement;
 
     if (selectElement) {
       selectElement.value = langCode;
-      selectElement.dispatchEvent(new Event("change"));
+      selectElement.dispatchEvent(new Event('change'));
 
       // Refresh the page after a short delay to allow translation to trigger
       setTimeout(() => {
@@ -90,19 +87,17 @@ export default function LanguageSelector() {
   return (
     <>
       {/* Hidden Google Translate Element */}
-      <div id='google_translate_element' style={{ display: "none" }}></div>
+      <div id='google_translate_element' style={{ display: 'none' }}></div>
 
       {/* Custom Language Selector */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div
             role='button'
-            className='p-2 outline rounded-xl flex items-center gap-2 cursor-pointer hover:bg-accent transition-colors'
+            className='hover:bg-accent flex cursor-pointer items-center gap-2 rounded-xl p-2 outline transition-colors'
           >
             <Languages className='h-[1.2rem] w-[1.2rem]' />
-            <span className='text-sm font-medium hidden sm:inline'>
-              {currentLanguage.flag}
-            </span>
+            <span className='hidden text-sm font-medium sm:inline'>{currentLanguage.flag}</span>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>

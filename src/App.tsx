@@ -1,17 +1,9 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
-import {
-  Root,
-  Home,
-  About,
-  Positions,
-  Contacts,
-  NotFound,
-  Sponsors,
-} from "@/pages";
-import { Navbar } from "@/components";
-import { ScrollToTop } from "@/components/utils";
-import { inject } from "@vercel/analytics";
-import { Toaster } from "@/components/ui";
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { Root, Home, About, Positions, Contacts, NotFound, Sponsors } from '@/pages';
+import { Navbar } from '@/components';
+import { ScrollToTop } from '@/components/utils';
+import { inject } from '@vercel/analytics';
+import { Toaster } from '@/components/ui';
 
 inject();
 

@@ -1,7 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-@plugin "tailwindcss-animate";
-@plugin "tailwind-scrollbar";
+@plugin 'tailwindcss-animate';
+@plugin 'tailwind-scrollbar';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -14,20 +14,19 @@
     @apply transition-all duration-500 ease-in-out;
   }
   .navbar-link {
-    @apply px-4 py-2 text-white rounded-lg  
-    font-medium;
+    @apply rounded-lg px-4 py-2 font-medium text-white;
   }
 
   .glass-slate {
-    @apply bg-slate-800 backdrop-filter backdrop-blur-xl shadow-lg;
+    @apply bg-slate-800 shadow-lg backdrop-blur-xl backdrop-filter;
   }
 
   .glass {
-    @apply backdrop-filter backdrop-blur-md drop-shadow-lg;
+    @apply drop-shadow-lg backdrop-blur-md backdrop-filter;
   }
 
   .btn {
-    @apply px-2 py-2 text-white rounded-md text-lg font-medium;
+    @apply rounded-md px-2 py-2 text-lg font-medium text-white;
   }
 
   .zoomin-sm {
@@ -202,13 +201,13 @@
     0 0 / 30px 30px;
 
   --bg-xless-dotted-dark: radial-gradient(
-      color-mix(in oklch, var(--primary) 50%, transparent) 1%,
+      color-mix(in oklch, var(--color-yellow-500) 50%, transparent) 1%,
       transparent 1px
     )
     0 0 / 40px 40px;
 
   --bg-xless-dotted-light: radial-gradient(
-      color-mix(in oklch, var(--primary) 50%, transparent) 5%,
+      color-mix(in oklch, var(--color-yellow-500) 50%, transparent) 5%,
       transparent 1px
     )
     0 0 / 40px 40px;
@@ -250,14 +249,14 @@
 }
 
 /* Hide number input spinners for Chrome, Safari, Edge, Opera */
-input[type="number"].no-spinner::-webkit-inner-spin-button,
-input[type="number"].no-spinner::-webkit-outer-spin-button {
+input[type='number'].no-spinner::-webkit-inner-spin-button,
+input[type='number'].no-spinner::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Hide number input spinners for Firefox */
-input[type="number"].no-spinner {
+input[type='number'].no-spinner {
   appearance: textfield;
   -moz-appearance: textfield;
 }
