@@ -1,6 +1,6 @@
-// @ts-expect-error static import
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+// @ts-expect-error static import
 import discordlogo from '@/assets/img/icons/discordlogo.png';
 // @ts-expect-error static import
 import facebooklogo from '@/assets/img/icons/facebooklogo.png';
