@@ -228,7 +228,7 @@ export default function Sponsors() {
           background: `var(--bg-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
         }}
       >
-        <div className='relative z-10 mx-auto w-full sm:w-3/4'>
+        <div className='relative z-10 mx-auto w-full xl:w-3/4'>
           {/* Top Sponsor Hero Section */}
           {topSponsor && (
             <Card
