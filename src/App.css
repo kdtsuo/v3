@@ -48,6 +48,14 @@
   .fadein80 {
     @apply opacity-80 hover:opacity-100;
   }
+
+  .fade-in-from-bottom {
+    @apply animate-in slide-in-from-bottom-10 fade-in fill-mode-both duration-500;
+  }
+
+  .fade-in-from-right {
+    @apply animate-in slide-in-from-right-10 fade-in fill-mode-both duration-500;
+  }
 }
 
 @theme {

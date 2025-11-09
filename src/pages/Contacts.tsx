@@ -13,6 +13,7 @@ import maillogo from '@/assets/img/icons/maillogo.png';
 import { Footer } from '@/components';
 import { useTheme, useToast } from '@/hooks';
 import type { SocialLink } from '@/types';
+import { getDelayClass } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import emailjs from 'emailjs-com';
 import { Loader2 } from 'lucide-react';
@@ -137,10 +138,12 @@ export default function Contacts() {
       >
         <div></div>
         <div className='flex h-auto w-full items-center justify-center pt-36 lg:h-screen'>
-          <Card className='m-5 w-full max-w-6xl overflow-hidden'>
+          <Card className='m-5 w-full max-w-6xl overflow-hidden fade-in-from-bottom'>
             <CardHeader>
-              <CardTitle className='text-4xl'>Connect With Us</CardTitle>
-              <CardDescription>
+              <CardTitle className='text-4xl fade-in-from-bottom'>
+                Connect With Us
+              </CardTitle>
+              <CardDescription className='fade-in-from-bottom'>
                 Let's get connected, we'd love to hear from you!
               </CardDescription>
             </CardHeader>
@@ -169,7 +172,7 @@ export default function Contacts() {
                       href={link.href}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='lg:last:col-span-2'
+                      className={`lg:last:col-span-2 fade-in-from-bottom ${getDelayClass(index)}`}
                     >
                       <Card
                         className='bg-secondary-foreground transition-all duration-200

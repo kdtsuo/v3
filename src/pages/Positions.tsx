@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 // @ts-expect-error static import
-import joinourteam from '@/assets/img/stock/joinourteam.jpeg';
+import joinourteam from '@/assets/img/stock/joinourteam.jpeg?quality=20';
 import { Footer } from '@/components';
 import { useAuth, useToast } from '@/hooks';
 import { supabase } from '@/lib';
@@ -245,6 +245,7 @@ export default function Positions() {
         <img
           className='absolute inset-0 h-full w-full object-cover brightness-[0.25]'
           src={joinourteam}
+          loading='eager'
           alt='team'
         />
 
@@ -255,22 +256,22 @@ export default function Positions() {
           <div>
             <h1
               className='text-lightblue-100 my-5 text-center text-3xl font-bold
-                lg:text-4xl'
+                lg:text-4xl fade-in-from-bottom delay-75'
             >
               Find out what position fits you!
             </h1>
-            <p className='lg:paragraph max-w-screen-sm text-center text-xl'>
+            <p className='lg:paragraph max-w-screen-sm text-center text-xl fade-in-from-bottom delay-150'>
               We have a variety of positions available for you to join! Whether you're
               interested in dancing, videography, or graphic design, we have a spot for
               you.
             </p>
           </div>
-          <div className='flex justify-center gap-4'>
+          <div className='flex justify-center gap-4 fade-in-from-bottom delay-200'>
             {/* Manage Positions Section */}
             {user && (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className='cursor-pointer' variant='secondary'>
+                  <Button variant='secondary'>
                     <Edit />
                     Manage Positions
                   </Button>
@@ -500,7 +501,7 @@ export default function Positions() {
                   onClick={() => {
                     fetchPositionFromDatabase();
                   }}
-                  className='cursor-pointer'
+                  className=''
                   variant='secondary'
                 >
                   Check Positions

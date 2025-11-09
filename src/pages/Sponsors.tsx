@@ -29,6 +29,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui';
+import { getDelayClass } from '@/utils/animations';
 
 const Sponsor: React.FC<
   SponsorProps & {
@@ -241,7 +242,7 @@ export default function Sponsors() {
           {/* Top Sponsor Hero Section */}
           {topSponsor && (
             <Card
-              className='my-6 flex flex-col items-center gap-8 rounded-xl border-0
+              className='fade-in-from-bottom fill-mode-both my-6 flex flex-col items-center gap-8 rounded-xl border-0
                 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row
                 dark:bg-yellow-900/20'
             >
@@ -309,10 +310,10 @@ export default function Sponsors() {
           ) : (
             <section>
               {/* Legacy Sponsors */}
-              <Card className='w-full'>
+              <Card className='w-full fade-in-from-right '>
                 <CardHeader>
-                  <CardTitle className='text-3xl'>Sponsors</CardTitle>
-                  <CardDescription>
+                  <CardTitle className='text-3xl fade-in-from-right'>Sponsors</CardTitle>
+                  <CardDescription className='fade-in-from-right'>
                     Become a sponsor now to help us continue our work!
                   </CardDescription>
                   {/* Admin section for logged in users */}
@@ -322,7 +323,7 @@ export default function Sponsors() {
                     </div>
                   )}
                 </CardHeader>
-                <CardContent className='flex flex-col gap-8'>
+                <CardContent className='flex flex-col gap-8 fade-in-from-right'>
                   {/* Legacy Sponsors */}
                   <div>
                     <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
@@ -344,13 +345,17 @@ export default function Sponsors() {
                         <div className='text-gray-500'>No Way Paver sponsors yet.</div>
                       ) : (
                         legacySponsors.map((sponsor, index) => (
-                          <Sponsor
+                          <div
                             key={`legacy-${index}`}
-                            {...sponsor}
-                            isAdmin={!!user}
-                            onSponsorDeleted={fetchSponsors}
-                            onSponsorUpdated={fetchSponsors}
-                          />
+                            className={`fade-in-from-right ${getDelayClass(index)}`}
+                          >
+                            <Sponsor
+                              {...sponsor}
+                              isAdmin={!!user}
+                              onSponsorDeleted={fetchSponsors}
+                              onSponsorUpdated={fetchSponsors}
+                            />
+                          </div>
                         ))
                       )}
                     </div>
@@ -376,13 +381,17 @@ export default function Sponsors() {
                         <div className='text-gray-500'>No Rising Stars sponsors yet.</div>
                       ) : (
                         veteranSponsors.map((sponsor, index) => (
-                          <Sponsor
+                          <div
                             key={`veteran-${index}`}
-                            {...sponsor}
-                            isAdmin={!!user}
-                            onSponsorDeleted={fetchSponsors}
-                            onSponsorUpdated={fetchSponsors}
-                          />
+                            className={`fade-in-from-right ${getDelayClass(index)}`}
+                          >
+                            <Sponsor
+                              {...sponsor}
+                              isAdmin={!!user}
+                              onSponsorDeleted={fetchSponsors}
+                              onSponsorUpdated={fetchSponsors}
+                            />
+                          </div>
                         ))
                       )}
                     </div>
@@ -408,13 +417,17 @@ export default function Sponsors() {
                         <div className='text-gray-500'>No debut sponsors yet.</div>
                       ) : (
                         newSponsors.map((sponsor, index) => (
-                          <Sponsor
+                          <div
                             key={`new-${index}`}
-                            {...sponsor}
-                            isAdmin={!!user}
-                            onSponsorDeleted={fetchSponsors}
-                            onSponsorUpdated={fetchSponsors}
-                          />
+                            className={`fade-in-from-right ${getDelayClass(index)}`}
+                          >
+                            <Sponsor
+                              {...sponsor}
+                              isAdmin={!!user}
+                              onSponsorDeleted={fetchSponsors}
+                              onSponsorUpdated={fetchSponsors}
+                            />
+                          </div>
                         ))
                       )}
                     </div>

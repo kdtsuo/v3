@@ -60,6 +60,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui';
+import { getDelayClass } from '@/utils/animations';
 
 const formSchema = z.object({
   label: z.string().min(1, 'Label is required'),
@@ -139,21 +140,6 @@ function SortableItem({ link }: { link: Link }) {
     </div>
   );
 }
-
-const getDelayClass = (index: number) => {
-  const delays = [
-    'delay-0',
-    'delay-75',
-    'delay-100',
-    'delay-150',
-    'delay-200',
-    'delay-300',
-    'delay-500',
-    'delay-700',
-    'delay-1000',
-  ];
-  return delays[Math.min(index, delays.length - 1)];
-};
 
 export default function QuickLinks() {
   const [links, setLinks] = useState<Link[]>([]);
@@ -658,7 +644,7 @@ export default function QuickLinks() {
             date={link.date}
             price={link.price}
             className={`bg-secondary border-ring drop-shadow-box hover:bg-muted border-2
-              text-center animate-in slide-in-from-bottom-4 fade-in duration-500 fill-mode-both ${getDelayClass(idx)}`}
+              text-center fade-in-from-bottom fill-mode-both ${getDelayClass(idx)}`}
           />
         ))
       )}

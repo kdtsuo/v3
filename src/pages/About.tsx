@@ -1,6 +1,6 @@
 import { Activities, Footer } from '@/components';
 // @ts-expect-error static import
-import teamphoto from '../assets/img/stock/teamphoto.jpeg';
+import teamphoto from '../assets/img/stock/teamphoto.jpeg?quality=20';
 
 export default function About() {
   return (
@@ -10,6 +10,7 @@ export default function About() {
           className='absolute inset-0 h-full w-full object-cover brightness-[0.40]'
           src={teamphoto}
           alt='team'
+          loading='eager'
         />
 
         <div
@@ -19,11 +20,11 @@ export default function About() {
           <div>
             <h1
               className='text-lightblue-100 my-5 text-center text-3xl font-bold
-                lg:text-4xl'
+                lg:text-4xl fade-in-from-bottom delay-75'
             >
               What is KDT?
             </h1>
-            <p className='lg:paragraph max-w-screen-sm text-center text-xl'>
+            <p className='lg:paragraph max-w-screen-sm text-center text-xl fade-in-from-bottom delay-150'>
               The KPop Dance Team (KDT), is a team consisting of diverse, unique
               individuals that have common interests in dancing, choreographing, and
               performing to promote korean pop-culture, and have fun!
