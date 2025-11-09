@@ -398,7 +398,7 @@ export default function Sponsors() {
                             <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent side={isMobile ? 'top' : 'left'}>
+                        <TooltipContent side={isMobile ? 'top' : 'right'}>
                           Sponsors who joined us within the last 3 months.
                         </TooltipContent>
                       </Tooltip>
