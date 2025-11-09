@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Card, CardContent, CardTitle, Button, Badge } from "@/components/ui";
-import { Edit } from "lucide-react";
-import { useAuth, useToast, useTheme } from "@/hooks";
+import {
+  Card,
+  CardContent,
+  CardTitle,
+  Button,
+  Badge,
+  CardHeader,
+  CardDescription,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui";
+import { Edit, Info } from "lucide-react";
+import { useAuth, useToast, useTheme, useMediaQuery } from "@/hooks";
 import { supabase } from "@/lib";
 
 import defaultSponsors from "@/lib/default";
@@ -70,12 +81,18 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
           </div>
         </>
       )}
-      <Badge variant='green' className='absolute top-2 left-2 z-20'>
-        {getMonthsSince(created_at) >= 4 ? (
-          <>Legacy Sponsor for {getMonthsSince(created_at)}+ months</>
-        ) : (
-          <>Sponsor for {getMonthsSince(created_at)} months</>
-        )}
+      <Badge
+        variant={
+          getMonthsSince(created_at) >= 8
+            ? "gold"
+            : getMonthsSince(created_at) >= 4
+            ? "platinum"
+            : "silver"
+        }
+        className='absolute top-2 left-2 z-20'
+      >
+        {getMonthsSince(created_at)}+
+        {getMonthsSince(created_at) === 1 ? " month" : " months"}
       </Badge>
 
       {/* Edit Sponsor Dialog */}
@@ -159,6 +176,15 @@ export default function Sponsors() {
   const [sponsors, setSponsors] = useState<SponsorData[]>([]);
   const { theme } = useTheme();
   const { toast } = useToast();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const legacySponsors = sponsors.filter(
+    (s) => getMonthsSince(s.created_at) >= 8
+  );
+  const veteranSponsors = sponsors.filter(
+    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8
+  );
+  const newSponsors = sponsors.filter((s) => getMonthsSince(s.created_at) < 4);
 
   const fetchSponsors = useCallback(async () => {
     setIsLoading(true);
@@ -195,12 +221,12 @@ export default function Sponsors() {
     <div>
       <section
         id='sponsors'
-        className='relative overflow-hidden px-10 pt-30 md:pt-46'
+        className='relative overflow-hidden px-6 pt-30 md:pt-46'
         style={{
           background: `var(--bg-dotted-${theme === "dark" ? "dark" : "light"})`,
         }}
       >
-        <div className='max-w-6xl mx-auto relative z-10'>
+        <div className='w-full sm:w-3/4 mx-auto relative z-10'>
           {/* Admin section for logged in users */}
           {user && (
             <div className='mb-10 pt-10 flex justify-end'>
@@ -214,25 +240,135 @@ export default function Sponsors() {
               <Loader2 className='h-10 w-10 animate-spin text-lb-500' />
             </div>
           ) : (
-            /* Sponsors grid */
-            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-16'>
-              {sponsors.map((sponsor, index) => (
-                <Sponsor
-                  key={index}
-                  id={sponsor.id}
-                  image={sponsor.image}
-                  title={sponsor.title}
-                  location={sponsor.location}
-                  maplink={sponsor.maplink}
-                  text={sponsor.text}
-                  websitelink={sponsor.websitelink}
-                  created_at={sponsor.created_at}
-                  isAdmin={!!user}
-                  onSponsorDeleted={fetchSponsors}
-                  onSponsorUpdated={fetchSponsors}
-                />
-              ))}
-            </div>
+            <section>
+              {/* Legacy Sponsors */}
+              <Card className='w-full'>
+                <CardHeader>
+                  <CardTitle className='text-3xl'>Sponsors</CardTitle>
+                  <CardDescription>
+                    Our sponsors play a crucial role in supporting our mission
+                    and helping us achieve our goals at KDT. Become a sponsor
+                    now to help us continue our work!
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className='flex flex-col gap-8'>
+                  {/* Legacy Sponsors */}
+                  <div>
+                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className='inline-flex items-center cursor-pointer'>
+                            Way Paver Sponsors
+                            <Info
+                              size={20}
+                              className='ml-2 text-muted-foreground'
+                            />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          side={isMobile ? "top" : "left"}
+                          align='center'
+                        >
+                          Our most dedicated sponsors who have been with us for
+                          8 or more months.
+                        </TooltipContent>
+                      </Tooltip>
+                    </h1>
+                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                      {legacySponsors.length === 0 ? (
+                        <div className='text-gray-500'>
+                          No "Way Paver" sponsors yet.
+                        </div>
+                      ) : (
+                        legacySponsors.map((sponsor, index) => (
+                          <Sponsor
+                            key={`legacy-${index}`}
+                            {...sponsor}
+                            isAdmin={!!user}
+                            onSponsorDeleted={fetchSponsors}
+                            onSponsorUpdated={fetchSponsors}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Veteran Sponsors */}
+                  <div>
+                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className='inline-flex items-center cursor-pointer'>
+                            Rising Stars Sponsors
+                            <Info
+                              size={20}
+                              className='ml-2 text-muted-foreground'
+                            />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent side={isMobile ? "top" : "left"}>
+                          Sponsors who have been with us for 4-7 months.
+                        </TooltipContent>
+                      </Tooltip>
+                    </h1>
+                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                      {veteranSponsors.length === 0 ? (
+                        <div className='text-gray-500'>
+                          No rising star sponsors yet.
+                        </div>
+                      ) : (
+                        veteranSponsors.map((sponsor, index) => (
+                          <Sponsor
+                            key={`veteran-${index}`}
+                            {...sponsor}
+                            isAdmin={!!user}
+                            onSponsorDeleted={fetchSponsors}
+                            onSponsorUpdated={fetchSponsors}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  {/* New Sponsors */}
+                  <div>
+                    <h1 className='text-2xl font-bold mb-4 flex items-center gap-2'>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className='inline-flex items-center cursor-pointer'>
+                            Debut Sponsors
+                            <Info
+                              size={20}
+                              className='ml-2 text-muted-foreground'
+                            />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent side={isMobile ? "top" : "left"}>
+                          Sponsors who joined us within the last 3 months.
+                        </TooltipContent>
+                      </Tooltip>
+                    </h1>
+                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
+                      {newSponsors.length === 0 ? (
+                        <div className='text-gray-500'>
+                          No debut sponsors yet.
+                        </div>
+                      ) : (
+                        newSponsors.map((sponsor, index) => (
+                          <Sponsor
+                            key={`new-${index}`}
+                            {...sponsor}
+                            isAdmin={!!user}
+                            onSponsorDeleted={fetchSponsors}
+                            onSponsorUpdated={fetchSponsors}
+                          />
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
           )}
         </div>
       </section>
