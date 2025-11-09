@@ -64,6 +64,7 @@ export interface SponsorData {
   maplink: string;
   text: string;
   websitelink: string;
+  created_at: string | undefined;
 }
 
 export interface SponsorProps {
@@ -75,6 +76,7 @@ export interface SponsorProps {
   text: string;
   websitelink: string;
   isAdmin?: boolean;
+  created_at?: string;
   onSponsorDeleted?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;

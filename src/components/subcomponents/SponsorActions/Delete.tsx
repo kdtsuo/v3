@@ -1,0 +1,109 @@
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+} from "@/components/ui";
+import { Loader2, X } from "lucide-react";
+import { useToast } from "@/hooks";
+import { supabase } from "@/lib";
+import type { SponsorData } from "@/types";
+
+interface DeleteSponsorDialogProps {
+  sponsor: SponsorData;
+  onSponsorDeleted: () => void;
+}
+
+export function DeleteSponsorDialog({
+  sponsor,
+  onSponsorDeleted,
+}: DeleteSponsorDialogProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const { toast } = useToast();
+
+  const handleDelete = async () => {
+    if (!sponsor.id) {
+      toast.error("Cannot delete sponsor without an ID");
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const { error } = await supabase
+        .from("sponsors")
+        .delete()
+        .eq("id", sponsor.id);
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success("Sponsor deleted successfully!");
+      setIsOpen(false);
+      onSponsorDeleted();
+    } catch (error) {
+      console.error("Error deleting sponsor:", error);
+      toast.error("Failed to delete sponsor. Please try again.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>
+        <Button
+          className='flex items-center gap-2 z-20 size-8 p-0'
+          variant='destructive'
+          size='sm'
+          onClick={(e) => e.stopPropagation()}
+        >
+          <X size={16} />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Sponsor</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete <strong>{sponsor.title}</strong>?
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
+            disabled={isDeleting}
+            className='bg-destructive dark:text-primary not-dark:text-white hover:bg-destructive/90'
+          >
+            {isDeleting ? (
+              <>
+                <Loader2 className='animate-spin' />
+                Deleting...
+              </>
+            ) : (
+              "Delete Sponsor"
+            )}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}

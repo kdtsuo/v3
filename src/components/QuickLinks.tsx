@@ -35,7 +35,6 @@ import {
   SelectTrigger,
   SelectValue,
   ScrollArea,
-  ScrollBar,
 } from "@/components/ui";
 import {
   DndContext,
