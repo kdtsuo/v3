@@ -194,7 +194,9 @@ function LogoutDialog() {
       <DialogContent className='max-w-[300px]'>
         <DialogHeader>
           <DialogTitle>Logout</DialogTitle>
-          <DialogDescription>Are you sure you want to log out?</DialogDescription>
+          <DialogDescription>
+            Are you sure you want to log out of {user?.email?.split('@')[0]}?
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button onClick={handleSignOut}>
