@@ -225,7 +225,7 @@ export default function Sponsors() {
         <div className='relative z-10 mx-auto w-full sm:w-3/4'>
           {/* Top Sponsor Hero Section */}
           {topSponsor && (
-            <Card className='my-6 flex flex-col items-center gap-8 rounded-xl border-0 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-md md:flex-row dark:bg-yellow-900/20'>
+            <Card className='my-6 flex flex-col items-center gap-8 rounded-xl border-0 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row dark:bg-yellow-900/20'>
               <div className='flex-shrink-0'>
                 <Avatar className='h-32 w-32 border-4 border-yellow-400 shadow'>
                   <AvatarImage src={topSponsor.image} alt={topSponsor.title} />

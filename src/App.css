@@ -201,13 +201,13 @@
     0 0 / 30px 30px;
 
   --bg-xless-dotted-dark: radial-gradient(
-      color-mix(in oklch, var(--color-yellow-500) 50%, transparent) 1%,
+      color-mix(in oklch, var(--primary) 50%, transparent) 1%,
       transparent 1px
     )
     0 0 / 40px 40px;
 
   --bg-xless-dotted-light: radial-gradient(
-      color-mix(in oklch, var(--color-yellow-500) 50%, transparent) 5%,
+      color-mix(in oklch, var(--primary) 50%, transparent) 5%,
       transparent 1px
     )
     0 0 / 40px 40px;
