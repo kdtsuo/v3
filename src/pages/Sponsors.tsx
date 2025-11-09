@@ -299,13 +299,6 @@ export default function Sponsors() {
             </Card>
           )}
 
-          {/* Admin section for logged in users */}
-          {user && (
-            <div className='mb-10 flex justify-end pt-10'>
-              <SponsorActions.AddSponsorDialog onSponsorAdded={fetchSponsors} />
-            </div>
-          )}
-
           {/* Loading state */}
           {isLoading ? (
             <div className='flex min-h-[200px] items-center justify-center'>
@@ -320,6 +313,12 @@ export default function Sponsors() {
                   <CardDescription>
                     Become a sponsor now to help us continue our work!
                   </CardDescription>
+                  {/* Admin section for logged in users */}
+                  {user && (
+                    <div className='mb-4 flex justify-end'>
+                      <SponsorActions.AddSponsorDialog onSponsorAdded={fetchSponsors} />
+                    </div>
+                  )}
                 </CardHeader>
                 <CardContent className='flex flex-col gap-8'>
                   {/* Legacy Sponsors */}
