@@ -6,6 +6,7 @@ import joinourteam from '@/assets/img/stock/joinourteam.jpeg?w=800&format=webp&q
 import showcase from '@/assets/img/stock/showcase.jpeg?w=800&format=webp&quality=80';
 // @ts-expect-error this is needed to ignore the error for the image imports
 import teamphoto from '@/assets/img/stock/teamphoto.jpeg?w=800&format=webp&quality=80';
+import { getDelayClass } from '@/utils';
 import { BetweenHorizonalStart, Contact, HandCoins, Info } from 'lucide-react';
 import { DiscoverCard } from '@/components/subcomponents';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
@@ -47,10 +48,12 @@ export default function Discover() {
   ];
 
   return (
-    <Card className='mx-4 text-center'>
+    <Card className='mx-4 text-center fade-in-from-bottom '>
       <CardHeader>
         <CardTitle>
-          <div className='text-3xl font-bold md:text-6xl'>Discover More</div>
+          <div className='text-3xl font-bold md:text-6xl fade-in-from-bottom'>
+            Discover More
+          </div>
         </CardTitle>
       </CardHeader>
 
@@ -65,7 +68,7 @@ export default function Discover() {
             image={card.image}
             link={card.link}
             isOpen={card.isOpen}
-            className='aspect-video w-full lg:w-1/3'
+            className={`aspect-video w-full lg:w-1/3 fade-in-from-bottom ${getDelayClass(index)}`}
           />
         ))}
       </CardContent>

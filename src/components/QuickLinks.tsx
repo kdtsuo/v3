@@ -631,7 +631,7 @@ export default function QuickLinks() {
       )}
 
       {loading ? (
-        <div className='flex justify-center py-8'>
+        <div className='flex justify-center pb-[860px]'>
           <Loader2 className='h-12 w-12 animate-spin rounded-full text-gray-700' />
         </div>
       ) : (
