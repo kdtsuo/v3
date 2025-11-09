@@ -3,9 +3,6 @@ import { Card, CardContent, CardTitle, Button, Badge } from "@/components/ui";
 import { Edit } from "lucide-react";
 import { useAuth, useToast, useTheme } from "@/hooks";
 import { supabase } from "@/lib";
-import { AddSponsorDialog } from "@/components/subcomponents/SponsorActions/Add";
-import { EditSponsorDialog } from "@/components/subcomponents/SponsorActions/Edit";
-import { DeleteSponsorDialog } from "@/components/subcomponents/SponsorActions/Delete";
 
 import defaultSponsors from "@/lib/default";
 
@@ -18,7 +15,8 @@ import {
 import { Footer } from "@/components";
 
 import { getMonthsSince } from "@/lib/";
-import { SponsorProps } from "@/types";
+import { SponsorData, SponsorProps } from "@/types";
+import * as SponsorActions from "@/components/subcomponents/SponsorActions";
 
 const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
   id,
@@ -65,7 +63,7 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
             >
               <Edit size={16} />
             </Button>
-            <DeleteSponsorDialog
+            <SponsorActions.DeleteSponsorDialog
               sponsor={sponsorData}
               onSponsorDeleted={onSponsorDeleted}
             />
@@ -82,7 +80,7 @@ const Sponsor: React.FC<SponsorProps & { onSponsorUpdated?: () => void }> = ({
 
       {/* Edit Sponsor Dialog */}
       {isAdmin && id && (
-        <EditSponsorDialog
+        <SponsorActions.EditSponsorDialog
           open={editOpen}
           setOpen={setEditOpen}
           sponsor={sponsorData}
@@ -206,7 +204,7 @@ export default function Sponsors() {
           {/* Admin section for logged in users */}
           {user && (
             <div className='mb-10 pt-10 flex justify-end'>
-              <AddSponsorDialog onSponsorAdded={fetchSponsors} />
+              <SponsorActions.AddSponsorDialog onSponsorAdded={fetchSponsors} />
             </div>
           )}
 
