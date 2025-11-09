@@ -140,6 +140,21 @@ function SortableItem({ link }: { link: Link }) {
   );
 }
 
+const getDelayClass = (index: number) => {
+  const delays = [
+    'delay-0',
+    'delay-75',
+    'delay-100',
+    'delay-150',
+    'delay-200',
+    'delay-300',
+    'delay-500',
+    'delay-700',
+    'delay-1000',
+  ];
+  return delays[Math.min(index, delays.length - 1)];
+};
+
 export default function QuickLinks() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
@@ -634,7 +649,7 @@ export default function QuickLinks() {
           <Loader2 className='h-12 w-12 animate-spin rounded-full text-gray-700' />
         </div>
       ) : (
-        links.map((link) => (
+        links.map((link, idx) => (
           <IconLinkWide
             key={link.id || link.label}
             iconType={link.iconType}
@@ -642,8 +657,8 @@ export default function QuickLinks() {
             link={link.link}
             date={link.date}
             price={link.price}
-            className='bg-secondary border-ring drop-shadow-box hover:bg-muted border-2
-              text-center'
+            className={`bg-secondary border-ring drop-shadow-box hover:bg-muted border-2
+              text-center animate-in slide-in-from-bottom-4 fade-in duration-500 fill-mode-both ${getDelayClass(idx)}`}
           />
         ))
       )}

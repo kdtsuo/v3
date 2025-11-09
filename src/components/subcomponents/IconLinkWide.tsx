@@ -11,6 +11,7 @@ export default function IconLinkWide({
   className,
   date,
   price,
+  style,
 }: IconLinkWideProps) {
   const isNew = date
     ? new Date(date) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -52,7 +53,9 @@ export default function IconLinkWide({
   );
 
   return (
-    <div className='relative flex items-center justify-center'>
+    <div className='relative flex items-center justify-center' style={style}>
+      {' '}
+      {/* <-- Add style here */}
       <Button
         asChild
         variant='ghost'
