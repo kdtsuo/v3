@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Footer } from '@/components';
 import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
-import { getMonthsAndDaysSince, supabase } from '@/lib';
-import { getMonthsSince } from '@/lib/';
+import { getTimeSince, supabase } from '@/lib';
 import defaultSponsors from '@/lib/default';
 import { SponsorData, SponsorProps } from '@/types';
 import {
   Edit,
+  History,
   ImageIcon,
   Info,
   Loader2,
@@ -62,6 +62,8 @@ const Sponsor: React.FC<
     created_at,
   };
 
+  const time = getTimeSince(created_at);
+
   return (
     <Card
       className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0
@@ -90,17 +92,21 @@ const Sponsor: React.FC<
         </>
       )}
       <Badge
-        variant={
-          getMonthsSince(created_at) >= 8
-            ? 'gold'
-            : getMonthsSince(created_at) >= 4
-              ? 'platinum'
-              : 'silver'
-        }
+        variant={time.months >= 8 ? 'gold' : time.months >= 4 ? 'platinum' : 'silver'}
         className='absolute top-2 left-2 z-20'
       >
-        {getMonthsSince(created_at)}+
-        {getMonthsSince(created_at) === 1 ? ' month' : ' months'}
+        {time.months === 0 ? (
+          <>
+            <History /> Just Joined{' '}
+            {time.days > 0
+              ? `${time.days} ${time.days === 1 ? 'day' : 'days'}`
+              : time.hours > 0
+                ? `${time.hours} ${time.hours === 1 ? 'hour' : 'hours'}`
+                : `${time.minutes} ${time.minutes === 1 ? 'min' : 'mins'}`}
+          </>
+        ) : (
+          `${time.months}+ ${time.months === 1 ? 'month' : 'months'}`
+        )}
       </Badge>
 
       {/* Edit Sponsor Dialog */}
@@ -181,11 +187,11 @@ export default function Sponsors() {
   const { toast } = useToast();
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const legacySponsors = sponsors.filter((s) => getMonthsSince(s.created_at) >= 8);
+  const legacySponsors = sponsors.filter((s) => getTimeSince(s.created_at).months >= 8);
   const veteranSponsors = sponsors.filter(
-    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8
+    (s) => getTimeSince(s.created_at).months >= 4 && getTimeSince(s.created_at).months < 8
   );
-  const newSponsors = sponsors.filter((s) => getMonthsSince(s.created_at) < 4);
+  const newSponsors = sponsors.filter((s) => getTimeSince(s.created_at).months < 4);
 
   const fetchSponsors = useCallback(async () => {
     setIsLoading(true);
@@ -218,7 +224,7 @@ export default function Sponsors() {
 
   const topSponsor = sponsors.length
     ? [...sponsors].sort(
-        (a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at)
+        (a, b) => getTimeSince(b.created_at).months - getTimeSince(a.created_at).months
       )[0]
     : null;
 
@@ -261,15 +267,13 @@ export default function Sponsors() {
                   <p>
                     Thank you for supporting us for{' '}
                     <span className='font-semibold'>
-                      {getMonthsAndDaysSince(topSponsor.created_at).months}{' '}
-                      {getMonthsAndDaysSince(topSponsor.created_at).months === 1
+                      {getTimeSince(topSponsor.created_at).months}{' '}
+                      {getTimeSince(topSponsor.created_at).months === 1
                         ? 'month'
                         : 'months'}
                       {', '}
-                      {getMonthsAndDaysSince(topSponsor.created_at).days}{' '}
-                      {getMonthsAndDaysSince(topSponsor.created_at).days === 1
-                        ? 'day'
-                        : 'days'}
+                      {getTimeSince(topSponsor.created_at).days}{' '}
+                      {getTimeSince(topSponsor.created_at).days === 1 ? 'day' : 'days'}
                     </span>
                   </p>
                   <Badge variant='gold'>{topSponsor.text}</Badge>
@@ -325,11 +329,11 @@ export default function Sponsors() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span className='inline-flex cursor-pointer items-center'>
-                            Way Paver Sponsors
+                            🌟 Way Paver Sponsors
                             <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent side={isMobile ? 'top' : 'left'} align='center'>
+                        <TooltipContent side={isMobile ? 'top' : 'right'} align='center'>
                           Our most dedicated sponsors who have been with us for 8 or more
                           months.
                         </TooltipContent>
@@ -337,7 +341,7 @@ export default function Sponsors() {
                     </h1>
                     <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {legacySponsors.length === 0 ? (
-                        <div className='text-gray-500'>No "Way Paver" sponsors yet.</div>
+                        <div className='text-gray-500'>No Way Paver sponsors yet.</div>
                       ) : (
                         legacySponsors.map((sponsor, index) => (
                           <Sponsor
@@ -358,18 +362,18 @@ export default function Sponsors() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span className='inline-flex cursor-pointer items-center'>
-                            Rising Stars Sponsors
+                            ✨ Rising Stars Sponsors
                             <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
-                        <TooltipContent side={isMobile ? 'top' : 'left'}>
+                        <TooltipContent side={isMobile ? 'top' : 'right'}>
                           Sponsors who have been with us for 4-7 months.
                         </TooltipContent>
                       </Tooltip>
                     </h1>
                     <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {veteranSponsors.length === 0 ? (
-                        <div className='text-gray-500'>No rising star sponsors yet.</div>
+                        <div className='text-gray-500'>No Rising Stars sponsors yet.</div>
                       ) : (
                         veteranSponsors.map((sponsor, index) => (
                           <Sponsor
@@ -390,7 +394,7 @@ export default function Sponsors() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span className='inline-flex cursor-pointer items-center'>
-                            Debut Sponsors
+                            🎤 Debut Sponsors
                             <Info size={20} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
