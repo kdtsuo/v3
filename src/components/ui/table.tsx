@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
@@ -52,7 +51,7 @@ function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
       data-slot='table-row'
       className={cn(
         'hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors',
-        className,
+        className
       )}
       {...props}
     />
@@ -67,7 +66,7 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
         `text-muted-foreground h-10 px-2 text-left align-middle font-medium
         whitespace-nowrap [&:has([role=checkbox])]:pr-0
         [&>[role=checkbox]]:translate-y-[2px]`,
-        className,
+        className
       )}
       {...props}
     />
@@ -81,7 +80,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
       className={cn(
         `p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0
         [&>[role=checkbox]]:translate-y-[2px]`,
-        className,
+        className
       )}
       {...props}
     />

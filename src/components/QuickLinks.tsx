@@ -1,3 +1,29 @@
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useAuth, useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { ActionType, Link } from '@/types';
+import { iconMap } from '@/utils';
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { DollarSign, Edit, GripVertical, Loader2 } from 'lucide-react';
+import { z } from 'zod';
 import { IconLinkWide } from '@/components/subcomponents';
 import {
   AlertDialog,
@@ -34,32 +60,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui';
-import { useAuth, useToast } from '@/hooks';
-import { supabase } from '@/lib';
-import type { ActionType, Link } from '@/types';
-import { iconMap } from '@/utils';
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { DollarSign, Edit, GripVertical, Loader2 } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 const formSchema = z.object({
   label: z.string().min(1, 'Label is required'),
@@ -197,7 +197,7 @@ export default function QuickLinks() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    })
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -520,7 +520,7 @@ export default function QuickLinks() {
                                     onChange={(e) => {
                                       const val = e.target.value;
                                       field.onChange(
-                                        val === '' ? undefined : Number(val),
+                                        val === '' ? undefined : Number(val)
                                       );
                                     }}
                                   />

@@ -1,10 +1,9 @@
 'use client';
 
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import * as React from 'react';
-
-import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
+import { buttonVariants } from '@/components/ui/button';
 
 function AlertDialog({
   ...props
@@ -35,7 +34,7 @@ function AlertDialogOverlay({
         `data-[state=open]:animate-in data-[state=closed]:animate-out
         data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50
         bg-black/80`,
-        className,
+        className
       )}
       {...props}
     />
@@ -58,7 +57,7 @@ function AlertDialogContent({
           left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%]
           translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200
           sm:max-w-lg`,
-          className,
+          className
         )}
         {...props}
       />

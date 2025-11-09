@@ -1,7 +1,6 @@
-import * as SwitchPrimitive from '@radix-ui/react-switch';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import * as SwitchPrimitive from '@radix-ui/react-switch';
 
 function Switch({
   className,
@@ -16,7 +15,7 @@ function Switch({
         items-center rounded-full border-2 border-transparent shadow-xs transition-all
         outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed
         disabled:opacity-50`,
-        className,
+        className
       )}
       {...props}
     >
@@ -25,7 +24,7 @@ function Switch({
         className={cn(
           `bg-background pointer-events-none block size-4 rounded-full shadow-lg ring-0
           transition-transform data-[state=checked]:translate-x-4
-          data-[state=unchecked]:translate-x-0`,
+          data-[state=unchecked]:translate-x-0`
         )}
       />
     </SwitchPrimitive.Root>

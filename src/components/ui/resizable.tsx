@@ -1,10 +1,9 @@
 'use client';
 
-import { GripVerticalIcon } from 'lucide-react';
 import * as React from 'react';
 import * as ResizablePrimitive from 'react-resizable-panels';
-
 import { cn } from '@/lib/utils';
+import { GripVerticalIcon } from 'lucide-react';
 
 function ResizablePanelGroup({
   className,
@@ -15,7 +14,7 @@ function ResizablePanelGroup({
       data-slot='resizable-panel-group'
       className={cn(
         'flex h-full w-full data-[panel-group-direction=vertical]:flex-col',
-        className,
+        className
       )}
       {...props}
     />
@@ -50,7 +49,7 @@ function ResizableHandle({
         data-[panel-group-direction=vertical]:after:translate-x-0
         data-[panel-group-direction=vertical]:after:-translate-y-1/2
         [&[data-panel-group-direction=vertical]>div]:rotate-90`,
-        className,
+        className
       )}
       {...props}
     >

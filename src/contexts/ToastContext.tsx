@@ -1,5 +1,5 @@
-import { ToastContextType } from '@/types/type';
 import React, { createContext } from 'react';
+import { ToastContextType } from '@/types/type';
 import { ExternalToast, toast as sonnerToast } from 'sonner';
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined);

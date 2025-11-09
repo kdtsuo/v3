@@ -1,14 +1,22 @@
 // @ts-expect-error static import
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import discordlogo from '@/assets/img/icons/discordlogo.png';
+// @ts-expect-error static import
+import facebooklogo from '@/assets/img/icons/facebooklogo.png';
 // @ts-expect-error static import
 import githublogo from '@/assets/img/icons/githublogo.png';
 // @ts-expect-error static import
 import instagramlogo from '@/assets/img/icons/instagramlogo.png';
 // @ts-expect-error static import
 import maillogo from '@/assets/img/icons/maillogo.png';
-// @ts-expect-error static import
-import facebooklogo from '@/assets/img/icons/facebooklogo.png';
 import { Footer } from '@/components';
+import { useTheme, useToast } from '@/hooks';
+import type { SocialLink } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import emailjs from 'emailjs-com';
+import { Loader2 } from 'lucide-react';
+import * as z from 'zod';
 import {
   Button,
   Card,
@@ -25,14 +33,6 @@ import {
   Input,
   Textarea,
 } from '@/components/ui';
-import { useTheme, useToast } from '@/hooks';
-import type { SocialLink } from '@/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import emailjs from 'emailjs-com';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 
 // Define schema for form validation
 const formSchema = z.object({

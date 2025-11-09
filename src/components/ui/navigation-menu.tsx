@@ -1,11 +1,10 @@
 'use client';
 
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { cva } from 'class-variance-authority';
 import { ChevronDownIcon } from 'lucide-react';
-import * as React from 'react';
-
-import { cn } from '@/lib/utils';
 
 function NavigationMenu({
   className,
@@ -21,7 +20,7 @@ function NavigationMenu({
       data-viewport={viewport}
       className={cn(
         'group/navigation-menu relative flex max-w-max flex-1 items-center justify-center',
-        className,
+        className
       )}
       {...props}
     >
@@ -40,7 +39,7 @@ function NavigationMenuList({
       data-slot='navigation-menu-list'
       className={cn(
         'group flex flex-1 list-none items-center justify-center gap-1',
-        className,
+        className
       )}
       {...props}
     />
@@ -61,7 +60,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  'group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 ring-ring/10 dark:ring-ring/20 dark:outline-ring/40 outline-ring/50 transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1',
+  'group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 ring-ring/10 dark:ring-ring/20 dark:outline-ring/40 outline-ring/50 transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1'
 );
 
 function NavigationMenuTrigger({
@@ -117,7 +116,7 @@ function NavigationMenuContent({
         group-data-[viewport=false]/navigation-menu:duration-200
         **:data-[slot=navigation-menu-link]:focus:ring-0
         **:data-[slot=navigation-menu-link]:focus:outline-none`,
-        className,
+        className
       )}
       {...props}
     />
@@ -138,7 +137,7 @@ function NavigationMenuViewport({
           data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5
           h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden
           rounded-md border shadow md:w-[var(--radix-navigation-menu-viewport-width)]`,
-          className,
+          className
         )}
         {...props}
       />
@@ -161,7 +160,7 @@ function NavigationMenuLink({
         outline-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col
         gap-1 rounded-sm p-2 text-sm transition-[color,box-shadow] focus-visible:ring-4
         focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     />
@@ -179,7 +178,7 @@ function NavigationMenuIndicator({
         `data-[state=visible]:animate-in data-[state=hidden]:animate-out
         data-[state=hidden]:fade-out data-[state=visible]:fade-in top-full z-[1] flex
         h-1.5 items-end justify-center overflow-hidden`,
-        className,
+        className
       )}
       {...props}
     >

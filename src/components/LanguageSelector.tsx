@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
+import { Languages } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui';
-import { Languages } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 declare global {
   interface Window {
@@ -18,7 +18,7 @@ declare global {
             layout: number;
             autoDisplay: boolean;
           },
-          elementId: string,
+          elementId: string
         ) => void;
       };
     };
@@ -53,7 +53,7 @@ export default function LanguageSelector() {
             layout: 0,
             autoDisplay: false,
           },
-          'google_translate_element',
+          'google_translate_element'
         );
         setIsInitialized(true);
       };

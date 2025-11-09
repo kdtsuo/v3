@@ -1,8 +1,8 @@
-import { Badge, Button } from '@/components/ui';
 import { cn } from '@/lib';
 import type { IconLinkWideProps } from '@/types';
 import { iconMap } from '@/utils';
 import { ChevronRight } from 'lucide-react';
+import { Badge, Button } from '@/components/ui';
 
 export default function IconLinkWide({
   iconType,
@@ -59,7 +59,7 @@ export default function IconLinkWide({
         className={cn(
           `t200e group relative flex h-20 w-full items-center rounded-xl px-4 py-3 text-lg
           font-medium`,
-          className,
+          className
         )}
         onClick={() => {
           window.open(link, '_blank');

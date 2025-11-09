@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 // @ts-expect-error static import
 import joinourteam from '@/assets/img/stock/joinourteam.jpeg';
 import { Footer } from '@/components';
+import { useAuth, useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { ActionType, Position } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Clipboard, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
+import { z } from 'zod';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,13 +45,6 @@ import {
   SelectValue,
   Switch,
 } from '@/components/ui';
-import { useAuth, useToast } from '@/hooks';
-import { supabase } from '@/lib';
-import type { ActionType, Position } from '@/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Clipboard, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 const fallbackPositions: Position[] = [
   {
@@ -139,7 +139,7 @@ export default function Positions() {
         toast.success('Position added successfully!');
       } else if (selectedAction === 'update') {
         const position = positionsData.find(
-          (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
+          (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition
         );
 
         if (!position) throw new Error('Position not found');
@@ -167,7 +167,7 @@ export default function Positions() {
     setIsSubmitting(true);
     try {
       const position = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition
       );
 
       if (!position) throw new Error('Position not found');
@@ -199,7 +199,7 @@ export default function Positions() {
   useEffect(() => {
     if (value) {
       const selectedPosition = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value
       );
       setFormClosed(selectedPosition ? !selectedPosition.is_accepting_responses : false);
     } else {
@@ -210,7 +210,7 @@ export default function Positions() {
   useEffect(() => {
     if (value) {
       const selectedPosition = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === value
       );
       setFormClosed(selectedPosition ? !selectedPosition.is_accepting_responses : false);
     } else {
@@ -221,7 +221,7 @@ export default function Positions() {
   useEffect(() => {
     if (selectedAction === 'update' && selectedAdminPosition) {
       const position = positionsData.find(
-        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition,
+        (p) => p.label.toLowerCase().replace(/\s+/g, '') === selectedAdminPosition
       );
       if (position) {
         form.reset({
@@ -463,7 +463,7 @@ export default function Positions() {
                                   positionsData.find(
                                     (p) =>
                                       p.label.toLowerCase().replace(/\s+/g, '') ===
-                                      selectedAdminPosition,
+                                      selectedAdminPosition
                                   )?.label || '';
 
                                 return label.length > 38
@@ -572,8 +572,8 @@ export default function Positions() {
                         onClick={() => {
                           navigator.clipboard.writeText(
                             positionsData.find(
-                              (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
-                            )?.form_url || '',
+                              (p) => p.label.toLowerCase().replace(/\s+/g, '') === value
+                            )?.form_url || ''
                           );
                           toast.success('Copied link to clipboard!');
                         }}
@@ -590,7 +590,7 @@ export default function Positions() {
                         disabled={!value}
                         onClick={() => {
                           const selectedPosition = positionsData.find(
-                            (p) => p.label.toLowerCase().replace(/\s+/g, '') === value,
+                            (p) => p.label.toLowerCase().replace(/\s+/g, '') === value
                           );
                           window.open(selectedPosition?.form_url, '_blank');
                         }}

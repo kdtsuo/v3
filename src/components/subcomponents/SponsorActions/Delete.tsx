@@ -1,3 +1,8 @@
+import { useState } from 'react';
+import { useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { SponsorData } from '@/types';
+import { Loader2, X } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,11 +15,6 @@ import {
   AlertDialogTrigger,
   Button,
 } from '@/components/ui';
-import { useToast } from '@/hooks';
-import { supabase } from '@/lib';
-import type { SponsorData } from '@/types';
-import { Loader2, X } from 'lucide-react';
-import { useState } from 'react';
 
 interface DeleteSponsorDialogProps {
   sponsor: SponsorData;

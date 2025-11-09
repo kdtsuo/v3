@@ -1,10 +1,9 @@
 'use client';
 
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react';
-import * as React from 'react';
-
-import { cn } from '@/lib/utils';
 
 function ContextMenu({
   ...props
@@ -61,7 +60,7 @@ function ContextMenuSubTrigger({
         data-[state=open]:text-accent-foreground flex cursor-default items-center
         rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8
         [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     >
@@ -86,7 +85,7 @@ function ContextMenuSubContent({
         data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
         data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] overflow-hidden
         rounded-md border p-1 shadow-lg`,
-        className,
+        className
       )}
       {...props}
     />
@@ -109,7 +108,7 @@ function ContextMenuContent({
           data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
           data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] overflow-hidden
           rounded-md border p-1 shadow-md`,
-          className,
+          className
         )}
         {...props}
       />
@@ -142,7 +141,7 @@ function ContextMenuItem({
         items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none
         data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8
         [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     />
@@ -163,7 +162,7 @@ function ContextMenuCheckboxItem({
         items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none
         data-[disabled]:pointer-events-none data-[disabled]:opacity-50
         [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       checked={checked}
       {...props}
@@ -194,7 +193,7 @@ function ContextMenuRadioItem({
         items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none
         data-[disabled]:pointer-events-none data-[disabled]:opacity-50
         [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     >
@@ -224,7 +223,7 @@ function ContextMenuLabel({
       data-inset={inset}
       className={cn(
         'text-foreground px-2 py-1.5 text-sm font-medium data-[inset]:pl-8',
-        className,
+        className
       )}
       {...props}
     />

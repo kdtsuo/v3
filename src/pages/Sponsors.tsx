@@ -1,3 +1,19 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { Footer } from '@/components';
+import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
+import { getMonthsAndDaysSince, supabase } from '@/lib';
+import { getMonthsSince } from '@/lib/';
+import defaultSponsors from '@/lib/default';
+import { SponsorData, SponsorProps } from '@/types';
+import {
+  Edit,
+  ImageIcon,
+  Info,
+  Loader2,
+  MapPin,
+  SquareArrowOutUpRight,
+} from 'lucide-react';
+import * as SponsorActions from '@/components/subcomponents/SponsorActions';
 import {
   Avatar,
   AvatarFallback,
@@ -13,19 +29,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui';
-import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
-import { getMonthsAndDaysSince, supabase } from '@/lib';
-import { Edit, Info } from 'lucide-react';
-import React, { useCallback, useEffect, useState } from 'react';
-
-import defaultSponsors from '@/lib/default';
-
-import { Footer } from '@/components';
-import { ImageIcon, Loader2, MapPin, SquareArrowOutUpRight } from 'lucide-react';
-
-import * as SponsorActions from '@/components/subcomponents/SponsorActions';
-import { getMonthsSince } from '@/lib/';
-import { SponsorData, SponsorProps } from '@/types';
 
 const Sponsor: React.FC<
   SponsorProps & {
@@ -180,7 +183,7 @@ export default function Sponsors() {
 
   const legacySponsors = sponsors.filter((s) => getMonthsSince(s.created_at) >= 8);
   const veteranSponsors = sponsors.filter(
-    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8,
+    (s) => getMonthsSince(s.created_at) >= 4 && getMonthsSince(s.created_at) < 8
   );
   const newSponsors = sponsors.filter((s) => getMonthsSince(s.created_at) < 4);
 
@@ -215,7 +218,7 @@ export default function Sponsors() {
 
   const topSponsor = sponsors.length
     ? [...sponsors].sort(
-        (a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at),
+        (a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at)
       )[0]
     : null;
 

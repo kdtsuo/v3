@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { LucideIcon } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -5,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui';
-import { LucideIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface DiscoverCardProps {
   className?: string;

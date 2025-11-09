@@ -1,5 +1,6 @@
 // @ts-expect-error static import
 import rmlogo from '@/assets/img/rmlogo.png';
+import { useTheme } from '@/hooks';
 import {
   Card,
   CardContent,
@@ -7,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui';
-import { useTheme } from '@/hooks';
 
 export default function Footer() {
   const getYear = () => {

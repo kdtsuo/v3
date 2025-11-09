@@ -1,7 +1,6 @@
-import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import * as HoverCardPrimitive from '@radix-ui/react-hover-card';
 
 function HoverCard({ ...props }: React.ComponentProps<typeof HoverCardPrimitive.Root>) {
   return <HoverCardPrimitive.Root data-slot='hover-card' {...props} />;
@@ -32,7 +31,7 @@ function HoverCardContent({
         data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2
         data-[side=top]:slide-in-from-bottom-2 z-50 w-64 rounded-md border p-4 shadow-md
         outline-hidden`,
-        className,
+        className
       )}
       {...props}
     />

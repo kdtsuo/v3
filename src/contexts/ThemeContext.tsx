@@ -1,12 +1,12 @@
-import { Theme, ThemeContextType } from '@/types/type';
 import React, { createContext, useEffect, useState } from 'react';
+import { Theme, ThemeContextType } from '@/types/type';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem('theme') as Theme) || 'system',
+    () => (localStorage.getItem('theme') as Theme) || 'system'
   );
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Drawer as DrawerPrimitive } from 'vaul';
-
 import { cn } from '@/lib/utils';
+import { Drawer as DrawerPrimitive } from 'vaul';
 
 function Drawer({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot='drawer' {...props} />;
@@ -32,7 +31,7 @@ function DrawerOverlay({
         `data-[state=open]:animate-in data-[state=closed]:animate-out
         data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50
         bg-black/80`,
-        className,
+        className
       )}
       {...props}
     />
@@ -67,7 +66,7 @@ function DrawerContent({
           `data-[vaul-drawer-direction=left]:inset-y-0
           data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4
           data-[vaul-drawer-direction=left]:sm:max-w-sm`,
-          className,
+          className
         )}
         {...props}
       >

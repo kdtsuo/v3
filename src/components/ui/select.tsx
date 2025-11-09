@@ -1,10 +1,9 @@
 'use client';
 
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import * as React from 'react';
-
-import { cn } from '@/lib/utils';
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
   return <SelectPrimitive.Root data-slot='select' {...props} />;
@@ -38,7 +37,7 @@ function SelectTrigger({
         *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center
         *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0
         [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     >
@@ -71,7 +70,7 @@ function SelectContent({
           position === 'popper' &&
             `data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1
             data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1`,
-          className,
+          className
         )}
         position={position}
         {...props}
@@ -82,7 +81,7 @@ function SelectContent({
             'p-1',
             position === 'popper' &&
               `h-[var(--radix-select-trigger-height)] w-full
-              min-w-[var(--radix-select-trigger-width)] scroll-my-1`,
+              min-w-[var(--radix-select-trigger-width)] scroll-my-1`
           )}
         >
           {children}
@@ -122,7 +121,7 @@ function SelectItem({
         data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0
         [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center
         *:[span]:last:gap-2`,
-        className,
+        className
       )}
       {...props}
     >

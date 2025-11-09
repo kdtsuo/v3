@@ -3,11 +3,11 @@ import bubblewaffle from '@/assets/sponsors/bubblewaffle.png';
 // @ts-expect-error static assets
 import formosa from '@/assets/sponsors/formosa.png';
 // @ts-expect-error static assets
-import tossingpizzeria from '@/assets/sponsors/tossingpizzeria.jpeg';
-// @ts-expect-error static assets
 import macaoimperialtea from '@/assets/sponsors/macaoimperialtea.png';
 // @ts-expect-error static assets
 import seoulful from '@/assets/sponsors/seoulful.png';
+// @ts-expect-error static assets
+import tossingpizzeria from '@/assets/sponsors/tossingpizzeria.jpeg';
 import { SponsorData } from '@/types/type';
 
 const defaultSponsors: SponsorData[] = [

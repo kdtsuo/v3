@@ -1,7 +1,6 @@
-import * as TabsPrimitive from '@radix-ui/react-tabs';
 import * as React from 'react';
-
 import { cn } from '@/lib/utils';
+import * as TabsPrimitive from '@radix-ui/react-tabs';
 
 function Tabs({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Root>) {
   return (
@@ -23,7 +22,7 @@ function TabsList({
       className={cn(
         `bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center
         rounded-lg p-1`,
-        className,
+        className
       )}
       {...props}
     />
@@ -45,7 +44,7 @@ function TabsTrigger({
         focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none
         disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none
         [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-        className,
+        className
       )}
       {...props}
     />

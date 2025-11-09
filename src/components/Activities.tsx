@@ -1,9 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import { useTheme } from '@/hooks';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
+// @ts-expect-error static import
 import dancepractice from '../assets/img/stock/dancepractice.png';
+// @ts-expect-error static import
 import events from '../assets/img/stock/events.jpeg';
+// @ts-expect-error static import
 import events2 from '../assets/img/stock/events2.jpeg';
+// @ts-expect-error static import
 import events3 from '../assets/img/stock/events3.jpeg';
+// @ts-expect-error static import
 import showcase from '../assets/img/stock/showcase.jpeg';
 import { Activity } from './subcomponents';
 
