@@ -41,7 +41,8 @@ export default function LanguageSelector() {
     // Initialize Google Translate
     if (!isInitialized) {
       const script = document.createElement('script');
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.src =
+        '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.body.appendChild(script);
 
@@ -94,10 +95,13 @@ export default function LanguageSelector() {
         <DropdownMenuTrigger asChild>
           <div
             role='button'
-            className='hover:bg-accent flex cursor-pointer items-center gap-2 rounded-xl p-2 outline transition-colors'
+            className='hover:bg-accent flex cursor-pointer items-center gap-2 rounded-xl
+              p-2 outline transition-colors'
           >
             <Languages className='h-[1.2rem] w-[1.2rem]' />
-            <span className='hidden text-sm font-medium sm:inline'>{currentLanguage.flag}</span>
+            <span className='hidden text-sm font-medium sm:inline'>
+              {currentLanguage.flag}
+            </span>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>

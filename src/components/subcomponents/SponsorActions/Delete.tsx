@@ -21,7 +21,10 @@ interface DeleteSponsorDialogProps {
   onSponsorDeleted: () => void;
 }
 
-export function DeleteSponsorDialog({ sponsor, onSponsorDeleted }: DeleteSponsorDialogProps) {
+export function DeleteSponsorDialog({
+  sponsor,
+  onSponsorDeleted,
+}: DeleteSponsorDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
@@ -67,8 +70,8 @@ export function DeleteSponsorDialog({ sponsor, onSponsorDeleted }: DeleteSponsor
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Sponsor</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete <strong>{sponsor.title}</strong>? This action cannot be
-            undone.
+            Are you sure you want to delete <strong>{sponsor.title}</strong>? This action
+            cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -85,7 +88,8 @@ export function DeleteSponsorDialog({ sponsor, onSponsorDeleted }: DeleteSponsor
               handleDelete();
             }}
             disabled={isDeleting}
-            className='bg-destructive dark:text-primary hover:bg-destructive/90 not-dark:text-white'
+            className='bg-destructive dark:text-primary hover:bg-destructive/90
+              not-dark:text-white'
           >
             {isDeleting ? (
               <>

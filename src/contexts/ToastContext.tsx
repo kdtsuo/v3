@@ -6,10 +6,12 @@ export const ToastContext = createContext<ToastContextType | undefined>(undefine
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const toastMethods = {
-    success: (message: string, data?: ExternalToast) => sonnerToast.success(message, data),
+    success: (message: string, data?: ExternalToast) =>
+      sonnerToast.success(message, data),
     error: (message: string, data?: ExternalToast) => sonnerToast.error(message, data),
     info: (message: string, data?: ExternalToast) => sonnerToast.info(message, data),
-    warning: (message: string, data?: ExternalToast) => sonnerToast.warning(message, data),
+    warning: (message: string, data?: ExternalToast) =>
+      sonnerToast.warning(message, data),
     promise: sonnerToast.promise,
     custom: sonnerToast.custom,
     message: sonnerToast.message,
@@ -17,5 +19,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     dismiss: sonnerToast.dismiss,
   };
 
-  return <ToastContext.Provider value={{ toast: toastMethods }}>{children}</ToastContext.Provider>;
+  return (
+    <ToastContext.Provider value={{ toast: toastMethods }}>
+      {children}
+    </ToastContext.Provider>
+  );
 }

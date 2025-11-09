@@ -86,7 +86,8 @@ export default function Contacts() {
     } catch (err) {
       console.log('FAILED...', err);
       toast.error('Message failed to send!', {
-        description: 'Sorry, we were unable to send your message. Please try again later.',
+        description:
+          'Sorry, we were unable to send your message. Please try again later.',
       });
     } finally {
       setIsCurrentlySubmitting(false);
@@ -142,21 +143,37 @@ export default function Contacts() {
                 className={`${
                   !directContact
                     ? 'mx-auto flex w-full flex-col sm:w-1/2'
-                    : 'flex w-full flex-col items-center justify-center p-12 py-6 lg:w-1/3 lg:py-12'
-                }`}
+                    : `flex w-full flex-col items-center justify-center p-12 py-6 lg:w-1/3
+                      lg:py-12`
+                  }`}
               >
                 <h2 className='pb-2 text-center text-3xl font-bold'>Connect With Us</h2>
-                <div className='flex w-full flex-grow flex-col justify-center space-y-2 py-4'>
+                <div
+                  className='flex w-full flex-grow flex-col justify-center space-y-2 py-4'
+                >
                   {socialLinks.map((link, index) => (
-                    <a key={index} href={link.href} target='_blank' rel='noopener noreferrer'>
-                      <Card className='bg-secondary-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-lg'>
-                        <CardHeader className='flex flex-row items-center justify-between space-x-4 lg:justify-start'>
+                    <a
+                      key={index}
+                      href={link.href}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <Card
+                        className='bg-secondary-foreground transition-all duration-200
+                          hover:-translate-y-1 hover:shadow-lg'
+                      >
+                        <CardHeader
+                          className='flex flex-row items-center justify-between space-x-4
+                            lg:justify-start'
+                        >
                           <img
                             src={link.icon}
                             alt={link.title}
                             className='h-12 w-12 not-dark:invert-0 dark:invert-100'
                           />
-                          <CardTitle className='text-primary-foreground text-xl font-extralight'>
+                          <CardTitle
+                            className='text-primary-foreground text-xl font-extralight'
+                          >
                             {link.title}
                           </CardTitle>
                         </CardHeader>
@@ -171,18 +188,22 @@ export default function Contacts() {
                 className={` ${
                   !directContact
                     ? 'hidden'
-                    : 'bg-muted absolute top-0 bottom-0 left-1/3 my-8 hidden w-0.5 lg:block'
-                }`}
+                    : `bg-muted absolute top-0 bottom-0 left-1/3 my-8 hidden w-0.5
+                      lg:block`
+                  }`}
               ></div>
               <div
-                className={`${!directContact ? 'hidden' : 'bg-muted my-4 block h-0.5 w-full lg:hidden'} `}
+                className={`${!directContact ? 'hidden' : 'bg-muted my-4 block h-0.5 w-full lg:hidden'}
+                  `}
               ></div>
 
               {/* Contact Form Section */}
               <div className={`${!directContact ? 'hidden' : 'w-full p-12 lg:w-2/3'}`}>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-                    <h2 className='mb-6 text-center text-3xl font-bold'>Directly Contact Us</h2>
+                    <h2 className='mb-6 text-center text-3xl font-bold'>
+                      Directly Contact Us
+                    </h2>
                     <FormField
                       control={form.control}
                       name='name'
@@ -235,7 +256,9 @@ export default function Contacts() {
                       variant='default'
                       className='w-full'
                     >
-                      {isCurrentlySubmitting && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                      {isCurrentlySubmitting && (
+                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                      )}
                       {isCurrentlySubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>

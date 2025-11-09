@@ -1,5 +1,12 @@
+// @ts-expect-error static import
 import rmlogo from '@/assets/img/rmlogo.png';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui';
 import { useTheme } from '@/hooks';
 
 export default function Footer() {

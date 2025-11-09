@@ -105,9 +105,10 @@ const fallbackLinks: Link[] = [
 
 // Sortable item component for drag and drop
 function SortableItem({ link }: { link: Link }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: link.id!,
-  });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({
+      id: link.id!,
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -271,7 +272,10 @@ export default function QuickLinks() {
           toast.success(`Added new link: ${values.label}`);
         }
       } else if (selectedAction === 'update' && selectedLinkId) {
-        const { error } = await supabase.from('links').update(values).eq('id', selectedLinkId);
+        const { error } = await supabase
+          .from('links')
+          .update(values)
+          .eq('id', selectedLinkId);
 
         if (error) throw error;
         toast.success(`Updated link: ${values.label}`);
@@ -342,7 +346,8 @@ export default function QuickLinks() {
 
   return (
     <div
-      className={`m-auto mt-5 mb-4 flex w-full flex-col justify-center space-y-4 px-4 md:mt-10 md:max-w-1/2 lg:mx-4`}
+      className={`m-auto mt-5 mb-4 flex w-full flex-col justify-center space-y-4 px-4
+        md:mt-10 md:max-w-1/2 lg:mx-4`}
     >
       {user && (
         <div className='mb-4 flex justify-center space-x-2'>
@@ -455,7 +460,8 @@ export default function QuickLinks() {
                                 <RadioGroup
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
-                                  className='flex flex-row flex-wrap justify-start md:justify-around'
+                                  className='flex flex-row flex-wrap justify-start
+                                    md:justify-around'
                                 >
                                   {Object.keys(iconMap).map((iconKey) => {
                                     const Icon = iconMap[iconKey].iconComponent;
@@ -474,7 +480,9 @@ export default function QuickLinks() {
                                         </FormControl>
                                         <label
                                           htmlFor={`manage-${iconKey}`}
-                                          className={`hover:bg-accent flex cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 ${
+                                          className={`hover:bg-accent flex cursor-pointer
+                                          flex-col items-center justify-center rounded-md
+                                          border-2 p-4 ${
                                             field.value === iconKey
                                               ? 'border-primary bg-accent'
                                               : 'border-muted'
@@ -515,13 +523,16 @@ export default function QuickLinks() {
                                     value={field.value === undefined ? '' : field.value}
                                     onChange={(e) => {
                                       const val = e.target.value;
-                                      field.onChange(val === '' ? undefined : Number(val));
+                                      field.onChange(
+                                        val === '' ? undefined : Number(val),
+                                      );
                                     }}
                                   />
                                 </div>
                               </FormControl>
                               <FormDescription>
-                                Leave blank to hide price. Enter 0 for Free, or any positive value.
+                                Leave blank to hide price. Enter 0 for Free, or any
+                                positive value.
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -549,14 +560,21 @@ export default function QuickLinks() {
                           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                           <AlertDialogDescription>
                             Permanently delete the link "
-                            {links.find((l) => l.id === selectedLinkId)?.label}" from the database?
-                            This action cannot be undone.
+                            {links.find((l) => l.id === selectedLinkId)?.label}" from the
+                            database? This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleManageDelete} disabled={isSubmitting}>
-                            {isSubmitting ? <Loader2 className='animate-spin' /> : 'Delete'}
+                          <AlertDialogAction
+                            onClick={handleManageDelete}
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <Loader2 className='animate-spin' />
+                            ) : (
+                              'Delete'
+                            )}
                           </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
@@ -565,7 +583,8 @@ export default function QuickLinks() {
                   {selectedAction === 'reorder' && (
                     <div className='w-full space-y-4'>
                       <p className='text-muted-foreground text-sm'>
-                        Drag and drop the links below to reorder them. Click "Save Order" when done.
+                        Drag and drop the links below to reorder them. Click "Save Order"
+                        when done.
                       </p>
                       <DndContext
                         sensors={sensors}
@@ -578,7 +597,14 @@ export default function QuickLinks() {
                             .map((link) => link.id!)}
                           strategy={verticalListSortingStrategy}
                         >
-                          <div className='scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex max-h-96 w-full flex-col space-y-2 overflow-x-hidden overflow-y-auto pr-2'>
+                          <div
+                            className='scrollbar-thin scrollbar-thumb-muted-foreground/50
+                              scrollbar-track-secondary
+                              hover:scrollbar-thumb-muted-foreground
+                              scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+                              flex max-h-96 w-full flex-col space-y-2 overflow-x-hidden
+                              overflow-y-auto pr-2'
+                          >
                             {links
                               .filter((link) => link.id !== undefined)
                               .map((link) => (
@@ -587,8 +613,16 @@ export default function QuickLinks() {
                           </div>
                         </SortableContext>
                       </DndContext>
-                      <Button onClick={handleSaveOrder} className='w-full' disabled={isSubmitting}>
-                        {isSubmitting ? <Loader2 className='animate-spin' /> : 'Save Order'}
+                      <Button
+                        onClick={handleSaveOrder}
+                        className='w-full'
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <Loader2 className='animate-spin' />
+                        ) : (
+                          'Save Order'
+                        )}
                       </Button>
                     </div>
                   )}
@@ -612,7 +646,8 @@ export default function QuickLinks() {
             link={link.link}
             date={link.date}
             price={link.price}
-            className='bg-secondary border-ring drop-shadow-box hover:bg-muted border-2 text-center'
+            className='bg-secondary border-ring drop-shadow-box hover:bg-muted border-2
+              text-center'
           />
         ))
       )}

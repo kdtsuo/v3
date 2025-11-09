@@ -124,7 +124,9 @@ export function AddSponsorDialog({ onSponsorAdded }: { onSponsorAdded: () => voi
                     <FormControl>
                       <Input placeholder='https://example.com/image.png' {...field} />
                     </FormControl>
-                    <FormDescription>Enter a URL for the sponsor's logo image</FormDescription>
+                    <FormDescription>
+                      Enter a URL for the sponsor's logo image
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

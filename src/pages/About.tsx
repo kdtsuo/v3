@@ -11,15 +11,21 @@ export default function About() {
           alt='team'
         />
 
-        <div className='relative flex h-full flex-col items-center justify-center p-4 text-white'>
+        <div
+          className='relative flex h-full flex-col items-center justify-center p-4
+            text-white'
+        >
           <div>
-            <h1 className='text-lightblue-100 my-5 text-center text-3xl font-bold lg:text-4xl'>
+            <h1
+              className='text-lightblue-100 my-5 text-center text-3xl font-bold
+                lg:text-4xl'
+            >
               What is KDT?
             </h1>
             <p className='lg:paragraph max-w-screen-sm text-center text-xl'>
-              The KPop Dance Team (KDT), is a team consisting of diverse, unique individuals that
-              have common interests in dancing, choreographing, and performing to promote korean
-              pop-culture, and have fun!
+              The KPop Dance Team (KDT), is a team consisting of diverse, unique
+              individuals that have common interests in dancing, choreographing, and
+              performing to promote korean pop-culture, and have fun!
             </p>
           </div>
         </div>

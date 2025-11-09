@@ -149,7 +149,10 @@ export default function Positions() {
 
         if (!position) throw new Error('Position not found');
 
-        const { error } = await supabase.from('positions').update(data).eq('label', position.label);
+        const { error } = await supabase
+          .from('positions')
+          .update(data)
+          .eq('label', position.label);
 
         if (error) throw error;
         toast.success('Position updated successfully!');
@@ -179,7 +182,10 @@ export default function Positions() {
 
       if (!position) throw new Error('Position not found');
 
-      const { error } = await supabase.from('positions').delete().eq('label', position.label);
+      const { error } = await supabase
+        .from('positions')
+        .delete()
+        .eq('label', position.label);
 
       if (error) throw error;
 
@@ -257,14 +263,21 @@ export default function Positions() {
           alt='team'
         />
 
-        <div className='relative flex h-full flex-col items-center justify-center space-y-4 p-4 text-white'>
+        <div
+          className='relative flex h-full flex-col items-center justify-center space-y-4
+            p-4 text-white'
+        >
           <div>
-            <h1 className='text-lightblue-100 my-5 text-center text-3xl font-bold lg:text-4xl'>
+            <h1
+              className='text-lightblue-100 my-5 text-center text-3xl font-bold
+                lg:text-4xl'
+            >
               Find out what position fits you!
             </h1>
             <p className='lg:paragraph max-w-screen-sm text-center text-xl'>
-              We have a variety of positions available for you to join! Whether you're interested in
-              dancing, videography, or graphic design, we have a spot for you.
+              We have a variety of positions available for you to join! Whether you're
+              interested in dancing, videography, or graphic design, we have a spot for
+              you.
             </p>
           </div>
           <div className='flex justify-center gap-4'>
@@ -345,7 +358,9 @@ export default function Positions() {
 
                                 return (
                                   <SelectItem key={positionValue} value={positionValue}>
-                                    <div className='flex w-full items-center justify-between'>
+                                    <div
+                                      className='flex w-full items-center justify-between'
+                                    >
                                       {position.label.length > 38
                                         ? position.label.substring(0, 35) + '...'
                                         : position.label}
@@ -363,7 +378,10 @@ export default function Positions() {
                     {(selectedAction === 'add' ||
                       (selectedAction === 'update' && selectedAdminPosition)) && (
                       <Form {...form}>
-                        <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
+                        <form
+                          onSubmit={form.handleSubmit(handleSubmit)}
+                          className='space-y-4'
+                        >
                           <FormField
                             control={form.control}
                             name='label'
@@ -399,15 +417,22 @@ export default function Positions() {
                             control={form.control}
                             name='is_accepting_responses'
                             render={({ field }) => (
-                              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                              <FormItem
+                                className='flex flex-row items-center justify-between
+                                  rounded-lg border p-3 shadow-sm'
+                              >
                                 <div className='space-y-0.5'>
                                   <FormLabel>Accepting Responses</FormLabel>
                                   <FormDescription>
-                                    Toggle if this position is currently accepting applications
+                                    Toggle if this position is currently accepting
+                                    applications
                                   </FormDescription>
                                 </div>
                                 <FormControl>
-                                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
                                 </FormControl>
                               </FormItem>
                             )}
@@ -419,8 +444,14 @@ export default function Positions() {
                                 Close
                               </Button>
                             </DialogClose>
-                            <Button type='submit' variant='default' disabled={isSubmitting}>
-                              {isSubmitting && <Loader2 className='h-4 w-4 animate-spin' />}
+                            <Button
+                              type='submit'
+                              variant='default'
+                              disabled={isSubmitting}
+                            >
+                              {isSubmitting && (
+                                <Loader2 className='h-4 w-4 animate-spin' />
+                              )}
                               {selectedAction === 'add'
                                 ? 'Add Position'
                                 : isSubmitting
@@ -452,7 +483,9 @@ export default function Positions() {
                                       selectedAdminPosition,
                                   )?.label || '';
 
-                                return label.length > 38 ? label.substring(0, 35) + '...' : label;
+                                return label.length > 38
+                                  ? label.substring(0, 35) + '...'
+                                  : label;
                               })()}
                               " from the database? This action cannot be undone.
                             </AlertDialogDescription>
@@ -462,7 +495,8 @@ export default function Positions() {
                             <AlertDialogAction
                               onClick={handleDeletePosition}
                               disabled={isSubmitting}
-                              className='bg-destructive dark:text-destructive-foreground not-dark:text-background'
+                              className='bg-destructive dark:text-destructive-foreground
+                                not-dark:text-background'
                             >
                               {isSubmitting && <Loader2 className='animate-spin' />}
                               Delete
@@ -493,7 +527,9 @@ export default function Positions() {
                 <DialogHeader>
                   <DialogTitle>Positions</DialogTitle>
                 </DialogHeader>
-                <DialogDescription>Select a position that you're interested in.</DialogDescription>
+                <DialogDescription>
+                  Select a position that you're interested in.
+                </DialogDescription>
                 <div className='flex items-center justify-center'>
                   <Select
                     value={value}
@@ -508,7 +544,9 @@ export default function Positions() {
                     <SelectContent>
                       <SelectGroup>
                         {positionsData.map((position) => {
-                          const positionValue = position.label.toLowerCase().replace(/\s+/g, '');
+                          const positionValue = position.label
+                            .toLowerCase()
+                            .replace(/\s+/g, '');
 
                           return (
                             <SelectItem
@@ -516,7 +554,9 @@ export default function Positions() {
                               value={positionValue}
                               disabled={!position.is_accepting_responses}
                               className={
-                                !position.is_accepting_responses ? 'text-red-500 opacity-75' : ''
+                                !position.is_accepting_responses
+                                  ? 'text-red-500 opacity-75'
+                                  : ''
                               }
                             >
                               <div className='flex w-full items-center justify-between'>

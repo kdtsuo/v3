@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+// @ts-expect-error static import
 import kdtlogotransparent from '../assets/img/kdtlogotransparent.png';
 
 import { supabase } from '@/lib';
@@ -21,13 +22,17 @@ import {
   Input,
   Label,
 } from '@/components/ui';
+// @ts-expect-error static import
 import instagramlogo from '../assets/img/icons/instagramlogo.png';
+// @ts-expect-error static import
 import maillogo from '../assets/img/icons/maillogo.png';
+// @ts-expect-error static import
 import discordlogo from '../assets/img/icons/discordlogo.png';
+// @ts-expect-error static import
 import githublogo from '../assets/img/icons/githublogo.png';
 import { IconLink } from './subcomponents';
 import { useAuth, useToast, useTheme } from '@/hooks';
-import LanguageSelector from './LanguageSelector';
+// import LanguageSelector from './LanguageSelector';
 
 // Theme Toggle Button component
 function ThemeToggle() {
@@ -39,8 +44,14 @@ function ThemeToggle() {
       className='flex rounded-xl p-2 outline'
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      <SunIcon className='h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90' />
-      <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0' />
+      <SunIcon
+        className='h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0
+          dark:-rotate-90'
+      />
+      <MoonIcon
+        className='absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all
+          dark:scale-100 dark:rotate-0'
+      />
       <span className='sr-only'>Toggle theme</span>
     </div>
   );
@@ -97,8 +108,8 @@ function LoginDialog() {
         <DialogHeader>
           <DialogTitle>Login</DialogTitle>
           <DialogDescription>
-            Sign in to your account to edit the website contents. One will be provided to you if you
-            are a team member. Contact the developer for more info.
+            Sign in to your account to edit the website contents. One will be provided to
+            you if you are a team member. Contact the developer for more info.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSignIn}>
@@ -240,8 +251,14 @@ export default function Navbar() {
 
   return (
     <div>
-      <div className='fixed top-0 left-1/2 z-50 mt-4 w-11/12 max-w-7xl -translate-x-1/2 md:mt-7'>
-        <div className='bg-background/80 w-full rounded-full border shadow-sm backdrop-blur-md'>
+      <div
+        className='fixed top-0 left-1/2 z-50 mt-4 w-11/12 max-w-7xl -translate-x-1/2
+          md:mt-7'
+      >
+        <div
+          className='bg-background/80 w-full rounded-full border shadow-sm
+            backdrop-blur-md'
+        >
           <div className='flex w-full items-center justify-between px-2 py-4 lg:px-4'>
             {/* Logo */}
             <Link to='/'>
@@ -259,7 +276,8 @@ export default function Navbar() {
                     const path = item.toLowerCase();
                     const itemPath = path === 'home' ? '' : path;
                     const isActive =
-                      pathname === `/${itemPath}` || (pathname === '/' && item === 'Home');
+                      pathname === `/${itemPath}` ||
+                      (pathname === '/' && item === 'Home');
 
                     return (
                       <Button
@@ -297,7 +315,10 @@ export default function Navbar() {
                         />
                       </SheetTitle>
                     </SheetHeader>
-                    <div className='mx-auto flex w-1/2 flex-col items-center justify-center space-y-4 text-xl'>
+                    <div
+                      className='mx-auto flex w-1/2 flex-col items-center justify-center
+                        space-y-4 text-xl'
+                    >
                       <div className='flex items-center justify-center'>
                         <ThemeToggle />
                       </div>
@@ -305,7 +326,8 @@ export default function Navbar() {
                         const path = item.toLowerCase();
                         const itemPath = path === 'home' ? '' : path;
                         const isActive =
-                          pathname === `/${itemPath}` || (pathname === '/' && item === 'Home');
+                          pathname === `/${itemPath}` ||
+                          (pathname === '/' && item === 'Home');
 
                         return (
                           <Button
@@ -319,7 +341,9 @@ export default function Navbar() {
                           </Button>
                         );
                       })}
-                      <div className='flex flex-col items-center gap-4'>{authSection}</div>
+                      <div className='flex flex-col items-center gap-4'>
+                        {authSection}
+                      </div>
                       <div className='flex w-full justify-center'>
                         <IconLink links={linkIcons} />
                       </div>

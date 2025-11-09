@@ -60,7 +60,10 @@ const Sponsor: React.FC<
   };
 
   return (
-    <Card className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0 overflow-hidden rounded-xl p-0'>
+    <Card
+      className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0
+        overflow-hidden rounded-xl p-0'
+    >
       {/* Admin buttons */}
       {isAdmin && id && (
         <>
@@ -93,7 +96,8 @@ const Sponsor: React.FC<
         }
         className='absolute top-2 left-2 z-20'
       >
-        {getMonthsSince(created_at)}+{getMonthsSince(created_at) === 1 ? ' month' : ' months'}
+        {getMonthsSince(created_at)}+
+        {getMonthsSince(created_at) === 1 ? ' month' : ' months'}
       </Badge>
 
       {/* Edit Sponsor Dialog */}
@@ -133,7 +137,10 @@ const Sponsor: React.FC<
       </div>
 
       {/* Sponsor content */}
-      <CardContent className='bg-muted/20 flex flex-col items-center justify-center space-y-4 p-6 text-center'>
+      <CardContent
+        className='bg-muted/20 flex flex-col items-center justify-center space-y-4 p-6
+          text-center'
+      >
         <CardTitle>
           <Button
             onClick={(e) => {
@@ -210,7 +217,9 @@ export default function Sponsors() {
 
   // Find the top sponsor (most months supporting)
   const topSponsor = sponsors.length
-    ? [...sponsors].sort((a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at))[0]
+    ? [...sponsors].sort(
+        (a, b) => getMonthsSince(b.created_at) - getMonthsSince(a.created_at),
+      )[0]
     : null;
 
   return (
@@ -225,20 +234,32 @@ export default function Sponsors() {
         <div className='relative z-10 mx-auto w-full sm:w-3/4'>
           {/* Top Sponsor Hero Section */}
           {topSponsor && (
-            <Card className='my-6 flex flex-col items-center gap-8 rounded-xl border-0 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row dark:bg-yellow-900/20'>
+            <Card
+              className='my-6 flex flex-col items-center gap-8 rounded-xl border-0
+                bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row
+                dark:bg-yellow-900/20'
+            >
               <div className='flex-shrink-0'>
                 <Avatar className='h-32 w-32 border-4 border-yellow-400 shadow'>
                   <AvatarImage src={topSponsor.image} alt={topSponsor.title} />
-                  <AvatarFallback className='flex items-center justify-center bg-yellow-300 text-2xl font-bold text-yellow-900'>
+                  <AvatarFallback
+                    className='flex items-center justify-center bg-yellow-300 text-2xl
+                      font-bold text-yellow-900'
+                  >
                     {topSponsor.title?.charAt(0) ?? '?'}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <CardContent className='flex-1 text-center md:text-left'>
-                <CardTitle className='mb-2 flex items-center justify-center gap-2 text-3xl font-bold text-yellow-700 md:justify-start dark:text-yellow-300'>
+                <CardTitle
+                  className='mb-2 flex items-center justify-center gap-2 text-3xl
+                    font-bold text-yellow-700 md:justify-start dark:text-yellow-300'
+                >
                   🌟 Top Sponsor: {topSponsor.title}
                 </CardTitle>
-                <CardDescription className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'>
+                <CardDescription
+                  className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'
+                >
                   <p>
                     Thank you for supporting us for{' '}
                     <span className='font-semibold'>
@@ -248,12 +269,17 @@ export default function Sponsors() {
                         : 'months'}
                       {', '}
                       {getMonthsAndDaysSince(topSponsor.created_at).days}{' '}
-                      {getMonthsAndDaysSince(topSponsor.created_at).days === 1 ? 'day' : 'days'}
+                      {getMonthsAndDaysSince(topSponsor.created_at).days === 1
+                        ? 'day'
+                        : 'days'}
                     </span>
                   </p>
                   <Badge variant='gold'>{topSponsor.text}</Badge>
                 </CardDescription>
-                <div className='flex flex-col justify-center gap-3 md:flex-row md:justify-start'>
+                <div
+                  className='flex flex-col justify-center gap-3 md:flex-row
+                    md:justify-start'
+                >
                   <Button
                     variant='default'
                     onClick={() => window.open(topSponsor.websitelink, '_blank')}
@@ -307,7 +333,8 @@ export default function Sponsors() {
                           </span>
                         </TooltipTrigger>
                         <TooltipContent side={isMobile ? 'top' : 'left'} align='center'>
-                          Our most dedicated sponsors who have been with us for 8 or more months.
+                          Our most dedicated sponsors who have been with us for 8 or more
+                          months.
                         </TooltipContent>
                       </Tooltip>
                     </h1>
