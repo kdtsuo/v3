@@ -1,14 +1,14 @@
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   Separator,
 } from '@/components/ui';
 

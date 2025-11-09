@@ -1,4 +1,4 @@
-import { QuickLinks, Discover, Footer } from '@/components';
+import { Discover, Footer, QuickLinks } from '@/components';
 import { useTheme } from '@/hooks';
 
 export default function Home() {

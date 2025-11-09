@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
 import { Theme, ThemeContextType } from '@/types/type';
+import React, { createContext, useEffect, useState } from 'react';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);

@@ -1,60 +1,62 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./src/assets/img/kdtlogotransparent.png"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kdt ♥ kpop dance team</title>
+    <style>
+      /* Hide Google Translate banner and elements */
+      .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="./src/assets/img/kdtlogotransparent.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>kdt ♥ kpop dance team </title>
-  <style>
-    /* Hide Google Translate banner and elements */
-    .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-    }
+      body {
+        top: 0px !important;
+      }
 
-    body {
-      top: 0px !important;
-    }
+      .goog-te-balloon-frame {
+        display: none !important;
+      }
 
-    .goog-te-balloon-frame {
-      display: none !important;
-    }
+      .goog-tooltip {
+        display: none !important;
+      }
 
-    .goog-tooltip {
-      display: none !important;
-    }
+      .goog-tooltip:hover {
+        display: none !important;
+      }
 
-    .goog-tooltip:hover {
-      display: none !important;
-    }
+      .goog-text-highlight {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
 
-    .goog-text-highlight {
-      background-color: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
+      /* Hide the Google Translate iframe container */
+      iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,
+      iframe.skiptranslate,
+      iframe[id*='container'] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+      }
 
-    /* Hide the Google Translate iframe container */
-    iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,
-    iframe.skiptranslate,
-    iframe[id*='container'] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      position: absolute !important;
-      left: -9999px !important;
-    }
+      /* Additional catch-all for Google Translate iframes */
+      body > iframe {
+        display: none !important;
+      }
+    </style>
+  </head>
 
-    /* Additional catch-all for Google Translate iframes */
-    body>iframe {
-      display: none !important;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

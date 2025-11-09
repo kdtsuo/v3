@@ -2,26 +2,26 @@ import { Link, useLocation } from 'react-router-dom';
 // @ts-expect-error static import
 import kdtlogotransparent from '../assets/img/kdtlogotransparent.png';
 
-import { supabase } from '@/lib';
-import { Loader2, LogIn, LogOut, Menu, MoonIcon, SunIcon } from 'lucide-react';
-import { useState } from 'react';
 import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Input,
+  Label,
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  Button,
-  Input,
-  Label,
 } from '@/components/ui';
+import { supabase } from '@/lib';
+import { Loader2, LogIn, LogOut, Menu, MoonIcon, SunIcon } from 'lucide-react';
+import { useState } from 'react';
 // @ts-expect-error static import
 import instagramlogo from '../assets/img/icons/instagramlogo.png';
 // @ts-expect-error static import
@@ -29,9 +29,9 @@ import maillogo from '../assets/img/icons/maillogo.png';
 // @ts-expect-error static import
 import discordlogo from '../assets/img/icons/discordlogo.png';
 // @ts-expect-error static import
+import { useAuth, useTheme, useToast } from '@/hooks';
 import githublogo from '../assets/img/icons/githublogo.png';
 import { IconLink } from './subcomponents';
-import { useAuth, useToast, useTheme } from '@/hooks';
 // import LanguageSelector from './LanguageSelector';
 
 function ThemeToggle() {

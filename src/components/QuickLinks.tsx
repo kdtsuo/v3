@@ -1,23 +1,5 @@
 import { IconLinkWide } from '@/components/subcomponents';
-import { DollarSign, Edit, Loader2, GripVertical } from 'lucide-react';
-import { useAuth, useToast } from '@/hooks';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Button,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  RadioGroup,
-  RadioGroupItem,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -27,23 +9,43 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
   Label,
+  RadioGroup,
+  RadioGroupItem,
+  ScrollArea,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  ScrollArea,
 } from '@/components/ui';
+import { useAuth, useToast } from '@/hooks';
+import { supabase } from '@/lib';
+import type { ActionType, Link } from '@/types';
+import { iconMap } from '@/utils';
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -53,13 +55,11 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DollarSign, Edit, GripVertical, Loader2 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { iconMap } from '@/utils';
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/lib';
-import type { Link, ActionType } from '@/types';
+import { z } from 'zod';
 
 const formSchema = z.object({
   label: z.string().min(1, 'Label is required'),

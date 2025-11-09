@@ -1,31 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
   Card,
   CardContent,
-  CardTitle,
-  Button,
-  Badge,
-  CardHeader,
   CardDescription,
+  CardHeader,
+  CardTitle,
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
+  TooltipTrigger,
 } from '@/components/ui';
-import { Edit, Info } from 'lucide-react';
-import { useAuth, useToast, useTheme, useMediaQuery } from '@/hooks';
+import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
 import { getMonthsAndDaysSince, supabase } from '@/lib';
+import { Edit, Info } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import defaultSponsors from '@/lib/default';
 
-import { Loader2, SquareArrowOutUpRight, ImageIcon, MapPin } from 'lucide-react';
 import { Footer } from '@/components';
+import { ImageIcon, Loader2, MapPin, SquareArrowOutUpRight } from 'lucide-react';
 
+import * as SponsorActions from '@/components/subcomponents/SponsorActions';
 import { getMonthsSince } from '@/lib/';
 import { SponsorData, SponsorProps } from '@/types';
-import * as SponsorActions from '@/components/subcomponents/SponsorActions';
 
 const Sponsor: React.FC<
   SponsorProps & {
@@ -254,9 +254,7 @@ export default function Sponsors() {
                 >
                   🌟 Top Sponsor: {topSponsor.title}
                 </CardTitle>
-                <CardDescription
-                  className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'
-                >
+                <CardDescription className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'>
                   <p>
                     Thank you for supporting us for{' '}
                     <span className='font-semibold'>

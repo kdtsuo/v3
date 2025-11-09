@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState, ReactNode } from 'react';
-import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { AuthContextType } from '@/types/type';
+import { Session, User } from '@supabase/supabase-js';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

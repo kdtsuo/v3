@@ -1,11 +1,11 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
+import { useTheme } from '@/hooks';
 import dancepractice from '../assets/img/stock/dancepractice.png';
 import events from '../assets/img/stock/events.jpeg';
 import events2 from '../assets/img/stock/events2.jpeg';
 import events3 from '../assets/img/stock/events3.jpeg';
 import showcase from '../assets/img/stock/showcase.jpeg';
 import { Activity } from './subcomponents';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
-import { useTheme } from '@/hooks';
 
 interface ActivityProps {
   images: string[];

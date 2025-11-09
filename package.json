@@ -10,7 +10,8 @@
     "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview",
-    "vercel-build": "vite build"
+    "vercel-build": "vite build",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -60,6 +61,7 @@
     "globals": "^15.15.0",
     "prettier": "^3.6.2",
     "prettier-plugin-classnames": "^0.8.5",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "sharp": "^0.34.4",
     "tailwind-scrollbar": "^4.0.2",

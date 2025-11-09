@@ -1,25 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // @ts-expect-error static import
 import joinourteam from '@/assets/img/stock/joinourteam.jpeg';
 import { Footer } from '@/components';
 import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogClose,
-  DialogTitle,
-  DialogTrigger,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-  Input,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -29,22 +12,39 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
   Label,
-  Switch,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Switch,
 } from '@/components/ui';
-import { Clipboard, Edit, Loader2, X, Plus, Trash } from 'lucide-react';
-import { useToast, useAuth } from '@/hooks';
+import { useAuth, useToast } from '@/hooks';
 import { supabase } from '@/lib';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
+import type { ActionType, Position } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { Position, ActionType } from '@/types';
+import { Clipboard, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const fallbackPositions: Position[] = [
   {
@@ -343,9 +343,7 @@ export default function Positions() {
 
                                 return (
                                   <SelectItem key={positionValue} value={positionValue}>
-                                    <div
-                                      className='flex w-full items-center justify-between'
-                                    >
+                                    <div className='flex w-full items-center justify-between'>
                                       {position.label.length > 38
                                         ? position.label.substring(0, 35) + '...'
                                         : position.label}

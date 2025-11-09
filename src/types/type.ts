@@ -1,10 +1,9 @@
 // src/types/type.ts
 // Centralized type definitions for the application
 
-import { LucideIcon } from 'lucide-react';
-import { ExternalToast } from 'sonner';
 import { Session, User } from '@supabase/supabase-js';
-import { toast as sonnerToast } from 'sonner';
+import { LucideIcon } from 'lucide-react';
+import { ExternalToast, toast as sonnerToast } from 'sonner';
 
 // ============================================================================
 // COMMON TYPES

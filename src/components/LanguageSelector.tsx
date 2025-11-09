@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Languages } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui';
+import { Languages } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 declare global {
   interface Window {

@@ -1,14 +1,10 @@
-import { useState } from 'react';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Button,
   Form,
   FormControl,
   FormDescription,
@@ -18,9 +14,13 @@ import {
   FormMessage,
   Input,
 } from '@/components/ui';
-import { Loader2, ListPlus } from 'lucide-react';
 import { useToast } from '@/hooks';
 import { supabase } from '@/lib';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ListPlus, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
