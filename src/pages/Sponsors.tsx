@@ -71,7 +71,7 @@ const Sponsor: React.FC<
         overflow-hidden rounded-xl p-0'
     >
       <Helmet>
-        <title>Sponsors | kdt ♥ kpop dance team</title>
+        <title>sponsors | kdt ♥ kpop dance team</title>
         <meta
           name='description'
           content='Meet our sponsors and partners supporting KDT.'
