@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div id='top' className='animate-fade-in h-auto overflow-x-hidden'>
       <Helmet>
-        <title>about | kdt ♥ kpop dance team</title>
+        <title>about ♥ kdt</title>
         <meta
           name='description'
           content='Learn more about KDT, our mission, and our team members.'

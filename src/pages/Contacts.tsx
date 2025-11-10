@@ -104,7 +104,7 @@ export default function Contacts() {
   return (
     <>
       <Helmet>
-        <title>contacts | kdt ♥ kpop dance team</title>
+        <title>contacts ♥ kdt</title>
         <meta
           name='description'
           content='Meet the KDT team and find ways to connect with us.'

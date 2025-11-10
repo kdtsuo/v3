@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>home | kdt ♥ kpop dance team</title>
+        <title>home ♥ kdt</title>
         <meta
           name='description'
           content='All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.'

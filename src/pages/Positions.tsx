@@ -243,7 +243,7 @@ export default function Positions() {
   return (
     <div className='animate-fade-in overflow-x-hidden'>
       <Helmet>
-        <title>positions | kdt ♥ kpop dance team</title>
+        <title>positions ♥ kdt</title>
         <meta
           name='description'
           content='Explore available positions and join the KDT team!'
