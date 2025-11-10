@@ -41,8 +41,6 @@ export default function Contacts() {
     setMeta({
       title: 'contacts ♥ kdt',
       description: 'Meet the KDT team and find ways to connect with us.',
-      ogTitle: 'KDT Contacts',
-      ogDescription: 'Meet the KDT team and find ways to connect with us.',
     });
   }, [setMeta]);
 

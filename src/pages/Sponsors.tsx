@@ -189,8 +189,6 @@ export default function Sponsors() {
     setMeta({
       title: 'sponsors ♥ kdt',
       description: 'Meet our sponsors and partners supporting KDT.',
-      ogTitle: 'KDT Sponsors',
-      ogDescription: 'Meet our sponsors and partners supporting KDT.',
     });
   }, [setMeta]);
 

@@ -94,8 +94,6 @@ export default function Positions() {
     setMeta({
       title: 'positions ♥ kdt',
       description: 'Explore available positions and join the KDT team!',
-      ogTitle: 'KDT Positions',
-      ogDescription: 'Explore available positions and join the KDT team!',
     });
   }, [setMeta]);
 

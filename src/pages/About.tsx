@@ -10,8 +10,6 @@ export default function About() {
     setMeta({
       title: 'about ♥ kdt',
       description: 'Learn more about KDT, our mission, and our team members.',
-      ogTitle: 'About KDT',
-      ogDescription: 'Learn more about KDT, our mission, and our team members.',
     });
   }, [setMeta]);
 

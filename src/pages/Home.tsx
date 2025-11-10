@@ -11,9 +11,6 @@ export default function Home() {
       title: 'kdt ♥ kpop dance team',
       description:
         'All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.',
-      ogTitle: 'KDT Home',
-      ogDescription:
-        'All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.',
     });
   }, [setMeta]);
   return (

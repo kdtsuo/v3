@@ -9,8 +9,6 @@ export default function Root() {
     setMeta({
       title: 'kdt ♥ kpop dance team',
       description: 'discover our performances, join us, and connect!',
-      ogTitle: 'kdt ♥ kpop dance team',
-      ogDescription: 'discover our performances, join us, and connect!',
     });
   }, [setMeta]);
 
