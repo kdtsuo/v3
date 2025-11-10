@@ -30,8 +30,7 @@ export default function Activity({
   return (
     <div className='flex w-full flex-col items-center'>
       <div
-        className={`flex flex-col ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}
-          w-full items-center justify-center overflow-hidden md:space-x-4`}
+        className={`flex flex-col ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} w-full items-center justify-center overflow-hidden md:space-x-4`}
       >
         <div className='flex w-full justify-center px-10 py-6 lg:w-1/2'>
           <Carousel className='w-11/12 rounded-xl border lg:w-5/6'>

@@ -48,10 +48,10 @@ export default function Discover() {
   ];
 
   return (
-    <Card className='mx-4 text-center fade-in-from-bottom '>
+    <Card className='fade-in-from-bottom mx-4 text-center'>
       <CardHeader>
         <CardTitle>
-          <div className='text-3xl font-bold md:text-6xl fade-in-from-bottom'>
+          <div className='fade-in-from-bottom text-3xl font-bold md:text-6xl'>
             Discover More
           </div>
         </CardTitle>
@@ -68,7 +68,7 @@ export default function Discover() {
             image={card.image}
             link={card.link}
             isOpen={card.isOpen}
-            className={`aspect-video w-full lg:w-1/3 fade-in-from-bottom ${getDelayClass(index)}`}
+            className={`fade-in-from-bottom aspect-video w-full lg:w-1/3 ${getDelayClass(index)}`}
           />
         ))}
       </CardContent>

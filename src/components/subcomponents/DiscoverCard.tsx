@@ -46,10 +46,7 @@ export default function DiscoverCard({
         <div className='t200e absolute inset-0 opacity-25 group-hover:opacity-40' />
 
         {/* Content */}
-        <div
-          className='relative z-10 flex h-full flex-col items-center justify-center p-6
-            text-center'
-        >
+        <div className='relative z-10 flex h-full flex-col items-center justify-center p-6 text-center'>
           <CardHeader className='pb-2'>
             {Icon && <Icon size={25} strokeWidth={2} className='mx-auto text-white' />}
             <CardTitle className='text-lg font-bold text-white md:text-3xl'>

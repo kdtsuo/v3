@@ -66,10 +66,7 @@ const Sponsor: React.FC<
   const time = getTimeSince(created_at);
 
   return (
-    <Card
-      className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0
-        overflow-hidden rounded-xl p-0'
-    >
+    <Card className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0 overflow-hidden rounded-xl p-0'>
       {/* Admin buttons */}
       {isAdmin && id && (
         <>
@@ -147,10 +144,7 @@ const Sponsor: React.FC<
       </div>
 
       {/* Sponsor content */}
-      <CardContent
-        className='bg-muted/20 flex flex-col items-center justify-center space-y-4 p-6
-          text-center'
-      >
+      <CardContent className='bg-muted/20 flex flex-col items-center justify-center space-y-4 p-6 text-center'>
         <CardTitle>
           <Button
             onClick={(e) => {
@@ -174,7 +168,7 @@ const Sponsor: React.FC<
           <div className='text-xs font-medium md:text-sm'>{location}</div>
           <SquareArrowOutUpRight />
         </Button>
-        <Badge className='bg-yellow-500 text-sm text-black whitespace-normal break-words'>
+        <Badge className='bg-yellow-500 text-sm break-words whitespace-normal text-black'>
           {text}
         </Badge>
       </CardContent>
@@ -243,11 +237,7 @@ export default function Sponsors() {
         <div className='relative z-10 mx-auto w-full xl:w-3/4'>
           {/* Top Sponsor Hero Section */}
           {topSponsor && (
-            <Card
-              className='fade-in-from-bottom fill-mode-both my-6 flex flex-col items-center gap-8 rounded-xl border-0
-                bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row
-                dark:bg-yellow-900/20'
-            >
+            <Card className='fade-in-from-bottom fill-mode-both my-6 flex flex-col items-center gap-8 rounded-xl border-0 bg-yellow-100/20 p-8 shadow-lg backdrop-blur-sm md:flex-row dark:bg-yellow-900/20'>
               <div className='flex-shrink-0'>
                 <Avatar className='size-32 border-4 border-yellow-400 shadow'>
                   <AvatarImage
@@ -255,19 +245,13 @@ export default function Sponsors() {
                     alt={topSponsor.title}
                     className='object-cover'
                   />
-                  <AvatarFallback
-                    className='flex items-center justify-center bg-yellow-300 text-2xl
-                      font-bold text-yellow-900'
-                  >
+                  <AvatarFallback className='flex items-center justify-center bg-yellow-300 text-2xl font-bold text-yellow-900'>
                     {topSponsor.title?.charAt(0) ?? '?'}
                   </AvatarFallback>
                 </Avatar>
               </div>
               <CardContent className='flex-1 text-center md:text-left'>
-                <CardTitle
-                  className='mb-2 flex items-center justify-center gap-2 text-3xl
-                    font-bold text-yellow-700 md:justify-start dark:text-yellow-300'
-                >
+                <CardTitle className='mb-2 flex items-center justify-center gap-2 text-3xl font-bold text-yellow-700 md:justify-start dark:text-yellow-300'>
                   🌟 Top Sponsor: {topSponsor.title}
                 </CardTitle>
                 <CardDescription className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'>
@@ -285,10 +269,7 @@ export default function Sponsors() {
                   </p>
                   <Badge variant='gold'>{topSponsor.text}</Badge>
                 </CardDescription>
-                <div
-                  className='flex flex-col justify-center gap-3 md:flex-row
-                    md:justify-start'
-                >
+                <div className='flex flex-col justify-center gap-3 md:flex-row md:justify-start'>
                   <Button
                     variant='default'
                     onClick={() => window.open(topSponsor.websitelink, '_blank')}
@@ -316,9 +297,9 @@ export default function Sponsors() {
           ) : (
             <section>
               {/* Legacy Sponsors */}
-              <Card className='w-full fade-in-from-right '>
+              <Card className='fade-in-from-right w-full'>
                 <CardHeader>
-                  <CardTitle className='text-3xl fade-in-from-right'>Sponsors</CardTitle>
+                  <CardTitle className='fade-in-from-right text-3xl'>Sponsors</CardTitle>
                   <CardDescription className='fade-in-from-right'>
                     Become a sponsor now to help us continue our work!
                   </CardDescription>
@@ -329,15 +310,15 @@ export default function Sponsors() {
                     </div>
                   )}
                 </CardHeader>
-                <CardContent className='flex flex-col gap-8 fade-in-from-right'>
+                <CardContent className='fade-in-from-right flex flex-col gap-8'>
                   {/* Legacy Sponsors */}
                   <div>
                     <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex cursor-pointer items-center'>
+                          <span className='inline-flex cursor-pointer items-center text-xl lg:text-2xl'>
                             🌟 Way Paver Sponsors
-                            <Info size={20} className='text-muted-foreground ml-2' />
+                            <Info size={15} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
                         <TooltipContent side={isMobile ? 'top' : 'right'} align='center'>
@@ -372,9 +353,9 @@ export default function Sponsors() {
                     <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex cursor-pointer items-center'>
+                          <span className='inline-flex cursor-pointer items-center text-xl lg:text-2xl'>
                             ✨ Rising Stars Sponsors
-                            <Info size={20} className='text-muted-foreground ml-2' />
+                            <Info size={15} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
                         <TooltipContent side={isMobile ? 'top' : 'right'}>
@@ -382,9 +363,11 @@ export default function Sponsors() {
                         </TooltipContent>
                       </Tooltip>
                     </h1>
-                    <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
+                    <div className='gap-8xl:grid-cols-3 grid grid-cols-1 md:grid-cols-2'>
                       {veteranSponsors.length === 0 ? (
-                        <div className='text-gray-500'>No Rising Stars sponsors yet.</div>
+                        <div className='text-muted-foreground col-span-full rounded-lg border border-dashed p-4 text-center'>
+                          No Rising Stars sponsors yet.
+                        </div>
                       ) : (
                         veteranSponsors.map((sponsor, index) => (
                           <div
@@ -408,9 +391,9 @@ export default function Sponsors() {
                     <h1 className='mb-4 flex items-center gap-2 text-2xl font-bold'>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <span className='inline-flex cursor-pointer items-center'>
+                          <span className='inline-flex cursor-pointer items-center text-xl lg:text-2xl'>
                             🎤 Debut Sponsors
-                            <Info size={20} className='text-muted-foreground ml-2' />
+                            <Info size={15} className='text-muted-foreground ml-2' />
                           </span>
                         </TooltipTrigger>
                         <TooltipContent side={isMobile ? 'top' : 'right'}>

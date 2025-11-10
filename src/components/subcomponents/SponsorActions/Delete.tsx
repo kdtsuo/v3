@@ -88,8 +88,7 @@ export function DeleteSponsorDialog({
               handleDelete();
             }}
             disabled={isDeleting}
-            className='bg-destructive dark:text-primary hover:bg-destructive/90
-              not-dark:text-white'
+            className='bg-destructive dark:text-primary hover:bg-destructive/90 not-dark:text-white'
           >
             {isDeleting ? (
               <>

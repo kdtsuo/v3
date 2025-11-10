@@ -43,14 +43,8 @@ function ThemeToggle() {
       className='flex rounded-xl p-2 outline'
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      <SunIcon
-        className='h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0
-          dark:-rotate-90'
-      />
-      <MoonIcon
-        className='absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all
-          dark:scale-100 dark:rotate-0'
-      />
+      <SunIcon className='h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90' />
+      <MoonIcon className='absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0' />
       <span className='sr-only'>Toggle theme</span>
     </div>
   );
@@ -250,14 +244,8 @@ export default function Navbar() {
 
   return (
     <div>
-      <div
-        className='fixed top-0 left-1/2 z-50 mt-4 w-11/12 max-w-7xl -translate-x-1/2
-          md:mt-7'
-      >
-        <div
-          className='bg-background/80 w-full rounded-full border shadow-sm
-            backdrop-blur-md'
-        >
+      <div className='fixed top-0 left-1/2 z-50 mt-4 w-11/12 max-w-7xl -translate-x-1/2 md:mt-7'>
+        <div className='bg-background/80 w-full rounded-full border shadow-sm backdrop-blur-md'>
           <div className='flex w-full items-center justify-between px-2 py-4 lg:px-4'>
             {/* Logo */}
             <Link to='/'>
@@ -314,10 +302,7 @@ export default function Navbar() {
                         />
                       </SheetTitle>
                     </SheetHeader>
-                    <div
-                      className='mx-auto flex w-1/2 flex-col items-center justify-center
-                        space-y-4 text-xl'
-                    >
+                    <div className='mx-auto flex w-1/2 flex-col items-center justify-center space-y-4 text-xl'>
                       <div className='flex items-center justify-center'>
                         <ThemeToggle />
                       </div>

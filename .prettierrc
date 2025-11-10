@@ -9,9 +9,8 @@
   "arrowParens": "always",
   "endOfLine": "lf",
   "plugins": [
-    "prettier-plugin-tailwindcss",
-    "prettier-plugin-classnames",
     "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
     "prettier-plugin-packagejson"
   ],
   "importOrder": [
@@ -21,7 +20,5 @@
     "^@/hooks/(.*)$",
     "^@/utils/(.*)$",
     "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  ]
 }

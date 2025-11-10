@@ -249,24 +249,18 @@ export default function Positions() {
           alt='team'
         />
 
-        <div
-          className='relative flex h-full flex-col items-center justify-center space-y-4
-            p-4 text-white'
-        >
+        <div className='relative flex h-full flex-col items-center justify-center space-y-4 p-4 text-white'>
           <div>
-            <h1
-              className='text-lightblue-100 my-5 text-center text-3xl font-bold
-                lg:text-4xl fade-in-from-bottom delay-75'
-            >
+            <h1 className='text-lightblue-100 fade-in-from-bottom my-5 text-center text-3xl font-bold delay-75 lg:text-4xl'>
               Find out what position fits you!
             </h1>
-            <p className='lg:paragraph max-w-screen-sm text-center text-xl fade-in-from-bottom delay-150'>
+            <p className='lg:paragraph fade-in-from-bottom max-w-screen-sm text-center text-xl delay-150'>
               We have a variety of positions available for you to join! Whether you're
               interested in dancing, videography, or graphic design, we have a spot for
               you.
             </p>
           </div>
-          <div className='flex justify-center gap-4 fade-in-from-bottom delay-200'>
+          <div className='fade-in-from-bottom flex justify-center gap-4 delay-200'>
             {/* Manage Positions Section */}
             {user && (
               <Dialog>
@@ -401,10 +395,7 @@ export default function Positions() {
                             control={form.control}
                             name='is_accepting_responses'
                             render={({ field }) => (
-                              <FormItem
-                                className='flex flex-row items-center justify-between
-                                  rounded-lg border p-3 shadow-sm'
-                              >
+                              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
                                 <div className='space-y-0.5'>
                                   <FormLabel>Accepting Responses</FormLabel>
                                   <FormDescription>
@@ -479,8 +470,7 @@ export default function Positions() {
                             <AlertDialogAction
                               onClick={handleDeletePosition}
                               disabled={isSubmitting}
-                              className='bg-destructive dark:text-destructive-foreground
-                                not-dark:text-background'
+                              className='bg-destructive dark:text-destructive-foreground not-dark:text-background'
                             >
                               {isSubmitting && <Loader2 className='animate-spin' />}
                               Delete
