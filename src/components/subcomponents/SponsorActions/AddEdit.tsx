@@ -9,6 +9,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,6 +21,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  ScrollArea,
 } from '@/components/ui';
 
 const formSchema = z.object({
@@ -166,107 +168,113 @@ export function AddEditSponsorDialog({
         <DialogHeader>
           <DialogTitle>{mode === 'add' ? 'Add New Sponsor' : 'Edit Sponsor'}</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
-            <div className='grid gap-4 py-2'>
-              <FormField
-                control={form.control}
-                name='title'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Sponsor name' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='image'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image URL</FormLabel>
-                    <FormControl>
-                      <Input placeholder='https://example.com/image.png' {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter a URL for the sponsor's logo image
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='location'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Location</FormLabel>
-                    <FormControl>
-                      <Input placeholder='123 Main St' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='maplink'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Map Link</FormLabel>
-                    <FormControl>
-                      <Input placeholder='https://maps.google.com/...' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='text'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discount Text</FormLabel>
-                    <FormControl>
-                      <Input placeholder='e.g. 10% off for KDT members!' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='websitelink'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sponsor's Website Link</FormLabel>
-                    <FormControl>
-                      <Input placeholder='https://example.com' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex justify-end'>
-              <Button type='submit' disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className='h-4 w-4 animate-spin' />
-                    {mode === 'add' ? 'Adding...' : 'Saving...'}
-                  </>
-                ) : mode === 'add' ? (
-                  'Add Sponsor'
-                ) : (
-                  'Save Changes'
-                )}
-              </Button>
-            </div>
-          </form>
-        </Form>
+        <ScrollArea type='always' className='max-h-[60vh] pr-4'>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
+              <div className='grid gap-4 py-2'>
+                <FormField
+                  control={form.control}
+                  name='title'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Sponsor name' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='image'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder='https://example.com/image.png' {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Enter a URL for the sponsor's logo image
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='location'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Location</FormLabel>
+                      <FormControl>
+                        <Input placeholder='123 Main St' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='maplink'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Map Link</FormLabel>
+                      <FormControl>
+                        <Input placeholder='https://maps.google.com/...' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='text'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Discount Text</FormLabel>
+                      <FormControl>
+                        <Input placeholder='e.g. 10% off for KDT members!' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='websitelink'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sponsor's Website Link</FormLabel>
+                      <FormControl>
+                        <Input placeholder='https://example.com' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </form>
+          </Form>
+        </ScrollArea>
+        <DialogFooter>
+          <Button
+            type='submit'
+            disabled={isSubmitting}
+            onClick={form.handleSubmit(handleSubmit)}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className='h-4 w-4 animate-spin' />
+                {mode === 'add' ? 'Adding...' : 'Saving...'}
+              </>
+            ) : mode === 'add' ? (
+              'Add Sponsor'
+            ) : (
+              'Save Changes'
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

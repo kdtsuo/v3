@@ -9,6 +9,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -306,23 +307,27 @@ export function AddEditMemberDialog({
                   )}
                 />
               </div>
-              <div className='flex justify-end'>
-                <Button type='submit' disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className='h-4 w-4 animate-spin' />
-                      {mode === 'add' ? 'Adding...' : 'Saving...'}
-                    </>
-                  ) : mode === 'add' ? (
-                    'Add Member'
-                  ) : (
-                    'Save Changes'
-                  )}
-                </Button>
-              </div>
             </form>
           </Form>
         </ScrollArea>
+        <DialogFooter>
+          <Button
+            type='submit'
+            disabled={isSubmitting}
+            onClick={form.handleSubmit(handleSubmit)}
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className='h-4 w-4 animate-spin' />
+                {mode === 'add' ? 'Adding...' : 'Saving...'}
+              </>
+            ) : mode === 'add' ? (
+              'Add Member'
+            ) : (
+              'Save Changes'
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
