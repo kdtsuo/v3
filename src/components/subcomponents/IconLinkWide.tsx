@@ -30,7 +30,10 @@ export default function IconLinkWide({
         </div>
         <h1 className='flex-grow truncate text-center text-base md:text-xl'>{label}</h1>
         <div className='flex-shrink-0'>
-          <ChevronRight className='t200e -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100' />
+          <ChevronRight
+            className='t200e -translate-x-full opacity-0 group-hover:translate-x-0
+              group-hover:opacity-100'
+          />
         </div>
       </div>
 
@@ -57,7 +60,8 @@ export default function IconLinkWide({
         asChild
         variant='ghost'
         className={cn(
-          `t200e group relative flex h-20 w-full items-center rounded-xl px-4 py-3 text-lg font-medium`,
+          `t200e group relative flex h-20 w-full items-center rounded-xl px-4 py-3 text-lg
+          font-medium`,
           className
         )}
         onClick={() => {

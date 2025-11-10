@@ -68,7 +68,8 @@ export default function Discover() {
             image={card.image}
             link={card.link}
             isOpen={card.isOpen}
-            className={`fade-in-from-bottom aspect-video w-full lg:w-1/3 ${getDelayClass(index)}`}
+            className={`fade-in-from-bottom aspect-video w-full lg:w-1/3
+            ${getDelayClass(index)}`}
           />
         ))}
       </CardContent>

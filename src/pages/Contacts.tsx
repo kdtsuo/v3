@@ -155,15 +155,16 @@ export default function Contacts() {
                 className={`${
                   !directContact
                     ? 'mx-auto flex w-full flex-col sm:w-1/2'
-                    : `flex w-full flex-col items-center justify-center p-12 py-6 lg:w-1/3 lg:py-12`
-                }`}
+                    : `flex w-full flex-col items-center justify-center p-12 py-6 lg:w-1/3
+                      lg:py-12`
+                  }`}
               >
                 <div
                   className={`${
                     !directContact
                       ? 'grid grid-cols-1 gap-4 lg:grid-cols-2'
                       : 'flex w-full flex-grow flex-col justify-center space-y-2 py-4'
-                  }`}
+                    }`}
                 >
                   {socialLinks.map((link, index) => (
                     <a
@@ -171,16 +172,24 @@ export default function Contacts() {
                       href={link.href}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className={`fade-in-from-bottom lg:last:col-span-2 ${getDelayClass(index)}`}
+                      className={`fade-in-from-bottom lg:last:col-span-2
+                      ${getDelayClass(index)}`}
                     >
-                      <Card className='bg-secondary-foreground transition-all duration-200 hover:-translate-y-1 hover:shadow-lg'>
-                        <CardHeader className='flex flex-row items-center justify-between space-x-4'>
+                      <Card
+                        className='bg-secondary-foreground transition-all duration-200
+                          hover:-translate-y-1 hover:shadow-lg'
+                      >
+                        <CardHeader
+                          className='flex flex-row items-center justify-between space-x-4'
+                        >
                           <img
                             src={link.icon}
                             alt={link.title}
                             className='h-12 w-12 not-dark:invert-0 dark:invert-100'
                           />
-                          <CardTitle className='text-primary-foreground text-xl font-extralight'>
+                          <CardTitle
+                            className='text-primary-foreground text-xl font-extralight'
+                          >
                             {link.title}
                           </CardTitle>
                         </CardHeader>
@@ -195,11 +204,13 @@ export default function Contacts() {
                 className={` ${
                   !directContact
                     ? 'hidden'
-                    : `bg-muted absolute top-0 bottom-0 left-1/3 my-8 hidden w-0.5 lg:block`
-                }`}
+                    : `bg-muted absolute top-0 bottom-0 left-1/3 my-8 hidden w-0.5
+                      lg:block`
+                  }`}
               ></div>
               <div
-                className={`${!directContact ? 'hidden' : 'bg-muted my-4 block h-0.5 w-full lg:hidden'} `}
+                className={`${!directContact ? 'hidden' : 'bg-muted my-4 block h-0.5 w-full lg:hidden'}
+                  `}
               ></div>
 
               {/* Contact Form Section */}

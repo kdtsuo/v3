@@ -249,12 +249,21 @@ export default function Positions() {
           alt='team'
         />
 
-        <div className='relative flex h-full flex-col items-center justify-center space-y-4 p-4 text-white'>
+        <div
+          className='relative flex h-full flex-col items-center justify-center space-y-4
+            p-4 text-white'
+        >
           <div>
-            <h1 className='text-lightblue-100 fade-in-from-bottom my-5 text-center text-3xl font-bold delay-75 lg:text-4xl'>
+            <h1
+              className='text-lightblue-100 fade-in-from-bottom my-5 text-center text-3xl
+                font-bold delay-75 lg:text-4xl'
+            >
               Find out what position fits you!
             </h1>
-            <p className='lg:paragraph fade-in-from-bottom max-w-screen-sm text-center text-xl delay-150'>
+            <p
+              className='lg:paragraph fade-in-from-bottom max-w-screen-sm text-center
+                text-xl delay-150'
+            >
               We have a variety of positions available for you to join! Whether you're
               interested in dancing, videography, or graphic design, we have a spot for
               you.
@@ -338,7 +347,9 @@ export default function Positions() {
 
                                 return (
                                   <SelectItem key={positionValue} value={positionValue}>
-                                    <div className='flex w-full items-center justify-between'>
+                                    <div
+                                      className='flex w-full items-center justify-between'
+                                    >
                                       {position.label.length > 38
                                         ? position.label.substring(0, 35) + '...'
                                         : position.label}
@@ -395,7 +406,10 @@ export default function Positions() {
                             control={form.control}
                             name='is_accepting_responses'
                             render={({ field }) => (
-                              <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+                              <FormItem
+                                className='flex flex-row items-center justify-between
+                                  rounded-lg border p-3 shadow-sm'
+                              >
                                 <div className='space-y-0.5'>
                                   <FormLabel>Accepting Responses</FormLabel>
                                   <FormDescription>
@@ -470,7 +484,8 @@ export default function Positions() {
                             <AlertDialogAction
                               onClick={handleDeletePosition}
                               disabled={isSubmitting}
-                              className='bg-destructive dark:text-destructive-foreground not-dark:text-background'
+                              className='bg-destructive dark:text-destructive-foreground
+                                not-dark:text-background'
                             >
                               {isSubmitting && <Loader2 className='animate-spin' />}
                               Delete

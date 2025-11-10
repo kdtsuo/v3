@@ -343,7 +343,8 @@ export default function QuickLinks() {
 
   return (
     <div
-      className={`m-auto mt-5 mb-4 flex w-full flex-col justify-center space-y-4 px-4 md:mt-10 md:max-w-1/2 lg:mx-4`}
+      className={`m-auto mt-5 mb-4 flex w-full flex-col justify-center space-y-4 px-4
+        md:mt-10 md:max-w-1/2 lg:mx-4`}
     >
       {user && (
         <div className='mb-4 flex justify-center space-x-2'>
@@ -456,7 +457,8 @@ export default function QuickLinks() {
                                 <RadioGroup
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
-                                  className='flex flex-row flex-wrap justify-start md:justify-around'
+                                  className='flex flex-row flex-wrap justify-start
+                                    md:justify-around'
                                 >
                                   {Object.keys(iconMap).map((iconKey) => {
                                     const Icon = iconMap[iconKey].iconComponent;
@@ -475,7 +477,9 @@ export default function QuickLinks() {
                                         </FormControl>
                                         <label
                                           htmlFor={`manage-${iconKey}`}
-                                          className={`hover:bg-accent flex cursor-pointer flex-col items-center justify-center rounded-md border-2 p-4 ${
+                                          className={`hover:bg-accent flex cursor-pointer
+                                          flex-col items-center justify-center rounded-md
+                                          border-2 p-4 ${
                                             field.value === iconKey
                                               ? 'border-primary bg-accent'
                                               : 'border-muted'
@@ -590,7 +594,14 @@ export default function QuickLinks() {
                             .map((link) => link.id!)}
                           strategy={verticalListSortingStrategy}
                         >
-                          <div className='scrollbar-thin scrollbar-thumb-muted-foreground/50 scrollbar-track-secondary hover:scrollbar-thumb-muted-foreground scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex max-h-96 w-full flex-col space-y-2 overflow-x-hidden overflow-y-auto pr-2'>
+                          <div
+                            className='scrollbar-thin scrollbar-thumb-muted-foreground/50
+                              scrollbar-track-secondary
+                              hover:scrollbar-thumb-muted-foreground
+                              scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+                              flex max-h-96 w-full flex-col space-y-2 overflow-x-hidden
+                              overflow-y-auto pr-2'
+                          >
                             {links
                               .filter((link) => link.id !== undefined)
                               .map((link) => (
@@ -632,7 +643,9 @@ export default function QuickLinks() {
             link={link.link}
             date={link.date}
             price={link.price}
-            className={`bg-secondary border-ring drop-shadow-box hover:bg-muted fade-in-from-bottom fill-mode-both border-2 text-center ${getDelayClass(idx)}`}
+            className={`bg-secondary border-ring drop-shadow-box hover:bg-muted
+              fade-in-from-bottom fill-mode-both border-2 text-center
+              ${getDelayClass(idx)}`}
           />
         ))
       )}

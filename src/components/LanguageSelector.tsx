@@ -92,7 +92,8 @@ export default function LanguageSelector() {
         <DropdownMenuTrigger asChild>
           <div
             role='button'
-            className='hover:bg-accent flex cursor-pointer items-center gap-2 rounded-xl p-2 outline transition-colors'
+            className='hover:bg-accent flex cursor-pointer items-center gap-2 rounded-xl
+              p-2 outline transition-colors'
           >
             <Languages className='h-[1.2rem] w-[1.2rem]' />
             <span className='hidden text-sm font-medium sm:inline'>
