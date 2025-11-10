@@ -128,9 +128,9 @@ export default function Contacts() {
                 />
               </div>
             )}
-            {isLoading ? (
-              <div className='flex min-h-[200px] items-center justify-center'>
-                <Loader2 className='h-10 w-10 animate-spin text-muted-foreground' />
+            {!isLoading ? (
+              <div className='flex min-h-[200px] items-center justify-center pb-[1000px]'>
+                <Loader2 className='size-10 animate-spin text-muted-foreground' />
               </div>
             ) : (
               <div className='flex flex-wrap justify-center gap-6 fade-in-from-top'>
