@@ -157,9 +157,9 @@ const Sponsor: React.FC<
               e.stopPropagation();
               window.open(websitelink, '_blank');
             }}
-            className='w-full'
+            className='w-full text-lg font-medium md:text-xl'
           >
-            <div className='truncate text-lg font-medium md:text-xl'>{title}</div>
+            <div>{title}</div>
             <SquareArrowOutUpRight />
           </Button>
         </CardTitle>
@@ -174,7 +174,9 @@ const Sponsor: React.FC<
           <div className='text-xs font-medium md:text-sm'>{location}</div>
           <SquareArrowOutUpRight />
         </Button>
-        <Badge className='bg-yellow-500 text-sm text-black'>{text}</Badge>
+        <Badge className='bg-yellow-500 text-sm text-black whitespace-normal break-words'>
+          {text}
+        </Badge>
       </CardContent>
     </Card>
   );
@@ -291,7 +293,7 @@ export default function Sponsors() {
                     variant='default'
                     onClick={() => window.open(topSponsor.websitelink, '_blank')}
                   >
-                    Visit Sponsor <SquareArrowOutUpRight />
+                    Visit Sponsor Website <SquareArrowOutUpRight />
                   </Button>
                   <Button
                     variant='secondary'
