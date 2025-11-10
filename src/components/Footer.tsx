@@ -21,7 +21,7 @@ export default function Footer() {
   const socialLinks: SocialLink[] = SocialFallback;
   return (
     <Card
-      className='rounded-none border-none py-10 text-left'
+      className='rounded-none border-none py-10 text-left drop-shadow-lg fade-in'
       style={{
         background: `var(--bg-xless-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
       }}
@@ -40,7 +40,11 @@ export default function Footer() {
                   <p>Made with ❤️ by</p>
                   <span>
                     <a href='https://rinm.dev' target='_blank' rel='noreferrer'>
-                      <img src={rmlogo} alt='rmlogo' className='mx-1 h-auto w-16' />
+                      <img
+                        src={rmlogo}
+                        alt='rmlogo'
+                        className='mx-1 h-auto w-16 invert-0 not-dark:invert-100'
+                      />
                     </a>
                   </span>
                 </div>
