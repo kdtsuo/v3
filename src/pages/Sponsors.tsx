@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Footer } from '@/components';
 import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
+import { useMeta } from '@/contexts';
 import { getTimeSince, supabase } from '@/lib';
 import defaultSponsors from '@/lib/FallbackData/SponsorFallback';
 import { SponsorData, SponsorProps } from '@/types';
@@ -30,7 +31,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui';
 import { getDelayClass } from '@/utils/animations';
-import { Helmet } from 'react-helmet';
 
 const Sponsor: React.FC<
   SponsorProps & {
@@ -70,18 +70,6 @@ const Sponsor: React.FC<
       className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0
         overflow-hidden rounded-xl p-0'
     >
-      <Helmet>
-        <title>sponsors ♥ kdt</title>
-        <meta
-          name='description'
-          content='Meet our sponsors and partners supporting KDT.'
-        />
-        <meta property='og:title' content='KDT Sponsors' />
-        <meta
-          property='og:description'
-          content='Meet our sponsors and partners supporting KDT.'
-        />
-      </Helmet>
       {/* Admin buttons */}
       {isAdmin && id && (
         <div className='absolute top-1 right-1 z-20 flex gap-2'>
@@ -194,7 +182,17 @@ export default function Sponsors() {
   const [sponsors, setSponsors] = useState<SponsorData[]>([]);
   const { theme } = useTheme();
   const { toast } = useToast();
+  const { setMeta } = useMeta();
   const isMobile = useMediaQuery('(max-width: 768px)');
+
+  useEffect(() => {
+    setMeta({
+      title: 'sponsors ♥ kdt',
+      description: 'Meet our sponsors and partners supporting KDT.',
+      ogTitle: 'KDT Sponsors',
+      ogDescription: 'Meet our sponsors and partners supporting KDT.',
+    });
+  }, [setMeta]);
 
   function sponsorTenureSort(a: SponsorData, b: SponsorData) {
     const ta = getTimeSince(a.created_at);

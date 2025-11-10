@@ -1,23 +1,23 @@
 import { Discover, Footer, QuickLinks } from '@/components';
+import { useMeta } from '@/contexts';
 import { useTheme } from '@/hooks';
-import { Helmet } from 'react-helmet';
+import { useEffect } from 'react';
 
 export default function Home() {
   const { theme } = useTheme();
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: 'kdt ♥ kpop dance team',
+      description:
+        'All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.',
+      ogTitle: 'KDT Home',
+      ogDescription:
+        'All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.',
+    });
+  }, [setMeta]);
   return (
     <>
-      <Helmet>
-        <title>home ♥ kdt</title>
-        <meta
-          name='description'
-          content='All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.'
-        />
-        <meta property='og:title' content='KDT Home' />
-        <meta
-          property='og:description'
-          content='All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.'
-        />
-      </Helmet>
       <div
         id='top'
         className='animate-fade-in overflow-x-none mx-auto h-auto pt-34 pb-10 md:pt-46'

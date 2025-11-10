@@ -1,23 +1,22 @@
 import { Activities, Footer } from '@/components';
 // @ts-expect-error static import
 import teamphoto from '../assets/img/stock/teamphoto.jpeg?quality=20';
-import { Helmet } from 'react-helmet';
+import { useMeta } from '@/contexts';
+import { useEffect } from 'react';
 
 export default function About() {
+  const { setMeta } = useMeta();
+  useEffect(() => {
+    setMeta({
+      title: 'about ♥ kdt',
+      description: 'Learn more about KDT, our mission, and our team members.',
+      ogTitle: 'About KDT',
+      ogDescription: 'Learn more about KDT, our mission, and our team members.',
+    });
+  }, [setMeta]);
+
   return (
     <div id='top' className='animate-fade-in h-auto overflow-x-hidden'>
-      <Helmet>
-        <title>about ♥ kdt</title>
-        <meta
-          name='description'
-          content='Learn more about KDT, our mission, and our team members.'
-        />
-        <meta property='og:title' content='About KDT' />
-        <meta
-          property='og:description'
-          content='Learn more about KDT, our mission, and our team members.'
-        />
-      </Helmet>
       <div className='relative h-screen w-screen'>
         <img
           className='absolute inset-0 h-full w-full object-cover brightness-[0.40]'

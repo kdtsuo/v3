@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Footer } from '@/components';
 import { useAuth, useTheme, useToast } from '@/hooks';
+import { useMeta } from '@/contexts';
 import { teamMembers as defaultTeamMembers } from '@/lib/FallbackData/';
 import { supabase } from '@/lib';
 import type { TeamMember } from '@/types';
@@ -27,14 +28,23 @@ import linkedinIcon from '@/assets/img/icons/linkedin.svg';
 import githubIcon from '@/assets/img/icons/github.svg';
 
 import { getDelayClass } from '@/utils';
-import { Helmet } from 'react-helmet';
 
 export default function Contacts() {
   const { theme } = useTheme();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { setMeta } = useMeta();
   const [isLoading, setIsLoading] = useState(true);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+
+  useEffect(() => {
+    setMeta({
+      title: 'contacts ♥ kdt',
+      description: 'Meet the KDT team and find ways to connect with us.',
+      ogTitle: 'KDT Contacts',
+      ogDescription: 'Meet the KDT team and find ways to connect with us.',
+    });
+  }, [setMeta]);
 
   const fetchTeamMembers = useCallback(async () => {
     setIsLoading(true);
@@ -103,18 +113,6 @@ export default function Contacts() {
 
   return (
     <>
-      <Helmet>
-        <title>contacts ♥ kdt</title>
-        <meta
-          name='description'
-          content='Meet the KDT team and find ways to connect with us.'
-        />
-        <meta property='og:title' content='KDT Contacts' />
-        <meta
-          property='og:description'
-          content='Meet the KDT team and find ways to connect with us.'
-        />
-      </Helmet>
       <div
         className='animate-fade-in pt-36 pb-12 min-h-screen'
         style={{

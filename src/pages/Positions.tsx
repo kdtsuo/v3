@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import joinourteam from '@/assets/img/stock/joinourteam.jpeg?quality=20';
 import { Footer } from '@/components';
 import { useAuth, useToast } from '@/hooks';
+import { useMeta } from '@/contexts';
 import { supabase } from '@/lib';
 import type { ActionType, Position } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,7 +46,6 @@ import {
   SelectValue,
   Switch,
 } from '@/components/ui';
-import { Helmet } from 'react-helmet';
 
 const fallbackPositions: Position[] = [
   {
@@ -88,6 +88,16 @@ export default function Positions() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { user } = useAuth();
   const { toast } = useToast();
+  const { setMeta } = useMeta();
+
+  useEffect(() => {
+    setMeta({
+      title: 'positions ♥ kdt',
+      description: 'Explore available positions and join the KDT team!',
+      ogTitle: 'KDT Positions',
+      ogDescription: 'Explore available positions and join the KDT team!',
+    });
+  }, [setMeta]);
 
   const [selectedAction, setSelectedAction] = useState<ActionType>(null);
   const [selectedAdminPosition, setSelectedAdminPosition] = useState<string>('');
@@ -242,18 +252,6 @@ export default function Positions() {
 
   return (
     <div className='animate-fade-in overflow-x-hidden'>
-      <Helmet>
-        <title>positions ♥ kdt</title>
-        <meta
-          name='description'
-          content='Explore available positions and join the KDT team!'
-        />
-        <meta property='og:title' content='KDT Positions' />
-        <meta
-          property='og:description'
-          content='Explore available positions and join the KDT team!'
-        />
-      </Helmet>
       <div className='relative h-screen w-screen'>
         <img
           className='absolute inset-0 h-full w-full object-cover brightness-[0.25]'
