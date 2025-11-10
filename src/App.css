@@ -56,6 +56,14 @@
   .fade-in-from-right {
     @apply animate-in slide-in-from-right-10 fade-in fill-mode-both duration-500;
   }
+
+  .fade-in-from-left {
+    @apply animate-in slide-in-from-left-10 fade-in fill-mode-both duration-500;
+  }
+
+  .fade-in-from-top {
+    @apply animate-in slide-in-from-top-10 fade-in fill-mode-both duration-500;
+  }
 }
 
 @theme {

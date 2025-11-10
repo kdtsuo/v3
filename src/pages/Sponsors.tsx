@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Footer } from '@/components';
 import { useAuth, useMediaQuery, useTheme, useToast } from '@/hooks';
 import { getTimeSince, supabase } from '@/lib';
-import defaultSponsors from '@/lib/default';
+import defaultSponsors from '@/lib/FallbackData/SponsorFallback';
 import { SponsorData, SponsorProps } from '@/types';
 import {
   Edit,
@@ -50,7 +50,6 @@ const Sponsor: React.FC<
 }) => {
   const [imageError, setImageError] = useState(false);
   const { theme } = useTheme();
-  const [editOpen, setEditOpen] = useState(false);
 
   const sponsorData: SponsorData = {
     id,
@@ -72,25 +71,27 @@ const Sponsor: React.FC<
     >
       {/* Admin buttons */}
       {isAdmin && id && (
-        <>
-          <div className='absolute top-1 right-1 z-20 flex gap-2'>
-            <Button
-              className='h-8 w-8 p-0'
-              variant='secondary'
-              size='sm'
-              onClick={(e) => {
-                e.stopPropagation();
-                setEditOpen(true);
-              }}
-            >
-              <Edit size={16} />
-            </Button>
-            <SponsorActions.DeleteSponsorDialog
-              sponsor={sponsorData}
-              onSponsorDeleted={onSponsorDeleted}
-            />
-          </div>
-        </>
+        <div className='absolute top-1 right-1 z-20 flex gap-2'>
+          <SponsorActions.AddEditSponsorDialog
+            mode='edit'
+            sponsor={sponsorData}
+            onSponsorSaved={onSponsorUpdated}
+            trigger={
+              <Button
+                className='h-8 w-8 p-0'
+                variant='secondary'
+                size='sm'
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Edit size={16} />
+              </Button>
+            }
+          />
+          <SponsorActions.DeleteSponsorDialog
+            sponsor={sponsorData}
+            onSponsorDeleted={onSponsorDeleted}
+          />
+        </div>
       )}
       <Badge
         variant={time.months >= 8 ? 'gold' : time.months >= 4 ? 'platinum' : 'silver'}
@@ -110,15 +111,7 @@ const Sponsor: React.FC<
         )}
       </Badge>
 
-      {/* Edit Sponsor Dialog */}
-      {isAdmin && id && (
-        <SponsorActions.EditSponsorDialog
-          open={editOpen}
-          setOpen={setEditOpen}
-          sponsor={sponsorData}
-          onSponsorUpdated={onSponsorUpdated}
-        />
-      )}
+      {/* Edit Sponsor Dialog now handled by trigger prop above */}
 
       {/* Sponsor logo area */}
       <div className='relative h-48 overflow-hidden'>
@@ -348,7 +341,10 @@ export default function Sponsors() {
                   {/* Admin section for logged in users */}
                   {user && (
                     <div className='mb-4 flex justify-end'>
-                      <SponsorActions.AddSponsorDialog onSponsorAdded={fetchSponsors} />
+                      <SponsorActions.AddEditSponsorDialog
+                        mode='add'
+                        onSponsorSaved={fetchSponsors}
+                      />
                     </div>
                   )}
                 </CardHeader>

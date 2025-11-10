@@ -1,291 +1,251 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-// @ts-expect-error static import
-import discordlogo from '@/assets/img/icons/discordlogo.png';
-// @ts-expect-error static import
-import facebooklogo from '@/assets/img/icons/facebooklogo.png';
-// @ts-expect-error static import
-import githublogo from '@/assets/img/icons/githublogo.png';
-// @ts-expect-error static import
-import instagramlogo from '@/assets/img/icons/instagramlogo.png';
-// @ts-expect-error static import
-import maillogo from '@/assets/img/icons/maillogo.png';
+import { useCallback, useEffect, useState } from 'react';
 import { Footer } from '@/components';
-import { useTheme, useToast } from '@/hooks';
-import type { SocialLink } from '@/types';
-import { getDelayClass } from '@/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
-import emailjs from 'emailjs-com';
-import { Loader2 } from 'lucide-react';
-import * as z from 'zod';
+import { useAuth, useTheme, useToast } from '@/hooks';
+import { teamMembers as defaultTeamMembers } from '@/lib/FallbackData/';
+import { supabase } from '@/lib';
+import type { TeamMember } from '@/types';
+import { Edit, Loader2 } from 'lucide-react';
 import {
-  Button,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  Textarea,
+  Button,
 } from '@/components/ui';
+import * as MeetKDTActions from '@/components/subcomponents/MeetKDTActions';
 
-// Define schema for form validation
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Name must be at least 2 characters.',
-  }),
-  email: z.string().email({
-    message: 'Please enter a valid email address.',
-  }),
-  message: z.string().min(10, {
-    message: 'Message must be at least 10 characters.',
-  }),
-});
+// @ts-expect-error static import
+import instagramIcon from '@/assets/img/icons/instagram.svg';
+// @ts-expect-error static import
+import linkedinIcon from '@/assets/img/icons/linkedin.svg';
+// @ts-expect-error static import
+import githubIcon from '@/assets/img/icons/github.svg';
 
-const service: string = 'service_qii0r9i';
-const template: string = 'template_se1ntd8';
-const user: string = 'xA2mLRICgKakxEiNJ';
+import { getDelayClass } from '@/utils';
 
 export default function Contacts() {
-  const [isCurrentlySubmitting, setIsCurrentlySubmitting] = useState(false);
   const { theme } = useTheme();
+  const { user } = useAuth();
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      message: '',
-    },
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsCurrentlySubmitting(true);
-
-    interface EmailJSTemplateParams {
-      from_name: string;
-      from_email: string;
-      message: string;
-      [key: string]: string;
-    }
-
-    const templateParams: EmailJSTemplateParams = {
-      from_name: values.name,
-      from_email: values.email,
-      message: values.message,
-    };
-
+  const fetchTeamMembers = useCallback(async () => {
+    setIsLoading(true);
     try {
-      await emailjs.send(service, template, templateParams, user);
-      toast.success('Message sent!', {
-        description: "Thank you for your message. We'll get back to you soon.",
-      });
-      form.reset();
+      const { data, error } = await supabase
+        .from('team_members')
+        .select('*')
+        .eq('is_archived', false)
+        .order('order_index', { ascending: true });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data && data.length > 0) {
+        setTeamMembers(data);
+      } else {
+        setTeamMembers(defaultTeamMembers);
+      }
     } catch (error) {
-      toast.error('Message failed to send!', {
-        description:
-          'Sorry, we were unable to send your message. Please try again later.',
-      });
+      toast.error('Failed to load team members. Using default data.');
+      setTeamMembers(defaultTeamMembers);
       throw error;
     } finally {
-      setIsCurrentlySubmitting(false);
+      setIsLoading(false);
     }
-  };
+  }, [toast]);
 
-  const socialLinks: SocialLink[] = [
-    {
-      icon: discordlogo,
-      href: 'https://discord.com/invite/tbKkvjV2W8',
-      title: 'Discord',
-    },
-    {
-      icon: instagramlogo,
-      href: 'https://www.instagram.com/kdt.suo/?theme=dark',
-      title: 'Instagram',
-    },
-    {
-      icon: maillogo,
-      href: 'mailto:kpopdanceteam.suo@gmail.com',
-      title: 'Email',
-    },
-    {
-      icon: githublogo,
-      href: 'https://github.com/kdtsuo/v3',
-      title: 'GitHub',
-    },
-    {
-      icon: facebooklogo,
-      href: 'https://www.facebook.com/profile.php?id=61577850668849',
-      title: 'Facebook',
-    },
-  ];
+  useEffect(() => {
+    fetchTeamMembers();
+  }, [fetchTeamMembers]);
 
-  const directContact = false;
+  // Sort team members: president(s) first, then VPs alphabetically, then others, then Jrs alphabetically
+  const sortedMembers = [...teamMembers].sort((a, b) => {
+    const roleA = a.role.toLowerCase();
+    const roleB = b.role.toLowerCase();
+
+    const isPresidentA = roleA.includes('president');
+    const isPresidentB = roleB.includes('president');
+    const isVpA = roleA.includes('vp');
+    const isVpB = roleB.includes('vp');
+    const isJrA = roleA.includes('jr');
+    const isJrB = roleB.includes('jr');
+
+    // President(s) first
+    if (isPresidentA && !isPresidentB) return -1;
+    if (!isPresidentA && isPresidentB) return 1;
+
+    // VPs next, sorted alphabetically
+    if (isVpA && !isVpB) return -1;
+    if (!isVpA && isVpB) return 1;
+    if (isVpA && isVpB) {
+      return a.full_name.localeCompare(b.full_name);
+    }
+
+    // Jrs last, sorted alphabetically
+    if (isJrA && !isJrB) return 1;
+    if (!isJrA && isJrB) return -1;
+    if (isJrA && isJrB) {
+      return a.full_name.localeCompare(b.full_name);
+    }
+
+    // Others in the middle, keep original order
+    return 0;
+  });
 
   return (
     <>
       <div
-        className='animate-fade-in'
+        className='animate-fade-in pt-36 pb-12 min-h-screen'
         style={{
           background: `var(--bg-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
         }}
       >
-        <div></div>
-        <div className='flex h-auto w-full items-center justify-center pt-36 lg:h-screen'>
-          <Card className='fade-in-from-bottom m-5 w-full max-w-6xl overflow-hidden'>
-            <CardHeader>
-              <CardTitle className='fade-in-from-bottom text-4xl'>
-                Connect With Us
-              </CardTitle>
-              <CardDescription className='fade-in-from-bottom'>
-                Let's get connected, we'd love to hear from you!
-              </CardDescription>
-            </CardHeader>
-            <CardContent
-              className={`${!directContact ? '' : 'relative flex flex-col p-0 lg:flex-row'}`}
-            >
-              {/* Social Media Cards Section */}
-              <div
-                className={`${
-                  !directContact
-                    ? 'mx-auto flex w-full flex-col sm:w-1/2'
-                    : `flex w-full flex-col items-center justify-center p-12 py-6 lg:w-1/3
-                      lg:py-12`
-                  }`}
-              >
-                <div
-                  className={`${
-                    !directContact
-                      ? 'grid grid-cols-1 gap-4 lg:grid-cols-2'
-                      : 'flex w-full flex-grow flex-col justify-center space-y-2 py-4'
-                    }`}
-                >
-                  {socialLinks.map((link, index) => (
-                    <a
-                      key={index}
-                      href={link.href}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className={`fade-in-from-bottom lg:last:col-span-2
+        <Card className='sm:mx-auto max-w-6xl mx-4 fade-in-from-top'>
+          <CardHeader>
+            <div className='flex justify-between items-center'>
+              <div className='flex-1'>
+                <CardTitle className='text-3xl text-center'>Meet KDT</CardTitle>
+                <CardDescription className='text-center'>
+                  Here's our amazing team that makes everything impossible possible!
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {user && (
+              <div className='w-full flex justify-center mb-4'>
+                <MeetKDTActions.AddEditMemberDialog
+                  mode='add'
+                  onMemberSaved={fetchTeamMembers}
+                />
+              </div>
+            )}
+            {isLoading ? (
+              <div className='flex min-h-[200px] items-center justify-center'>
+                <Loader2 className='h-10 w-10 animate-spin text-muted-foreground' />
+              </div>
+            ) : (
+              <div className='flex flex-wrap justify-center gap-6 fade-in-from-top'>
+                {sortedMembers.map((member, index) => (
+                  <Card
+                    key={member.id}
+                    className={`w-full max-w-xs relative fade-in-from-top
                       ${getDelayClass(index)}`}
-                    >
-                      <Card
-                        className='bg-secondary-foreground transition-all duration-200
-                          hover:-translate-y-1 hover:shadow-lg'
-                      >
-                        <CardHeader
-                          className='flex flex-row items-center justify-between space-x-4'
-                        >
-                          <img
-                            src={link.icon}
-                            alt={link.title}
-                            className='h-12 w-12 not-dark:invert-0 dark:invert-100'
-                          />
-                          <CardTitle
-                            className='text-primary-foreground text-xl font-extralight'
-                          >
-                            {link.title}
-                          </CardTitle>
-                        </CardHeader>
-                      </Card>
-                    </a>
-                  ))}
-                </div>
+                  >
+                    {user && (
+                      <div className='absolute top-2 right-2 z-20 flex gap-2'>
+                        <MeetKDTActions.AddEditMemberDialog
+                          mode='edit'
+                          member={member}
+                          onMemberSaved={fetchTeamMembers}
+                          trigger={
+                            <Button
+                              className='h-8 w-8 p-0'
+                              variant='secondary'
+                              size='sm'
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Edit size={16} />
+                            </Button>
+                          }
+                        />
+                        <MeetKDTActions.DeleteMemberDialog
+                          member={member}
+                          onMemberDeleted={fetchTeamMembers}
+                        />
+                      </div>
+                    )}
+                    <CardHeader className='flex flex-col items-center'>
+                      <Avatar className='size-20'>
+                        <AvatarImage
+                          src={member.profile_image_url}
+                          alt={member.full_name}
+                        />
+                        <AvatarFallback>
+                          {(() => {
+                            const names = member.full_name.split(' ');
+                            return names.length >= 2
+                              ? `${names[0][0]}${names[1][0]}`
+                              : names[0][0];
+                          })()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <CardTitle className='text-center'>{member.full_name}</CardTitle>
+                      <Badge variant={getBadgeVariant(member.role)} className=''>
+                        {member.role}
+                      </Badge>
+                      <MemberSocialLinks member={member} />
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className='text-center'>
+                        {member.bio}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-
-              {/* Divider Line */}
-              <div
-                className={` ${
-                  !directContact
-                    ? 'hidden'
-                    : `bg-muted absolute top-0 bottom-0 left-1/3 my-8 hidden w-0.5
-                      lg:block`
-                  }`}
-              ></div>
-              <div
-                className={`${!directContact ? 'hidden' : 'bg-muted my-4 block h-0.5 w-full lg:hidden'}
-                  `}
-              ></div>
-
-              {/* Contact Form Section */}
-              <div className={`${!directContact ? 'hidden' : 'w-full p-12 lg:w-2/3'}`}>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-                    <h2 className='mb-6 text-center text-3xl font-bold'>
-                      Directly Contact Us
-                    </h2>
-                    <FormField
-                      control={form.control}
-                      name='name'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='text-xl'>Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder='Your name' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='email'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='text-xl'>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder='your.email@example.com' {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name='message'
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className='text-xl'>Message</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder='Your message...'
-                              className='min-h-32 resize-none'
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button
-                      disabled={isCurrentlySubmitting}
-                      type='submit'
-                      variant='default'
-                      className='w-full'
-                    >
-                      {isCurrentlySubmitting && (
-                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                      )}
-                      {isCurrentlySubmitting ? 'Sending...' : 'Send Message'}
-                    </Button>
-                  </form>
-                </Form>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
-
       <Footer />
     </>
+  );
+}
+
+function getBadgeVariant(role: string) {
+  const lowerRole = role.toLowerCase();
+  if (lowerRole.includes('president')) return 'gold';
+  if (lowerRole.includes('vp')) return 'platinum';
+  if (lowerRole.includes('web developer')) return 'secondary';
+  if (lowerRole.includes('jr')) return 'green';
+  return 'default';
+}
+
+function MemberSocialLinks({ member }: { member: TeamMember }) {
+  return (
+    <div className='flex justify-center gap-2'>
+      {member.instagram_url && (
+        <a href={member.instagram_url} target='_blank' rel='noopener noreferrer'>
+          <Button size='icon' variant='outline' className='rounded-full'>
+            <img
+              src={instagramIcon}
+              alt='Instagram'
+              className='size-5 invert-100 not-dark:invert-0'
+            />
+          </Button>
+        </a>
+      )}
+      {member.linkedin_url && (
+        <a href={member.linkedin_url} target='_blank' rel='noopener noreferrer'>
+          <Button size='icon' variant='outline' className='rounded-full'>
+            <img
+              src={linkedinIcon}
+              alt='LinkedIn'
+              className='size-5 invert-100 not-dark:invert-0'
+            />
+          </Button>
+        </a>
+      )}
+      {member.github_url && (
+        <a href={member.github_url} target='_blank' rel='noopener noreferrer'>
+          <Button size='icon' variant='outline' className='rounded-full'>
+            <img
+              src={githubIcon}
+              alt='GitHub'
+              className='size-5 invert-100 not-dark:invert-0'
+            />
+          </Button>
+        </a>
+      )}
+    </div>
   );
 }

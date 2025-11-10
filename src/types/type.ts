@@ -1,19 +1,8 @@
-// src/types/type.ts
-// Centralized type definitions for the application
-
 import { Session, User } from '@supabase/supabase-js';
 import { LucideIcon } from 'lucide-react';
 import { ExternalToast, toast as sonnerToast } from 'sonner';
 
-// ============================================================================
-// COMMON TYPES
-// ============================================================================
-
 export type ActionType = 'update' | 'add' | 'delete' | 'reorder' | null;
-
-// ============================================================================
-// LINK TYPES
-// ============================================================================
 
 export type Link = {
   id?: number; // Supabase will provide this
@@ -37,25 +26,18 @@ export type IconLinkWideProps = {
   style?: React.CSSProperties;
 };
 
-// ============================================================================
-// PAGE-SPECIFIC TYPES
-// ============================================================================
-
-// Positions Page
 export type Position = {
   label: string;
   form_url: string;
   is_accepting_responses: boolean;
 };
 
-// Contacts Page
 export interface SocialLink {
   icon: string;
   href: string;
   title: string;
 }
 
-// Sponsors Page
 export interface SponsorData {
   id?: string;
   image: string;
@@ -83,11 +65,6 @@ export interface SponsorProps {
   deleteMode?: boolean;
 }
 
-// ============================================================================
-// CONTEXT TYPES
-// ============================================================================
-
-// Theme Context
 export type Theme = 'light' | 'dark' | 'system';
 
 export interface ThemeContextType {
@@ -95,7 +72,6 @@ export interface ThemeContextType {
   setTheme: (theme: Theme) => void;
 }
 
-// Auth Context
 export type AuthContextType = {
   session: Session | null;
   user: User | null;
@@ -103,7 +79,6 @@ export type AuthContextType = {
   loading: boolean;
 };
 
-// Toast Context
 export interface ToastContextType {
   toast: {
     success: (message: string, data?: ExternalToast) => void;
@@ -118,12 +93,22 @@ export interface ToastContextType {
   };
 }
 
-// ============================================================================
-// UTILITY TYPES
-// ============================================================================
-
-// Icon Map
 export interface IconMapItem {
   iconComponent?: LucideIcon;
   imagePath?: string;
+}
+
+export interface TeamMember {
+  id: string;
+  full_name: string;
+  role: string;
+  bio: string;
+  profile_image_url: string;
+  instagram_url: string;
+  linkedin_url: string;
+  github_url: string;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
+  is_archived?: boolean;
 }

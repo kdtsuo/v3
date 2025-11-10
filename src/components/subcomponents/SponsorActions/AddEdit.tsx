@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/hooks';
 import { supabase } from '@/lib';
-import type { SponsorData } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { ListPlus, Pencil, Loader2 } from 'lucide-react';
 import { z } from 'zod';
 import {
   Button,
@@ -12,8 +11,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,78 +31,140 @@ const formSchema = z.object({
   websitelink: z.string().url('Please enter a valid website URL'),
 });
 
-interface EditSponsorDialogProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  sponsor: SponsorData;
-  onSponsorUpdated: () => void;
-}
+type AddEditSponsorDialogProps = {
+  onSponsorSaved: () => void;
+  sponsor?: {
+    id?: string;
+    title: string;
+    image: string;
+    location: string;
+    maplink: string;
+    text: string;
+    websitelink: string;
+  };
+  mode: 'add' | 'edit';
+  trigger?: React.ReactNode;
+};
 
-export function EditSponsorDialog({
-  open,
-  setOpen,
+export function AddEditSponsorDialog({
+  onSponsorSaved,
   sponsor,
-  onSponsorUpdated,
-}: EditSponsorDialogProps) {
+  mode,
+  trigger,
+}: AddEditSponsorDialogProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: sponsor.title || '',
-      image: sponsor.image || '',
-      location: sponsor.location || '',
-      maplink: sponsor.maplink || '',
-      text: sponsor.text || '',
-      websitelink: sponsor.websitelink || '',
-    },
+    defaultValues: sponsor
+      ? {
+          title: sponsor.title || '',
+          image: sponsor.image || '',
+          location: sponsor.location || '',
+          maplink: sponsor.maplink || '',
+          text: sponsor.text || '',
+          websitelink: sponsor.websitelink || '',
+        }
+      : {
+          title: '',
+          image: '',
+          location: '',
+          maplink: '',
+          text: '',
+          websitelink: '',
+        },
   });
 
   useEffect(() => {
-    form.reset({
-      title: sponsor.title || '',
-      image: sponsor.image || '',
-      location: sponsor.location || '',
-      maplink: sponsor.maplink || '',
-      text: sponsor.text || '',
-      websitelink: sponsor.websitelink || '',
-    });
+    if (sponsor) {
+      form.reset({
+        title: sponsor.title || '',
+        image: sponsor.image || '',
+        location: sponsor.location || '',
+        maplink: sponsor.maplink || '',
+        text: sponsor.text || '',
+        websitelink: sponsor.websitelink || '',
+      });
+    }
   }, [sponsor, form]);
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
-      const { error } = await supabase
-        .from('sponsors')
-        .update({
-          title: values.title,
-          image: values.image,
-          location: values.location,
-          maplink: values.maplink,
-          text: values.text,
-          websitelink: values.websitelink,
-        })
-        .eq('id', sponsor.id);
+      if (mode === 'add') {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
 
-      if (error) throw error;
+        if (!user) {
+          throw new Error('No authenticated user found');
+        }
 
-      toast.success('Sponsor updated successfully!');
-      setOpen(false);
-      onSponsorUpdated();
+        const { error } = await supabase.from('sponsors').insert([
+          {
+            title: values.title,
+            image: values.image,
+            location: values.location,
+            maplink: values.maplink,
+            text: values.text,
+            websitelink: values.websitelink,
+            user_id: user.id,
+          },
+        ]);
+
+        if (error) throw error;
+        toast.success('Sponsor added successfully!');
+      } else if (mode === 'edit' && sponsor?.id) {
+        const { error } = await supabase
+          .from('sponsors')
+          .update({
+            title: values.title,
+            image: values.image,
+            location: values.location,
+            maplink: values.maplink,
+            text: values.text,
+            websitelink: values.websitelink,
+          })
+          .eq('id', sponsor.id);
+
+        if (error) throw error;
+        toast.success('Sponsor updated successfully!');
+      }
+      form.reset();
+      setIsOpen(false);
+      onSponsorSaved();
     } catch (error) {
-      console.error('Error updating sponsor:', error);
-      toast.error('Failed to update sponsor. Please try again.');
+      toast.error(
+        mode === 'add'
+          ? 'Failed to add sponsor. Please try again.'
+          : 'Failed to update sponsor. Please try again.'
+      );
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        {trigger ? (
+          trigger
+        ) : mode === 'add' ? (
+          <Button className='flex cursor-pointer items-center gap-2' variant='default'>
+            <ListPlus size={20} /> Add Sponsor
+          </Button>
+        ) : (
+          <Button className='flex cursor-pointer items-center gap-2' variant='outline'>
+            <Pencil size={18} /> Edit
+          </Button>
+        )}
+      </DialogTrigger>
       <DialogContent className='sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Edit Sponsor</DialogTitle>
+          <DialogTitle>{mode === 'add' ? 'Add New Sponsor' : 'Edit Sponsor'}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
@@ -128,6 +191,9 @@ export function EditSponsorDialog({
                     <FormControl>
                       <Input placeholder='https://example.com/image.png' {...field} />
                     </FormControl>
+                    <FormDescription>
+                      Enter a URL for the sponsor's logo image
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -189,11 +255,13 @@ export function EditSponsorDialog({
               <Button type='submit' disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
-                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                    Updating...
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                    {mode === 'add' ? 'Adding...' : 'Saving...'}
                   </>
+                ) : mode === 'add' ? (
+                  'Add Sponsor'
                 ) : (
-                  'Update Sponsor'
+                  'Save Changes'
                 )}
               </Button>
             </div>
