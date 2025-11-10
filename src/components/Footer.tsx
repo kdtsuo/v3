@@ -21,7 +21,7 @@ export default function Footer() {
   const socialLinks: SocialLink[] = SocialFallback;
   return (
     <Card
-      className='bg-primary-foreground rounded-none border-none py-10 text-left'
+      className='rounded-none border-none py-10 text-left'
       style={{
         background: `var(--bg-xless-dotted-${theme === 'dark' ? 'dark' : 'light'})`,
       }}
