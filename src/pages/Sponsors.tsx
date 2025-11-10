@@ -247,8 +247,12 @@ export default function Sponsors() {
                 dark:bg-yellow-900/20'
             >
               <div className='flex-shrink-0'>
-                <Avatar className='h-32 w-32 border-4 border-yellow-400 shadow'>
-                  <AvatarImage src={topSponsor.image} alt={topSponsor.title} />
+                <Avatar className='size-32 border-4 border-yellow-400 shadow'>
+                  <AvatarImage
+                    src={topSponsor.image}
+                    alt={topSponsor.title}
+                    className='object-cover'
+                  />
                   <AvatarFallback
                     className='flex items-center justify-center bg-yellow-300 text-2xl
                       font-bold text-yellow-900'
