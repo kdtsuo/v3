@@ -190,11 +190,31 @@ export default function Sponsors() {
   const { toast } = useToast();
   const isMobile = useMediaQuery('(max-width: 768px)');
 
-  const legacySponsors = sponsors.filter((s) => getTimeSince(s.created_at).months >= 8);
-  const veteranSponsors = sponsors.filter(
-    (s) => getTimeSince(s.created_at).months >= 4 && getTimeSince(s.created_at).months < 8
-  );
-  const newSponsors = sponsors.filter((s) => getTimeSince(s.created_at).months < 4);
+  function sponsorTenureSort(a: SponsorData, b: SponsorData) {
+    const ta = getTimeSince(a.created_at);
+    const tb = getTimeSince(b.created_at);
+
+    if (tb.months !== ta.months) return tb.months - ta.months;
+    if (tb.days !== ta.days) return tb.days - ta.days;
+    if (tb.hours !== ta.hours) return tb.hours - ta.hours;
+    if (tb.minutes !== ta.minutes) return tb.minutes - ta.minutes;
+    return tb.seconds - ta.seconds;
+  }
+
+  const legacySponsors = sponsors
+    .filter((s) => getTimeSince(s.created_at).months >= 8)
+    .sort(sponsorTenureSort);
+
+  const veteranSponsors = sponsors
+    .filter(
+      (s) =>
+        getTimeSince(s.created_at).months >= 4 && getTimeSince(s.created_at).months < 8
+    )
+    .sort(sponsorTenureSort);
+
+  const newSponsors = sponsors
+    .filter((s) => getTimeSince(s.created_at).months < 4)
+    .sort(sponsorTenureSort);
 
   const fetchSponsors = useCallback(async () => {
     setIsLoading(true);
@@ -225,11 +245,7 @@ export default function Sponsors() {
     fetchSponsors();
   }, [fetchSponsors]);
 
-  const topSponsor = sponsors.length
-    ? [...sponsors].sort(
-        (a, b) => getTimeSince(b.created_at).months - getTimeSince(a.created_at).months
-      )[0]
-    : null;
+  const topSponsor = sponsors.length ? [...sponsors].sort(sponsorTenureSort)[0] : null;
 
   return (
     <div>
@@ -353,7 +369,12 @@ export default function Sponsors() {
                     </h1>
                     <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {legacySponsors.length === 0 ? (
-                        <div className='text-gray-500'>No Way Paver sponsors yet.</div>
+                        <div
+                          className='text-muted-foreground col-span-full rounded-lg border
+                            border-dashed p-4 text-center'
+                        >
+                          No Way Paver sponsors yet.
+                        </div>
                       ) : (
                         legacySponsors.map((sponsor, index) => (
                           <div
@@ -436,7 +457,12 @@ export default function Sponsors() {
                     </h1>
                     <div className='grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3'>
                       {newSponsors.length === 0 ? (
-                        <div className='text-gray-500'>No debut sponsors yet.</div>
+                        <div
+                          className='text-muted-foreground col-span-full rounded-lg border
+                            border-dashed p-4 text-center'
+                        >
+                          No debut sponsors yet.
+                        </div>
                       ) : (
                         newSponsors.map((sponsor, index) => (
                           <div
