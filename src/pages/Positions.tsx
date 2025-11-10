@@ -45,6 +45,7 @@ import {
   SelectValue,
   Switch,
 } from '@/components/ui';
+import { Helmet } from 'react-helmet';
 
 const fallbackPositions: Position[] = [
   {
@@ -241,6 +242,18 @@ export default function Positions() {
 
   return (
     <div className='animate-fade-in overflow-x-hidden'>
+      <Helmet>
+        <title>Positions | kdt ♥ kpop dance team</title>
+        <meta
+          name='description'
+          content='Explore available positions and join the KDT team!'
+        />
+        <meta property='og:title' content='KDT Positions' />
+        <meta
+          property='og:description'
+          content='Explore available positions and join the KDT team!'
+        />
+      </Helmet>
       <div className='relative h-screen w-screen'>
         <img
           className='absolute inset-0 h-full w-full object-cover brightness-[0.25]'

@@ -30,6 +30,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui';
 import { getDelayClass } from '@/utils/animations';
+import { Helmet } from 'react-helmet';
 
 const Sponsor: React.FC<
   SponsorProps & {
@@ -69,6 +70,18 @@ const Sponsor: React.FC<
       className='group t200e animate-fade-in relative mx-auto w-full max-w-md gap-0
         overflow-hidden rounded-xl p-0'
     >
+      <Helmet>
+        <title>Sponsors | kdt ♥ kpop dance team</title>
+        <meta
+          name='description'
+          content='Meet our sponsors and partners supporting KDT.'
+        />
+        <meta property='og:title' content='KDT Sponsors' />
+        <meta
+          property='og:description'
+          content='Meet our sponsors and partners supporting KDT.'
+        />
+      </Helmet>
       {/* Admin buttons */}
       {isAdmin && id && (
         <div className='absolute top-1 right-1 z-20 flex gap-2'>

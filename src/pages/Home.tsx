@@ -1,10 +1,23 @@
 import { Discover, Footer, QuickLinks } from '@/components';
 import { useTheme } from '@/hooks';
+import { Helmet } from 'react-helmet';
 
 export default function Home() {
   const { theme } = useTheme();
   return (
     <>
+      <Helmet>
+        <title>Home | kdt ♥ kpop dance team</title>
+        <meta
+          name='description'
+          content='All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.'
+        />
+        <meta property='og:title' content='KDT Home' />
+        <meta
+          property='og:description'
+          content='All things KPop at UBCO! Dance classes, events, performances, and meetups for all KPop fans.'
+        />
+      </Helmet>
       <div
         id='top'
         className='animate-fade-in overflow-x-none mx-auto h-auto pt-34 pb-10 md:pt-46'

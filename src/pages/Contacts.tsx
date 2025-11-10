@@ -27,6 +27,7 @@ import linkedinIcon from '@/assets/img/icons/linkedin.svg';
 import githubIcon from '@/assets/img/icons/github.svg';
 
 import { getDelayClass } from '@/utils';
+import { Helmet } from 'react-helmet';
 
 export default function Contacts() {
   const { theme } = useTheme();
@@ -102,6 +103,18 @@ export default function Contacts() {
 
   return (
     <>
+      <Helmet>
+        <title>Contacts | kdt ♥ kpop dance team</title>
+        <meta
+          name='description'
+          content='Meet the KDT team and find ways to connect with us.'
+        />
+        <meta property='og:title' content='KDT Contacts' />
+        <meta
+          property='og:description'
+          content='Meet the KDT team and find ways to connect with us.'
+        />
+      </Helmet>
       <div
         className='animate-fade-in pt-36 pb-12 min-h-screen'
         style={{

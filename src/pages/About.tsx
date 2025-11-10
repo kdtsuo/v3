@@ -1,10 +1,23 @@
 import { Activities, Footer } from '@/components';
 // @ts-expect-error static import
 import teamphoto from '../assets/img/stock/teamphoto.jpeg?quality=20';
+import { Helmet } from 'react-helmet';
 
 export default function About() {
   return (
     <div id='top' className='animate-fade-in h-auto overflow-x-hidden'>
+      <Helmet>
+        <title>About | kdt ♥ kpop dance team</title>
+        <meta
+          name='description'
+          content='Learn more about KDT, our mission, and our team members.'
+        />
+        <meta property='og:title' content='About KDT' />
+        <meta
+          property='og:description'
+          content='Learn more about KDT, our mission, and our team members.'
+        />
+      </Helmet>
       <div className='relative h-screen w-screen'>
         <img
           className='absolute inset-0 h-full w-full object-cover brightness-[0.40]'
