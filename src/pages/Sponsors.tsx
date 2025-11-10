@@ -265,11 +265,14 @@ export default function Sponsors() {
                 backdrop-blur-sm md:flex-row dark:bg-yellow-900/20'
             >
               <div className='flex-shrink-0'>
-                <Avatar className='size-32 border-4 border-yellow-400 shadow'>
+                <Avatar
+                  className='size-32 border-4 border-yellow-400 shadow
+                    fade-in-from-bottom'
+                >
                   <AvatarImage
                     src={topSponsor.image}
                     alt={topSponsor.title}
-                    className='object-cover'
+                    className='object-contain bg-primary-foreground'
                   />
                   <AvatarFallback
                     className='flex items-center justify-center bg-yellow-300 text-2xl
@@ -282,14 +285,14 @@ export default function Sponsors() {
               <CardContent className='flex-1 text-center md:text-left'>
                 <CardTitle
                   className='mb-2 flex items-center justify-center gap-2 text-3xl
-                    font-bold text-yellow-700 md:justify-start dark:text-yellow-300'
+                    font-bold text-yellow-700 md:justify-start dark:text-yellow-300
+                    fade-in-from-bottom'
                 >
                   🌟 Top Sponsor: {topSponsor.title}
                 </CardTitle>
-                <CardDescription
-                  className='mb-4 text-lg text-yellow-800 dark:text-yellow-200'
-                >
-                  <p>
+                <CardDescription className='mb-4 text-lg text-yellow-800
+                  dark:text-yellow-200'>
+                  <p className='fade-in-from-bottom'>
                     Thank you for supporting us for{' '}
                     <span className='font-semibold'>
                       {getTimeSince(topSponsor.created_at).months}{' '}
@@ -301,11 +304,13 @@ export default function Sponsors() {
                       {getTimeSince(topSponsor.created_at).days === 1 ? 'day' : 'days'}
                     </span>
                   </p>
-                  <Badge variant='gold'>{topSponsor.text}</Badge>
+                  <Badge className='fade-in-from-bottom' variant='gold'>
+                    {topSponsor.text}
+                  </Badge>
                 </CardDescription>
                 <div
                   className='flex flex-col justify-center gap-3 md:flex-row
-                    md:justify-start'
+                    md:justify-start fade-in-from-bottom'
                 >
                   <Button
                     variant='default'
